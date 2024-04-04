@@ -26,3 +26,12 @@ body {
     margin-right: 10px;
     transition: 1s;
 }
+/* Profile........... */
+.prof-Images:hover button {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    transition: all 1s;
+}
