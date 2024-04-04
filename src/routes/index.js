@@ -6,8 +6,7 @@ import Communities from "../component/Communities";
 import Status from "../component/Status";
 import Channels from "../component/Channels";
 import Newchats from "../component/Newchats";
-// backend then add
-// const PrivetRoute = ({ children }) => {};
+
 const Routes = () => {
   return (
     <Router>

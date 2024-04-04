@@ -1,1 +1,28 @@
+body {
+    overflow: hidden;
+}
+/* Users Element........... */
+.scrollbaruser::-webkit-scrollbar {
+    width: 8px;
+}
 
+.scrollbaruser::-webkit-scrollbar-track {
+    background: #111b21;
+}
+
+.scrollbaruser::-webkit-scrollbar-thumb {
+    background: #20272b;
+}
+
+.user-top-border{
+    border-top: 0.5px solid #233138;
+}
+.parent {
+    position: relative;
+}
+
+.parent:hover button {
+    display: block;
+    margin-right: 10px;
+    transition: 1s;
+}

@@ -11,18 +11,14 @@ const Navbar = () => {
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
   const handleClick = () => setIsclick((prev) => !prev);
-  // const handleClick = () => {
-  //   setIsclick(true);
-  //   console.log(isClick);
-  //   setIsclick((prev)=> prev);
-  // };
+
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
 
   return (
     <div>
-      <div className="w-full bg-dark3 py-3 px-4 flex flex-row justify-between items-center">
+      <div className="w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center">
         <NavLink
           to="/profile"
           className="rounded-full border-2 bg-slate-500 border-white w-10 h-10"
@@ -52,15 +48,28 @@ const Navbar = () => {
       {isClick && (
         <div
           ref={dropDownRef}
-          className="flex flex-col justify-start items-start bg-dark4 shadow-md w-60 float-right mr-4 -mt-2 rounded-sm"
+          className="flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-60 float-right mr-4 -mt-1 rounded-sm"
         >
-          <button className="py-3 px-4">New Group</button>
-          <button className="py-3 px-4">New Community</button>
-          <button className="py-3 px-4">Starred messages</button>
-          <button className="py-3 px-4">Select chats</button>
-          <button className="py-3 px-4">Settings</button>
-          <button className="py-3 px-4">Log out</button>
-          <button className="py-3 px-4 border-t-2 w-full">
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            New Group
+          </button>
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            New Community
+          </button>
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            Starred messages
+          </button>
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            Select chats
+          </button>
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            Settings
+          </button>
+          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+            Log out
+          </button>
+          <li className="border list-none w-full my-2" />
+          <button className="py-2 px-5 w-full hover:bg-dark6">
             Get WhatsApp for Windows
           </button>
         </div>
