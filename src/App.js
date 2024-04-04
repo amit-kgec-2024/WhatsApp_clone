@@ -3,12 +3,17 @@ import Routes from "./routes";
 
 function App() {
   return (
-    <div className="bg-black p-4">
+    <div className="bg-dark1 p-5">
       <div className="flex flex-row justify-center">
-        <div className="bg-red-400 w-[30%] h-screen text-white">
-          <Routes/>
+        <div className="bg-dark6 w-[30%] h-screen text-white">
+          <Routes />
         </div>
-        <div className="bg-slate-700 w-[70%] h-screen text-white">fghfh</div>
+        <div
+          className="bg-dark2 w-[70%] h-screen text-white"
+          style={{ backgroundImage: "url(wpbg.jpg)" }}
+        >
+          Amit Mandal
+        </div>
       </div>
     </div>
   );
