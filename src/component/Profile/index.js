@@ -15,11 +15,11 @@ const Profile = () => {
   });
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-3 pl-6 pt-16 flex flex-row justify-start items-end gap-8">
-        <Link to="/" className="text-2xl">
+      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
+        <Link to="/" className="text-lg">
           <FaArrowLeft />
         </Link>
-        <div className="text-xl font-semibold">Profile</div>
+        <div className="text-lg font-semibold">Profile</div>
       </div>
       <div className="flex flex-col p-4">
         <div className="w-full justify-center items-center flex py-8">

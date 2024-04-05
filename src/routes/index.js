@@ -6,6 +6,9 @@ import Communities from "../component/Communities";
 import Status from "../component/Status";
 import Channels from "../component/Channels";
 import Newchats from "../component/Newchats";
+import Archived from "../component/Archived";
+import Newgroup from "../component/Newgroup";
+import Sattings from "../component/Sattings";
 
 const Routes = () => {
   return (
@@ -16,6 +19,9 @@ const Routes = () => {
       <Route path="/status" element={<Status />} />
       <Route path="/channels" element={<Channels />} />
       <Route path="/newchats" element={<Newchats />} />
+      <Route path="/archived" element={<Archived />} />
+      <Route path="/newgroup" element={<Newgroup />} />
+      <Route path="/sattings" element={<Sattings />} />
     </Router>
   );
 };

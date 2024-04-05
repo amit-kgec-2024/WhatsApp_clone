@@ -20,11 +20,14 @@ body {
 .parent {
     position: relative;
 }
-
 .parent:hover button {
     display: block;
     margin-right: 10px;
-    transition: 1s;
+    transition: 0.5s;
+}
+/* New Chats............... */
+.user-top-bottom-border {
+    border-bottom: 0.5px solid #233138;
 }
 /* Profile........... */
 .prof-Images:hover button {

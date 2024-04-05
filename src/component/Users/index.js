@@ -3,8 +3,10 @@ import { IoMdSearch } from "react-icons/io";
 import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineWifi } from "react-icons/md";
 import useClickOutside from "../../hooks/useClickOutside";
-import Usercard from "../Usercard";
+import Usercard from "../card/Usercard";
 import userData from "../../utils/userData";
+import { RiInboxArchiveLine } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
 
 const Users = () => {
   const [showSearch, setShowSearch] = useState(true);
@@ -47,14 +49,23 @@ const Users = () => {
         </button>
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        {userData.map((ele) => (
-          <Usercard
-            key={ele.id}
-            username={ele.username}
-            userchats={ele.userchats}
-            usertime={ele.usertime}
-          />
-        ))}
+        <NavLink to="/archived" className="flex flex-row justify-between items-center w-full p-4">
+          <div className="flex flex-row justify-center items-center gap-3">
+            <RiInboxArchiveLine className="text-2xl text-whitmix1 ml-3" />
+            <h1 className="font-semibold ml-3">Archived</h1>
+          </div>
+          <p className="text-whitmix1">12</p>
+        </NavLink>
+        <div className="">
+          {userData.map((ele) => (
+            <Usercard
+              key={ele.id}
+              username={ele.username}
+              userchats={ele.userchats}
+              usertime={ele.usertime}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

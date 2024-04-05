@@ -7,6 +7,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
 
 const Navbar = () => {
+  // Three dot................
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -15,7 +16,6 @@ const Navbar = () => {
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
-
   return (
     <div>
       <div className="w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center">
@@ -36,44 +36,46 @@ const Navbar = () => {
           <NavLink to="/newchats" className={"p-2"}>
             <RiChatNewFill />
           </NavLink>
-          <button
-            onClick={handleClick}
-            ref={buttonRef}
-            className={`p-2 ${isClick ? "rounded-full bg-dark5" : "bg-none"}`}
-          >
-            <BsThreeDotsVertical />
-          </button>
+          <div className="relative">
+            <button
+              onClick={handleClick}
+              ref={buttonRef}
+              className={`p-2 ${isClick ? "rounded-full bg-dark5" : "bg-none"}`}
+            >
+              <BsThreeDotsVertical />
+            </button>
+            {isClick && (
+              <div
+                ref={dropDownRef}
+                className="absolute z-50 text-sm flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-60 right-0 mt-1 rounded-sm"
+              >
+                <NavLink to="/newgroup" className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  New Group
+                </NavLink>
+                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  New Community
+                </button>
+                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  Starred messages
+                </button>
+                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  Select chats
+                </button>
+                <NavLink to="/sattings" className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  Settings
+                </NavLink>
+                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  Log out
+                </button>
+                <li className="user-top-border list-none w-full my-2" />
+                <button className="py-2 px-5 w-full hover:bg-dark6">
+                  Get WhatsApp for Windows
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-      {isClick && (
-        <div
-          ref={dropDownRef}
-          className="flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-60 float-right mr-4 -mt-1 rounded-sm"
-        >
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            New Group
-          </button>
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            New Community
-          </button>
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            Starred messages
-          </button>
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            Select chats
-          </button>
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            Settings
-          </button>
-          <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
-            Log out
-          </button>
-          <li className="border list-none w-full my-2" />
-          <button className="py-2 px-5 w-full hover:bg-dark6">
-            Get WhatsApp for Windows
-          </button>
-        </div>
-      )}
     </div>
   );
 };
