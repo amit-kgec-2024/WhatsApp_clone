@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import userNewData from "../../utils/userNewData";
 import Newchatcard from "../card/Newchatcard";
@@ -8,7 +7,7 @@ import { FaUserGroup } from "react-icons/fa6";
 import { IoMdSearch } from "react-icons/io";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const Newchats = () => {
+const Newchats = ({onClick}) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -25,9 +24,9 @@ const Newchats = () => {
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <Link to="/" className="text-lg">
+        <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
-        </Link>
+        </button>
         <div className="text-lg font-semibold">New Chats</div>
       </div>
       <div className="flex flex-row bg-dark3 my-2 mx-2 py-1 px-3 gap-4 rounded-md justify-start items-center">

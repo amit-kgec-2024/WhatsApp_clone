@@ -1,10 +1,9 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaCamera } from "react-icons/fa";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const Profile = () => {
+const Profile = ({ onClick }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -16,9 +15,9 @@ const Profile = () => {
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <Link to="/" className="text-lg">
+        <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
-        </Link>
+        </button>
         <div className="text-lg font-semibold">Profile</div>
       </div>
       <div className="flex flex-col p-4">
@@ -26,8 +25,9 @@ const Profile = () => {
           <div
             className="prof-Images overflow-hidden rounded-full w-40 h-40 bg-white flex justify-center items-center"
             style={{
-              backgroundImage: "url('logo192.png')",
+              backgroundImage: "url('amitimg.png')",
               backgroundPosition: "center",
+              backgroundSize: "150px",
             }}
           >
             <button

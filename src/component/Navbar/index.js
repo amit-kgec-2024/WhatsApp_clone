@@ -1,10 +1,16 @@
 import React, { useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { MdOutlineGroups } from "react-icons/md";
 import { IoSyncCircleOutline } from "react-icons/io5";
 import { RiChatVoiceFill, RiChatNewFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
+import Profile from "../Profile";
+import Communities from "../Communities";
+import Status from "../Status";
+import Channels from "../Channels";
+import Newchats from "../Newchats";
+import Newgroup from "../Newgroup";
+import Sattings from "../Sattings";
 
 const Navbar = () => {
   // Three dot................
@@ -16,26 +22,99 @@ const Navbar = () => {
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
+  // profile...............
+  const [isProfile, setIsProfile] = useState(false);
+  const [isCommunities, setIsCommunities] = useState(false);
+  const [isStatus, setIsStatus] = useState(false);
+  const [isChannels, setIsChannels] = useState(false);
+  const [isNewchats, setIsNewchats] = useState(false);
+  const handelProfile = () => {
+    setIsProfile((prev) => !prev);
+  };
+  const handelCommunities = () => {
+    setIsCommunities((prev) => !prev);
+  };
+  const handelStatus = () => {
+    setIsStatus((prev) => !prev);
+  };
+  const handelChannels = () => {
+    setIsChannels((prev) => !prev);
+  };
+  const handelNewchats = () => {
+    setIsNewchats((prev) => !prev);
+  };
+  const handleProfileNone = () => {
+    setIsProfile(false);
+  };
+  const handleCommunitiesNone = () => {
+    setIsCommunities(false);
+  };
+  const handleStatusNone = () => {
+    setIsStatus(false);
+  };
+  const handleChannelsNone = () => {
+    setIsChannels(false);
+  };
+  const handleNewchatsNone = () => {
+    setIsNewchats(false);
+  };
+  // Menu....................
+  const [isNewgroup, setIsNewgroup] = useState(false);
+  const [isSattings, setIsSattings] = useState(false);
+  const handelNewgroup = () => {
+    setIsNewgroup((prev) => !prev);
+  };
+  const handelSattins = () => {
+    setIsSattings((prev) => !prev);
+  };
+  const handelNewgroupNone = () => {
+    setIsNewgroup(false);
+  };
+  const handelSattinsNone = () => {
+    setIsSattings(false);
+  };
   return (
     <div>
       <div className="w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center">
-        <NavLink
-          to="/profile"
-          className="rounded-full border-2 bg-slate-500 border-white w-10 h-10"
-        ></NavLink>
+        <button
+          onClick={handelProfile}
+          className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
+        >
+          <img src="amitimg.png" alt="Bird" />
+        </button>
         <div className="flex flex-row gap-2 text-2xl">
-          <NavLink to="/communities" className={"p-2"}>
+          <button
+            onClick={handelCommunities}
+            className={`p-2 ${
+              isChannels ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
             <MdOutlineGroups />
-          </NavLink>
-          <NavLink to="/status" className={"p-2"}>
+          </button>
+          <button
+            onClick={handelStatus}
+            className={`p-2 ${
+              isChannels ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
             <IoSyncCircleOutline />
-          </NavLink>
-          <NavLink to="/channels" className={"p-2"}>
+          </button>
+          <button
+            onClick={handelChannels}
+            className={`p-2 ${
+              isChannels ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
             <RiChatVoiceFill />
-          </NavLink>
-          <NavLink to="/newchats" className={"p-2"}>
+          </button>
+          <button
+            onClick={handelNewchats}
+            className={`p-2 ${
+              isChannels ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
             <RiChatNewFill />
-          </NavLink>
+          </button>
           <div className="relative">
             <button
               onClick={handleClick}
@@ -49,9 +128,12 @@ const Navbar = () => {
                 ref={dropDownRef}
                 className="absolute z-50 text-sm flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-60 right-0 mt-1 rounded-sm"
               >
-                <NavLink to="/newgroup" className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                <button
+                  onClick={handelNewgroup}
+                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                >
                   New Group
-                </NavLink>
+                </button>
                 <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
                   New Community
                 </button>
@@ -61,9 +143,12 @@ const Navbar = () => {
                 <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
                   Select chats
                 </button>
-                <NavLink to="/sattings" className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                <button
+                  onClick={handelSattins}
+                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                >
                   Settings
-                </NavLink>
+                </button>
                 <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
                   Log out
                 </button>
@@ -76,6 +161,41 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {isProfile && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Profile onClick={handleProfileNone} />
+        </div>
+      )}
+      {isCommunities && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Communities onClick={handleCommunitiesNone} />
+        </div>
+      )}
+      {isStatus && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Status onClick={handleStatusNone} />
+        </div>
+      )}
+      {isChannels && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Channels onClick={handleChannelsNone} />
+        </div>
+      )}
+      {isNewchats && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Newchats onClick={handleNewchatsNone} />
+        </div>
+      )}
+      {isNewgroup && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Newgroup onClick={handelNewgroupNone} />
+        </div>
+      )}
+      {isSattings && (
+        <div className="absolute -mt-14 z-50 w-[406px]">
+          <Sattings onClick={handelSattinsNone} />
+        </div>
+      )}
     </div>
   );
 };

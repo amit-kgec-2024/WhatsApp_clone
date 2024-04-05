@@ -1,17 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import userData from "../../utils/userData";
 import Usercard from "../card/Usercard";
 import { MdGroups } from "react-icons/md";
 
-const Communities = () => {
+const Communities = ({onClick}) => {
   return (
     <div className="w-full bg-dark1 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <Link to="/" className="text-lg">
+        <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
-        </Link>
+        </button>
         <div className="text-lg font-semibold">Communities</div>
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">

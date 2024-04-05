@@ -6,7 +6,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import Usercard from "../card/Usercard";
 import userData from "../../utils/userData";
 import { RiInboxArchiveLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import Archived from "../Archived";
 
 const Users = () => {
   const [showSearch, setShowSearch] = useState(true);
@@ -22,7 +22,14 @@ const Users = () => {
     // console.log("check toggle");
     setShowSearch((prev) => !prev);
   };
-
+// Archived.........................
+const [isArchived, setArchived] = useState(false)
+const handelArchived = ()=> {
+  setArchived(prev => !prev)
+}
+const handelArchivedNone = () => {
+  setArchived(false)
+}
   return (
     <div>
       <div className="py-2 px-3 flex flex-row w-full gap-3">
@@ -49,13 +56,21 @@ const Users = () => {
         </button>
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        <NavLink to="/archived" className="flex flex-row justify-between items-center w-full p-4">
+        {isArchived && (
+          <div className="absolute -mt-24 z-50 w-[406px]">
+            <Archived onClick={handelArchivedNone} />
+          </div>
+        )}
+        <button
+          onClick={handelArchived}
+          className="flex flex-row justify-between items-center w-full p-4"
+        >
           <div className="flex flex-row justify-center items-center gap-3">
             <RiInboxArchiveLine className="text-2xl text-whitmix1 ml-3" />
             <h1 className="font-semibold ml-3">Archived</h1>
           </div>
           <p className="text-whitmix1">12</p>
-        </NavLink>
+        </button>
         <div className="">
           {userData.map((ele) => (
             <Usercard

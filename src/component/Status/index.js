@@ -1,16 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
 import userStatusData from '../../utils/userStatusData'
 import Statuscard from "../card/Statuscard";
 
-const Status = () => {
+const Status = ({onClick}) => {
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <Link to="/" className="text-lg">
+        <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
-        </Link>
+        </button>
         <div className="text-lg font-semibold">Status</div>
       </div>
       <div className="flex flex-row justify-start items-center gap-4 px-4 py-6">

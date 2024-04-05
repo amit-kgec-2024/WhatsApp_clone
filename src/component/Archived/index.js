@@ -1,16 +1,15 @@
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import userData from "../../utils/userData";
 import Usercard from "../card/Archivedcard";
 
-const Archived = () => {
+const Archived = ({onClick}) => {
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <Link to="/" className="text-lg">
+        <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
-        </Link>
+        </button>
         <h1 className="text-lg font-semibold">Archived</h1>
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
