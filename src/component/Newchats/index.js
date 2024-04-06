@@ -6,6 +6,8 @@ import { MdGroups } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
 import { IoMdSearch } from "react-icons/io";
 import useClickOutside from "../../hooks/useClickOutside";
+import Newgroup from "../Newgroup";
+import Newcommunity from "../Newcommunity";
 
 const Newchats = ({onClick}) => {
   const [showSearch, setShowSearch] = useState(true);
@@ -21,6 +23,11 @@ const Newchats = ({onClick}) => {
     // console.log("check toggle");
     setShowSearch((prev) => !prev);
   };
+  // New Groups.............
+  const [isGroup, setIsGroup] = useState(false);
+  const [isNewcommunity, setIsNewcommunity] = useState(false);
+
+  
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
@@ -48,7 +55,10 @@ const Newchats = ({onClick}) => {
         />
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        <button className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3">
+        <button
+          onClick={() => setIsGroup((prev) => !prev)}
+          className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3"
+        >
           <div className="rounded-full text-2xl bg-whitmix1 p-3">
             <FaUserGroup />
           </div>
@@ -56,7 +66,20 @@ const Newchats = ({onClick}) => {
             New group
           </h1>
         </button>
-        <button className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3">
+        {isGroup && (
+          <div className="absolute -mt-56 z-50 w-[406px]">
+            <Newgroup onClick={() => setIsGroup(false)} />
+          </div>
+        )}
+        {isNewcommunity && (
+          <div className="absolute -mt-56 z-50 w-[406px]">
+            <Newcommunity onClick={() => setIsNewcommunity(false)} />
+          </div>
+        )}
+        <button
+          onClick={() => setIsNewcommunity((prev) => !prev)}
+          className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3"
+        >
           <div className="rounded-full text-2xl bg-whitmix1 p-3">
             <MdGroups />
           </div>

@@ -16,7 +16,7 @@ const Newgroup = ({onClick}) => {
         <input
           type="text"
           placeholder="Search name or number"
-          className="user-top-bottom-border outline-none bg-dark6 w-full"
+          className="user-top-bottom-border text-sm outline-none bg-dark6 w-full"
         />
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">

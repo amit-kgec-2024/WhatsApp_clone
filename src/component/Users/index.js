@@ -24,23 +24,18 @@ const Users = () => {
   };
 // Archived.........................
 const [isArchived, setArchived] = useState(false)
-const handelArchived = ()=> {
-  setArchived(prev => !prev)
-}
-const handelArchivedNone = () => {
-  setArchived(false)
-}
+
   return (
     <div>
       <div className="py-2 px-3 flex flex-row w-full gap-3">
         <div className="flex flex-row bg-dark3 py-1 px-3 gap-4 rounded-md w-full justify-start items-center">
           {showSearch ? (
             <button ref={searchRef} onClick={toggleSearch}>
-              <IoMdSearch className="text-xl cursor-pointer" />
+              <IoMdSearch className="text-lg cursor-pointer" />
             </button>
           ) : (
             <button onClick={toggleSearch}>
-              <FaArrowLeft className="text-whitmix1 text-xl cursor-pointer" />
+              <FaArrowLeft className="text-whitmix1 text-lg cursor-pointer" />
             </button>
           )}
           <input
@@ -48,7 +43,7 @@ const handelArchivedNone = () => {
             ref={inputRef}
             placeholder="Search"
             onClick={() => setShowSearch(false)}
-            className="bg-dark3 outline-none px-2 w-full"
+            className="bg-dark3 text-sm outline-none px-2 w-full"
           />
         </div>
         <button className="text-xl">
@@ -58,18 +53,18 @@ const handelArchivedNone = () => {
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
         {isArchived && (
           <div className="absolute -mt-24 z-50 w-[406px]">
-            <Archived onClick={handelArchivedNone} />
+            <Archived onClick={() => setArchived(false)} />
           </div>
         )}
         <button
-          onClick={handelArchived}
-          className="flex flex-row justify-between items-center w-full p-4"
+          onClick={() => setArchived((prev) => !prev)}
+          className="flex flex-row justify-between items-center w-full p-3"
         >
           <div className="flex flex-row justify-center items-center gap-3">
-            <RiInboxArchiveLine className="text-2xl text-whitmix1 ml-3" />
-            <h1 className="font-semibold ml-3">Archived</h1>
+            <RiInboxArchiveLine className="text-xl text-whitmix1 ml-3" />
+            <h1 className="font-semibold text-sm ml-3">Archived</h1>
           </div>
-          <p className="text-whitmix1">12</p>
+          <p className="text-whitmix1 text-sm">12</p>
         </button>
         <div className="">
           {userData.map((ele) => (

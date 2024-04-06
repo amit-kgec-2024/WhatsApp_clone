@@ -22,10 +22,10 @@ const Achivedcard = ({ username, userchats, usertime }) => {
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
             <h1 className="font-semibold">{username}</h1>
-            <h4 className="text-sm font-thin">{userchats}</h4>
+            <h4 className="text-xs text-slate-400 font-thin">{userchats}</h4>
           </div>
           <div className="pr-4  float-right">
-            <h3 className="">{usertime}</h3>
+            <h3 className="text-xs text-slate-400">{usertime}</h3>
             <div className="relative">
               <button
                 onClick={handleClick}
@@ -37,7 +37,7 @@ const Achivedcard = ({ username, userchats, usertime }) => {
               {isClick && (
                 <div
                   ref={dropDownRef}
-                  className="absolute bg-dark3 right-4 mt-9 w-44 py-2 flex flex-col justify-start items-start z-50 rounded-sm"
+                  className="absolute bg-dark3 right-4 mt-10 w-40 py-2 text-sm flex flex-col justify-start items-start z-50 rounded-sm"
                 >
                   <button className="hover:bg-dark6 w-full text-start px-5 py-2">
                     Unarchive chat

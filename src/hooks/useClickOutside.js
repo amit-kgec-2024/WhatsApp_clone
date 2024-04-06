@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 function useClickOutside(refs, callback) {
-  console.log("search-ref: ", refs[1]);
-  console.log("input-ref: ", refs[0]);
+  // console.log("search-ref: ", refs[1]);
+  // console.log("input-ref: ", refs[0]);
   const handleClickOutside = (event) => {
     for (let currRef of refs) {
       // if (!currRef || !currRef.current) return;

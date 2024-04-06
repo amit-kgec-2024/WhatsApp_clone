@@ -13,7 +13,7 @@ const Archived = ({onClick}) => {
         <h1 className="text-lg font-semibold">Archived</h1>
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        <p className="text-sm p-4 bg-dark5">
+        <p className="text-xs p-3 bg-dark5">
           These chats stay archived when new messages are received. To change
           this experience, go to <span className="font-bold">Settings </span>
           {">"} <span className="font-bold">Chats</span> on your phone.
