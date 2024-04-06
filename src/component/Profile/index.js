@@ -20,7 +20,7 @@ const Profile = ({ onClick }) => {
         </button>
         <div className="text-lg font-semibold">Profile</div>
       </div>
-      <div className="flex flex-col p-4">
+      <div className="flex flex-col p-4 w-full">
         <div className="w-full justify-center items-center flex py-8">
           <div
             className="prof-Images overflow-hidden rounded-full w-40 h-40 bg-white flex justify-center items-center"

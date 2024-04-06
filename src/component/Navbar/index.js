@@ -135,47 +135,47 @@ const Navbar = () => {
         </div>
       </div>
       {isProfile && (
-        <div className={`absolute -mt-14 z-50 w-[406px]`}>
+        <div className={`absolute -mt-14 z-50 w-[447px]`}>
           <Profile onClick={() => setIsProfile(false)} />
         </div>
       )}
       {isCommunities && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Communities onClick={() => setIsCommunities(false)} />
         </div>
       )}
       {isStatus && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Status onClick={() => setIsStatus(false)} />
         </div>
       )}
       {isChannels && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Channels onClick={() => setIsChannels(false)} />
         </div>
       )}
       {isNewchats && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Newchats onClick={() => setIsNewchats(false)} />
         </div>
       )}
       {isNewgroup && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Newgroup onClick={() => setIsNewgroup(false)} />
         </div>
       )}
       {isSattings && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Sattings onClick={() => setIsSattings(false)} />
         </div>
       )}
       {isNewcommunity && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Newcommunity onClick={() => setIsNewcommunity(false)} />
         </div>
       )}
       {isStarredmessage && (
-        <div className="absolute -mt-14 z-50 w-[406px]">
+        <div className="absolute -mt-14 z-50 w-[447px]">
           <Starredmessage onClick={() => setIsStarredmessage(false)} />
         </div>
       )}

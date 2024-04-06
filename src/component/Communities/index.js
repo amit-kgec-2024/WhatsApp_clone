@@ -18,7 +18,7 @@ const Communities = ({onClick}) => {
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
         {isNewcommunity && (
-          <div className="absolute -mt-24 z-50 w-[406px]">
+          <div className="absolute -mt-24 z-50 w-[447px]">
             <Newcommunity onClick={() => setIsNewcommunity(false)} />
           </div>
         )}

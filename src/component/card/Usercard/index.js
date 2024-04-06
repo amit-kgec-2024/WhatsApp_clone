@@ -14,7 +14,7 @@ const Usercard = ({ username, userchats, usertime }) => {
 
   return (
     <div className="">
-      <button className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3">
+      <button className="parent overflow-hidden w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3">
         <div className="p-3">
           <div className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5">
             <img src="amitimg.png" alt="Bird" />

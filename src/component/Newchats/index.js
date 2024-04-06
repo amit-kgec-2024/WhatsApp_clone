@@ -67,12 +67,12 @@ const Newchats = ({onClick}) => {
           </h1>
         </button>
         {isGroup && (
-          <div className="absolute -mt-56 z-50 w-[406px]">
+          <div className="absolute -mt-56 z-50 w-[447px]">
             <Newgroup onClick={() => setIsGroup(false)} />
           </div>
         )}
         {isNewcommunity && (
-          <div className="absolute -mt-56 z-50 w-[406px]">
+          <div className="absolute -mt-56 z-50 w-[447px]">
             <Newcommunity onClick={() => setIsNewcommunity(false)} />
           </div>
         )}

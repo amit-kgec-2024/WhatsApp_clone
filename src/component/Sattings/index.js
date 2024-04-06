@@ -114,7 +114,7 @@ const Sattings = ({ onClick }) => {
         </div>
       </div>
       {isProfile && (
-        <div className="absolute top-0 z-50 w-[406px]">
+        <div className="absolute top-0 z-50 w-[447px]">
           <Profile onClick={() => setIsProfile(false)} />
         </div>
       )}
