@@ -10,7 +10,7 @@ import {
   IoIosHelpCircle,
   IoIosNotifications,
 } from "react-icons/io";
-import { TbHexagonLetterA } from "react-icons/tb";
+import { BsFillPatchPlusFill } from "react-icons/bs";
 import { VscColorMode } from "react-icons/vsc";
 import { PiLockFill } from "react-icons/pi";
 import Profile from "../Profile";
@@ -94,7 +94,7 @@ const Sattings = ({ onClick }) => {
             </span>
           </button>
           <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
-            <TbHexagonLetterA className="text-2xl" />
+            <BsFillPatchPlusFill className="text-2xl" />
             <span className="user-top-bottom-border text-start py-4 text-base w-full">
               Keyboard shortcuts
             </span>

@@ -5,9 +5,9 @@ import Routes from "./routes";
 
 function App() {
   return (
-    <div className="bg-dark1 p-4">
+    <div className="bg-blue-400">
       <div className="flex flex-row justify-center">
-        <div className="bg-dark6 w-[29.7%] h-screen text-white">
+        <div className="user-right-border bg-dark6 w-[30%] h-screen text-white">
           <Routes />
           <Users />
         </div>
@@ -15,7 +15,7 @@ function App() {
           className="bg-dark2 w-[70%] h-screen text-white"
           style={{ backgroundImage: "url(wpbg.jpg)" }}
         >
-          <Chats/>
+          <Chats />
         </div>
       </div>
     </div>

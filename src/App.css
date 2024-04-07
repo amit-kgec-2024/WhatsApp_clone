@@ -20,6 +20,9 @@ body {
 .user-left-border{
     border-left: 0.5px solid #494a4b;
 }
+.user-right-border{
+    border-right: 0.5px solid #494a4b;
+}
 .parent {
     position: relative;
 }
