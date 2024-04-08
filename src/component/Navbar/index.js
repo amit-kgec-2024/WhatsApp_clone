@@ -25,56 +25,55 @@ const Navbar = () => {
     setIsclick(false);
   });
   // profile...............
-  const [isProfile, setIsProfile] = useState(false);
-  const [isCommunities, setIsCommunities] = useState(false);
-  const [isStatus, setIsStatus] = useState(false);
-  const [isChannels, setIsChannels] = useState(false);
-  const [isNewchats, setIsNewchats] = useState(false);
-  const [isNewgroup, setIsNewgroup] = useState(false);
-  const [isSattings, setIsSattings] = useState(false);
-  const [isNewcommunity, setIsNewcommunity] = useState(false);
-  const [isStarredmessage, setIsStarredmessage] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [activeButton, setActiveButton] = useState(null);
+  const handleButtonClick = (buttonIndex) => {
+    setActiveButton(buttonIndex);
+  };
 
 
   return (
     <div>
-      <div className="w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center">
+      <div
+        className={`w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center ${
+          activeButton ? "hidden" : ""
+        }`}
+      >
         <button
-          onClick={() => setIsProfile((prev) => !prev)}
+          onClick={() => handleButtonClick("profile")}
           className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
         >
           <img src="amitimg.png" alt="Bird" />
         </button>
         <div className="flex flex-row gap-5 text-slate-400 text-xl">
           <button
-            onClick={() => setIsCommunities((prev) => !prev)}
+            onClick={() => handleButtonClick("communities")}
             className={`p-1 ${
-              isChannels ? "rounded-full bg-dark5" : "bg-none"
+              activeButton ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
             <MdOutlineGroups />
           </button>
           <button
-            onClick={() => setIsStatus((prev) => !prev)}
+            onClick={() => handleButtonClick("status")}
             className={`p-1 ${
-              isChannels ? "rounded-full bg-dark5" : "bg-none"
+              activeButton ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
             <IoSyncCircleOutline />
           </button>
           <button
-            onClick={() => setIsChannels((prev) => !prev)}
+            onClick={() => handleButtonClick("channels")}
             className={`p-1 ${
-              isChannels ? "rounded-full bg-dark5" : "bg-none"
+              activeButton ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
             <RiChatVoiceFill />
           </button>
           <button
-            onClick={() => setIsNewchats((prev) => !prev)}
+            onClick={() => handleButtonClick("newchats")}
             className={`p-1 ${
-              isChannels ? "rounded-full bg-dark5" : "bg-none"
+              activeButton ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
             <RiChatNewFill />
@@ -93,19 +92,19 @@ const Navbar = () => {
                 className="absolute z-50 text-xs flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-52 right-0 mt-1 rounded-sm"
               >
                 <button
-                  onClick={() => setIsNewgroup((prev) => !prev)}
+                  onClick={() => handleButtonClick("newgroup")}
                   className="py-3 px-6 hover:bg-dark6 w-full text-start"
                 >
                   New Group
                 </button>
                 <button
-                  onClick={() => setIsNewcommunity((prev) => !prev)}
+                  onClick={() => handleButtonClick("newcommunity")}
                   className="py-3 px-6 hover:bg-dark6 w-full text-start"
                 >
                   New Community
                 </button>
                 <button
-                  onClick={() => setIsStarredmessage((prev) => !prev)}
+                  onClick={() => handleButtonClick("starrdemessage")}
                   className="py-3 px-6 hover:bg-dark6 w-full text-start"
                 >
                   Starred messages
@@ -114,7 +113,7 @@ const Navbar = () => {
                   Select chats
                 </button>
                 <button
-                  onClick={() => setIsSattings((prev) => !prev)}
+                  onClick={() => handleButtonClick("sattings")}
                   className="py-3 px-6 hover:bg-dark6 w-full text-start"
                 >
                   Settings
@@ -134,50 +133,32 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {isProfile && (
-        <div className={`absolute -mt-14 z-50 w-[447px]`}>
-          <Profile onClick={() => setIsProfile(false)} />
-        </div>
+      {activeButton === "profile" && (
+        <Profile onClick={() => setActiveButton(false)} />
       )}
-      {isCommunities && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Communities onClick={() => setIsCommunities(false)} />
-        </div>
+      {activeButton === "communities" && (
+        <Communities onClick={() => setActiveButton(false)} />
       )}
-      {isStatus && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Status onClick={() => setIsStatus(false)} />
-        </div>
+      {activeButton === "status" && (
+        <Status onClick={() => setActiveButton(false)} />
       )}
-      {isChannels && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Channels onClick={() => setIsChannels(false)} />
-        </div>
+      {activeButton === "channels" && (
+        <Channels onClick={() => setActiveButton(false)} />
       )}
-      {isNewchats && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Newchats onClick={() => setIsNewchats(false)} />
-        </div>
+      {activeButton === "newchats" && (
+        <Newchats onClick={() => setActiveButton(false)} />
       )}
-      {isNewgroup && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Newgroup onClick={() => setIsNewgroup(false)} />
-        </div>
+      {activeButton === "newgroup" && (
+        <Newgroup onClick={() => setActiveButton(false)} />
       )}
-      {isSattings && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Sattings onClick={() => setIsSattings(false)} />
-        </div>
+      {activeButton === "sattings" && (
+        <Sattings onClick={() => setActiveButton(false)} />
       )}
-      {isNewcommunity && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Newcommunity onClick={() => setIsNewcommunity(false)} />
-        </div>
+      {activeButton === "newcommunity" && (
+        <Newcommunity onClick={() => setActiveButton(false)} />
       )}
-      {isStarredmessage && (
-        <div className="absolute -mt-14 z-50 w-[447px]">
-          <Starredmessage onClick={() => setIsStarredmessage(false)} />
-        </div>
+      {activeButton === "starrdemessage" && (
+        <Starredmessage onClick={() => setActiveButton(false)} />
       )}
       {isModal && (
         <div className="absolute top-1 right-80">

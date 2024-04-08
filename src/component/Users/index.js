@@ -52,7 +52,7 @@ const [isArchived, setArchived] = useState(false)
       </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
         {isArchived && (
-          <div className="absolute -mt-24 z-50 w-[447px]">
+          <div className="absolute -mt-24 z-50 w-[460px]">
             <Archived onClick={() => setArchived(false)} />
           </div>
         )}

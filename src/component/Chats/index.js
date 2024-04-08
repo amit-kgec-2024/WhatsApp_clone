@@ -15,9 +15,11 @@ import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
 import { RxCross2 } from "react-icons/rx";
+import Userprofile from "../Userprofile";
 
 const Chats = () => {
   const [isSearch, setIsSearch] = useState(false);
+  const [isUserProfile, setIsUserProfile] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
@@ -49,14 +51,17 @@ const Chats = () => {
       <div className="flex flex-row">
         <div className="w-full h-screen flex flex-col justify-between">
           <div className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center">
-            <div className="flex flex-row gap-3 w-full">
+            <button
+              onClick={() => setIsUserProfile((prev) => !prev)}
+              className="flex flex-row gap-3 w-full"
+            >
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <img src="amitimg.png" alt="Bird" />
               </div>
-              <h2 className="flex flex-col">
+              <h2 className="flex flex-col items-start">
                 Amit Mandal <span className="text-xs font-light">Online</span>
               </h2>
-            </div>
+            </button>
             <div className="flex flex-row gap-6 pr-2">
               <div className="relative">
                 <button
@@ -147,8 +152,11 @@ const Chats = () => {
               </div>
             </div>
           </div>
-          <div className="scrollbaruser w-full h-screen p-2 overflow-y-scroll">
-            Amit Mandal
+          <div
+            className="scrollbaruser w-full h-screen p-2 overflow-y-scroll"
+            style={{ backgroundImage: "url(wpbg.jpg)" }}
+          >
+            <div className="wfull text-right">Amit Mandal</div>
           </div>
           {activeButton === "emoji" && (
             <div className="w-full bg-dark3 flex flex-col h-[750px]">
@@ -212,19 +220,25 @@ const Chats = () => {
                 </button>
                 <button
                   onClick={() => handleButtonClick("emoji")}
-                  className={`text-2xl text-slate-300 ${activeButton === 'emoji' ? "text-green-600":''}`}
+                  className={`text-2xl text-slate-300 ${
+                    activeButton === "sticker" ? "text-green-600" : ""
+                  }`}
                 >
                   <BiHappy />
                 </button>
                 <button
                   onClick={() => handleButtonClick("gif")}
-                  className={`text-2xl text-slate-300 ${activeButton === 'gif' ? "text-green-600":''}`}
+                  className={`text-2xl text-slate-300 ${
+                    activeButton === "sticker" ? "text-green-600" : ""
+                  }`}
                 >
                   <MdOutlineGifBox />
                 </button>
                 <button
                   onClick={() => handleButtonClick("sticker")}
-                  className={`text-2xl text-slate-300 ${activeButton === 'sticker' ? "text-green-600":''}`}
+                  className={`text-2xl text-slate-300 ${
+                    activeButton === "sticker" ? "text-green-600" : ""
+                  }`}
                 >
                   <PiStickerFill />
                 </button>
@@ -297,6 +311,11 @@ const Chats = () => {
         {isSearch && (
           <div>
             <Searchmessage onClick={() => setIsSearch(false)} />
+          </div>
+        )}
+        {isUserProfile && (
+          <div>
+            <Userprofile onClick={() => setIsUserProfile(false)} />
           </div>
         )}
       </div>

@@ -13,7 +13,7 @@ function App() {
         </div>
         <div
           className="bg-dark2 w-[70%] h-screen text-white"
-          style={{ backgroundImage: "url(wpbg.jpg)" }}
+          // style={{ backgroundImage: "url(wpbg.jpg)" }}
         >
           <Chats />
         </div>
