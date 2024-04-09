@@ -6,14 +6,18 @@ import { IoMdLock } from "react-icons/io";
 import { MdOutlineBlock, MdDelete } from "react-icons/md";
 import { BiSolidDislike } from "react-icons/bi";
 import Starredmessage from "../Starredmessage";
+import Medialink from "../contactinfo/Medialink";
+import Disappearing from "../contactinfo/Disappearing";
+import Userpimage from "../contactinfo/Userpimage";
 
 const Userprofile = ({ onClick }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
+  const [isProfilePicture, setProfilePicture] = useState(false);
   return (
-    <div className="user-left-border w-[450px] h-screen bg-dark2">
+    <div className="user-left-border w-full h-screen bg-dark2">
       <div className={`${activeButton ? "hidden" : ""}`}>
         <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
           <button onClick={onClick} className="ml-8">
@@ -23,9 +27,17 @@ const Userprofile = ({ onClick }) => {
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
           <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
-            <div className="w-48 h-48 rounded-full overflow-hidden">
+            <button
+              onClick={() => setProfilePicture((prev) => !prev)}
+              className="w-48 h-48 rounded-full overflow-hidden"
+            >
               <img src="amitimg.png" alt="Bird" />
-            </div>
+            </button>
+            {isProfilePicture && (
+              <div className="absolute w-full h-screen left-0 top-0">
+                <Userpimage onClick={() => setProfilePicture(false)} />
+              </div>
+            )}
             <h1 className="font-semibold text-2xl mt-3">Amit Mandal</h1>
             <h2 className="font-light">+91 8513089660</h2>
           </div>
@@ -34,13 +46,16 @@ const Userprofile = ({ onClick }) => {
             <p>Hey there! I am using WhatsApp</p>
           </div>
           <div className="bg-dark1">
-            <div className="flex flex-row justify-between items-center bg-dark1 mt-2 py-4 px-8">
+            <button
+              onClick={() => handleButtonClick("medialinks")}
+              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center bg-dark1 mt-2 py-4 px-8"
+            >
               <h1 className="font-light">Media, links and docs</h1>
-              <button className="flex flex-row items-center gap-1 font-light">
+              <h1 className="flex flex-row items-center gap-1 font-light">
                 16
                 <FaAngleRight />
-              </button>
-            </div>
+              </h1>
+            </button>
             <div className="w-full h-[130px]"></div>
           </div>
           <div className="w-full py-4 bg-dark1 mt-4 px-8">
@@ -61,7 +76,10 @@ const Userprofile = ({ onClick }) => {
               </div>
               <FaAngleRight />
             </button>
-            <button className="flex flex-row justify-between items-center py-4 w-full">
+            <button
+              onClick={() => handleButtonClick("disappearingmessages")}
+              className="flex flex-row justify-between items-center py-4 w-full"
+            >
               <div className="flex flex-row items-center gap-5">
                 <IoTimer />
                 <h1 className="flex flex-col items-start">
@@ -102,7 +120,15 @@ const Userprofile = ({ onClick }) => {
           </div>
         </div>
       </div>
-      {activeButton === "starredmessages" && (<Starredmessage onClick={()=> setActiveButton(false)}/>)}
+      {activeButton === "starredmessages" && (
+        <Starredmessage onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "medialinks" && (
+        <Medialink onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "disappearingmessages" && (
+        <Disappearing onClick={() => setActiveButton(false)} />
+      )}
     </div>
   );
 };

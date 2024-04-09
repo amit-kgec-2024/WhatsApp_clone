@@ -14,6 +14,7 @@ import Sattings from "../Sattings";
 import Newcommunity from "../Newcommunity";
 import Starredmessage from "../Starredmessage"
 import Modal from "../Modal";
+import Users from "../Users";
 
 const Navbar = () => {
   // Three dot................
@@ -132,6 +133,9 @@ const Navbar = () => {
             )}
           </div>
         </div>
+      </div>
+      <div className={`${activeButton ? "hidden" : ""}`}>
+        <Users />
       </div>
       {activeButton === "profile" && (
         <Profile onClick={() => setActiveButton(false)} />

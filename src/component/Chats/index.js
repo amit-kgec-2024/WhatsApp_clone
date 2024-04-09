@@ -18,12 +18,14 @@ import { RxCross2 } from "react-icons/rx";
 import Userprofile from "../Userprofile";
 
 const Chats = () => {
-  const [isSearch, setIsSearch] = useState(false);
-  const [isUserProfile, setIsUserProfile] = useState(false);
   const [isModal, setIsModal] = useState(false);
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
+  };
+  const [activeNavbar, setActiveNavbar] = useState(null);
+  const handleNavbarClick = (navbarIndex) => {
+    setActiveNavbar(navbarIndex);
   };
   // Three dot................
   const [isClick, setIsclick] = useState(false);
@@ -48,18 +50,18 @@ const Chats = () => {
 
   return (
     <div className=" w-full h-full">
-      <div className="flex flex-row">
-        <div className="w-full h-screen flex flex-col justify-between">
+      <div className="flex flex-row w-full justify-between">
+        <div className={`h-screen flex flex-col justify-between ${activeNavbar ? "w-[60%]" : "w-full"}`}>
           <div className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center">
             <button
-              onClick={() => setIsUserProfile((prev) => !prev)}
+              onClick={() => handleNavbarClick("profiledetails")}
               className="flex flex-row gap-3 w-full"
             >
               <div className="w-8 h-8 rounded-full overflow-hidden">
                 <img src="amitimg.png" alt="Bird" />
               </div>
               <h2 className="flex flex-col items-start">
-                Amit Mandal <span className="text-xs font-light">Online</span>
+                Amit Mandal <span className="text-xs font-light">online</span>
               </h2>
             </button>
             <div className="flex flex-row gap-6 pr-2">
@@ -100,7 +102,7 @@ const Chats = () => {
                 )}
               </div>
               <button
-                onClick={() => setIsSearch((prev) => !prev)}
+                onClick={() => handleNavbarClick("searchchats")}
                 className={`text-xl p-1`}
               >
                 <IoMdSearch />
@@ -308,16 +310,14 @@ const Chats = () => {
             </button>
           </div>
         </div>
-        {isSearch && (
-          <div>
-            <Searchmessage onClick={() => setIsSearch(false)} />
-          </div>
-        )}
-        {isUserProfile && (
-          <div>
-            <Userprofile onClick={() => setIsUserProfile(false)} />
-          </div>
-        )}
+        <div className={`${activeNavbar ? "w-[40%]" : ""}`}>
+          {activeNavbar === "searchchats" && (
+            <Searchmessage onClick={() => setActiveNavbar(false)} />
+          )}
+          {activeNavbar === "profiledetails" && (
+            <Userprofile onClick={() => setActiveNavbar(false)} />
+          )}
+        </div>
       </div>
     </div>
   );

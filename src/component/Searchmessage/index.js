@@ -5,7 +5,7 @@ import { IoMdSearch } from "react-icons/io";
 
 const Searchmessage = ({ onClick }) => {
   return (
-    <div className="user-left-border w-96 h-screen bg-dark2">
+    <div className="user-left-border w-full h-screen bg-dark2">
       <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
         <button onClick={onClick} className="ml-8">
           <RxCross1 />
