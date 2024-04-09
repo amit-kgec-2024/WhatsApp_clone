@@ -19,13 +19,13 @@ import Userprofile from "../Userprofile";
 
 const Chats = () => {
   const [isModal, setIsModal] = useState(false);
-  const [activeButton, setActiveButton] = useState(null);
-  const handleButtonClick = (buttonIndex) => {
-    setActiveButton(buttonIndex);
-  };
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
     setActiveNavbar(navbarIndex);
+  };
+  const [activeBottomNavbar, setActiveBottomNavbar] = useState(null);
+  const handleBottomNavbarClick = (navbarBottomIndex) => {
+    setActiveBottomNavbar(navbarBottomIndex);
   };
   // Three dot................
   const [isClick, setIsclick] = useState(false);
@@ -51,7 +51,11 @@ const Chats = () => {
   return (
     <div className=" w-full h-full">
       <div className="flex flex-row w-full justify-between">
-        <div className={`h-screen flex flex-col justify-between ${activeNavbar ? "w-[60%]" : "w-full"}`}>
+        <div
+          className={`h-screen flex flex-col justify-between ${
+            activeNavbar ? "w-[60%]" : "w-full"
+          }`}
+        >
           <div className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center">
             <button
               onClick={() => handleNavbarClick("profiledetails")}
@@ -156,14 +160,14 @@ const Chats = () => {
           </div>
           <div
             className="scrollbaruser w-full h-screen p-2 overflow-y-scroll"
-            style={{ backgroundImage: "url(wpbg.jpg)" }}
+            style={{ backgroundImage: "url(wpbg.jpg)", backgroundattachment: "fixed", backgroundPosition: "center", backgroundSize: "cover" }}
           >
             <div className="wfull text-right">Amit Mandal</div>
           </div>
-          {activeButton === "emoji" && (
+          {activeBottomNavbar === "emoji" && (
             <div className="w-full bg-dark3 flex flex-col h-[750px]">
               <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
-                Amit
+                Emoji
               </div>
               <div className="mx-6 my-3 p-2 bg-dark5 rounded-md">
                 <input
@@ -177,7 +181,7 @@ const Chats = () => {
               </div>
             </div>
           )}
-          {activeButton === "gif" && (
+          {activeBottomNavbar === "gif" && (
             <div className={`w-full bg-dark3 flex flex-col h-[750px]`}>
               <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
                 GIF
@@ -194,7 +198,7 @@ const Chats = () => {
               </div>
             </div>
           )}
-          {activeButton === "sticker" && (
+          {activeBottomNavbar === "sticker" && (
             <div className="w-full bg-dark3 flex flex-col h-[750px]">
               <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
                 Sticker
@@ -212,34 +216,41 @@ const Chats = () => {
             </div>
           )}
           <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
-            {activeButton && (
+            {activeBottomNavbar && (
               <div className="flex flex-row gap-4">
                 <button
-                  onClick={() => setActiveButton(false)}
+                  onClick={() => setActiveBottomNavbar(false)}
                   className="text-2xl text-slate-300"
                 >
                   <RxCross2 />
                 </button>
                 <button
-                  onClick={() => handleButtonClick("emoji")}
-                  className={`text-2xl text-slate-300 ${
-                    activeButton === "sticker" ? "text-green-600" : ""
+                  onClick={() => handleBottomNavbarClick("emoji")}
+                  className={`text-2xl  
+                  ${
+                    activeBottomNavbar === "emoji"
+                      ? "text-teal-700"
+                      : "text-slate-300"
                   }`}
                 >
                   <BiHappy />
                 </button>
                 <button
-                  onClick={() => handleButtonClick("gif")}
-                  className={`text-2xl text-slate-300 ${
-                    activeButton === "sticker" ? "text-green-600" : ""
+                  onClick={() => handleBottomNavbarClick("gif")}
+                  className={`text-2xl ${
+                    activeBottomNavbar === "gif"
+                      ? "text-teal-700"
+                      : "text-slate-300"
                   }`}
                 >
                   <MdOutlineGifBox />
                 </button>
                 <button
-                  onClick={() => handleButtonClick("sticker")}
-                  className={`text-2xl text-slate-300 ${
-                    activeButton === "sticker" ? "text-green-600" : ""
+                  onClick={() => handleBottomNavbarClick("sticker")}
+                  className={`text-2xl ${
+                    activeBottomNavbar === "sticker"
+                      ? "text-teal-700"
+                      : "text-slate-300"
                   }`}
                 >
                   <PiStickerFill />
@@ -247,9 +258,9 @@ const Chats = () => {
               </div>
             )}
             <button
-              onClick={() => setActiveButton((prev) => !prev)}
+              onClick={() => handleBottomNavbarClick("emoji")}
               className={`text-2xl text-slate-300 ${
-                activeButton ? "hidden" : ""
+                activeBottomNavbar ? "hidden" : ""
               }`}
             >
               <BiHappy />

@@ -14,6 +14,15 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 import { VscColorMode } from "react-icons/vsc";
 import { PiLockFill } from "react-icons/pi";
 import Profile from "../Profile";
+import Privecy from "../satting/Privecy";
+import Notifications from "../satting/Notifications";
+import Security from "../satting/Security";
+import Theme from "../satting/Theme";
+import Chatwalpaper from "../satting/Chatwalpaper";
+import Mediaauto from "../satting/Mediaauto";
+import Accountinfor from "../satting/Accountinfor";
+import Keyshort from "../satting/Keyshort";
+import Help from "../satting/Help";
 
 
 const Sattings = ({ onClick }) => {
@@ -44,7 +53,7 @@ const Sattings = ({ onClick }) => {
         <div className="scrollbaruser overflow-y-scroll h-[500px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
           <button
             onClick={() => handleButtonClick("profile")}
-            className="flex flex-row justify-start items-center w-full py-1 px-3 gap-3 hover:bg-dark3"
+            className="flex flex-row justify-start items-center w-full py-2 px-3 gap-3 hover:bg-dark3"
           >
             <div className="w-20 h-20 overflow-hidden rounded-full border">
               <img src="amitimg.png" alt="Bird" />
@@ -55,55 +64,82 @@ const Sattings = ({ onClick }) => {
             </h1>
           </button>
           <div className="">
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("notification")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <IoIosNotifications className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Notifications
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("privecy")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <PiLockFill className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Privecy
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("security")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <MdOutlineSecurity className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Security
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("theme")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <VscColorMode className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
-                Them
+                Theme
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("chatwallpaper")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <MdOutlineWallpaper className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Chat wallpaper
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("mediaaudio")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <FaDownLong className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Media auto-download
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("accountinfo")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <FaFileLines className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Request account info
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("keyshort")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <BsFillPatchPlusFill className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Keyboard shortcuts
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => handleButtonClick("help")}
+              className="flex flex-row w-full gap-6 px-5 justify-start items-center hover:bg-dark3"
+            >
               <IoIosHelpCircle className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Help
@@ -120,6 +156,33 @@ const Sattings = ({ onClick }) => {
       </div>
       {activeButton === "profile" && (
         <Profile onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "notification" && (
+        <Notifications onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "privecy" && (
+        <Privecy onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "security" && (
+        <Security onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "theme" && (
+        <Theme onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "chatwallpaper" && (
+        <Chatwalpaper onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "mediaaudio" && (
+        <Mediaauto onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "accountinfo" && (
+        <Accountinfor onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "keyshort" && (
+        <Keyshort onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "help" && (
+        <Help onClick={() => setActiveButton(false)} />
       )}
     </div>
   );

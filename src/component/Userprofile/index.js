@@ -9,6 +9,7 @@ import Starredmessage from "../Starredmessage";
 import Medialink from "../contactinfo/Medialink";
 import Disappearing from "../contactinfo/Disappearing";
 import Userpimage from "../contactinfo/Userpimage";
+import Encryption from "../contactinfo/Encryption";
 
 const Userprofile = ({ onClick }) => {
   const [activeButton, setActiveButton] = useState(null);
@@ -89,7 +90,10 @@ const Userprofile = ({ onClick }) => {
               </div>
               <FaAngleRight />
             </button>
-            <button className="py-4 w-full">
+            <button
+              onClick={() => handleButtonClick("encryption")}
+              className="py-4 w-full"
+            >
               <div className="flex flex-row items-center gap-5">
                 <IoMdLock />
                 <h1 className="flex flex-col items-start">
@@ -128,6 +132,9 @@ const Userprofile = ({ onClick }) => {
       )}
       {activeButton === "disappearingmessages" && (
         <Disappearing onClick={() => setActiveButton(false)} />
+      )}
+      {activeButton === "encryption" && (
+        <Encryption onClick={() => setActiveButton(false)} />
       )}
     </div>
   );
