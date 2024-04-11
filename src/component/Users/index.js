@@ -157,7 +157,7 @@ const handelUserClick =(togglrUser)=>{
             Groups
           </button>
         </div>
-        <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+        <div className="scrollbaruser overflow-y-scroll h-[580px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
           {activeUser === "all" && (
             <div className="">
               {userData.map((ele) => (
