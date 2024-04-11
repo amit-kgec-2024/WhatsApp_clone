@@ -1,9 +1,8 @@
 import React, { useRef, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import { FaCamera } from "react-icons/fa";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const Profile = ({ onClick }) => {
+const Profile = () => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -14,12 +13,7 @@ const Profile = ({ onClick }) => {
   });
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <button onClick={onClick} className="text-lg">
-          <FaArrowLeft />
-        </button>
-        <div className="text-lg font-semibold">Profile</div>
-      </div>
+      <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
       <div className="flex flex-col p-4 w-full">
         <div className="w-full justify-center items-center flex py-8">
           <div

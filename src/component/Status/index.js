@@ -1,17 +1,11 @@
 import React from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import userStatusData from '../../utils/userStatusData'
 import Statuscard from "../card/Statuscard";
 
 const Status = ({onClick}) => {
   return (
     <div className="w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <button onClick={onClick} className="text-lg">
-          <FaArrowLeft />
-        </button>
-        <div className="text-lg font-semibold">Status</div>
-      </div>
+      <h1 className="text-xl font-bold p-5 bg-dark6">Status</h1>
       <div className="flex flex-row justify-start items-center gap-4 px-4 py-6">
         <div className="w-10 h-10 rounded-full border overflow-hidden">
           <img src="logo192.png" alt="Bird" />

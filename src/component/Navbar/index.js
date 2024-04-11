@@ -1,174 +1,126 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { MdOutlineGroups } from "react-icons/md";
 import { IoSyncCircleOutline } from "react-icons/io5";
-import { RiChatVoiceFill, RiChatNewFill } from "react-icons/ri";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import useClickOutside from "../../hooks/useClickOutside";
+import { RiChatVoiceFill } from "react-icons/ri";
+import { IoIosStar } from "react-icons/io";
+import { TbSettings } from "react-icons/tb";
+import { MdChat } from "react-icons/md";
+import { RiInboxArchiveLine } from "react-icons/ri";
 import Profile from "../Profile";
 import Communities from "../Communities";
 import Status from "../Status";
 import Channels from "../Channels";
-import Newchats from "../Newchats";
-import Newgroup from "../Newgroup";
 import Sattings from "../Sattings";
-import Newcommunity from "../Newcommunity";
 import Starredmessage from "../Starredmessage"
-import Modal from "../Modal";
 import Users from "../Users";
+import Archived from "../Archived";
+import Help from "../satting/Help";
+
 
 const Navbar = () => {
-  // Three dot................
-  const [isClick, setIsclick] = useState(false);
-  const dropDownRef = useRef(null);
-  const buttonRef = useRef(null);
   
-  useClickOutside([dropDownRef, buttonRef], () => {
-    setIsclick(false);
-  });
   // profile...............
-  const [isModal, setIsModal] = useState(false);
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState('chats');
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
 
 
   return (
-    <div>
+    <div className="flex flex-row w-full h-screen">
       <div
-        className={`w-full bg-dark3 py-2 px-4 flex flex-row justify-between items-center ${
-          activeButton ? "hidden" : ""
-        }`}
+        className={`w-[11%] bg-dark3 flex flex-col items-center justify-between py-5`}
       >
-        <button
-          onClick={() => handleButtonClick("profile")}
-          className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
-        >
-          <img src="amitimg.png" alt="Bird" />
-        </button>
-        <div className="flex flex-row gap-5 text-slate-400 text-xl">
+        <div className="flex flex-col gap-5 text-slate-400 text-2xl">
+          <button
+            onClick={() => handleButtonClick("chats")}
+            className={`p-2 ${
+              activeButton === "chats" ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
+            <MdChat />
+          </button>
           <button
             onClick={() => handleButtonClick("communities")}
-            className={`p-1 ${
-              activeButton ? "rounded-full bg-dark5" : "bg-none"
+            className={`p-2 ${
+              activeButton === "communities"
+                ? "rounded-full bg-dark5"
+                : "bg-none"
             }`}
           >
             <MdOutlineGroups />
           </button>
           <button
-            onClick={() => handleButtonClick("status")}
-            className={`p-1 ${
-              activeButton ? "rounded-full bg-dark5" : "bg-none"
-            }`}
-          >
-            <IoSyncCircleOutline />
-          </button>
-          <button
             onClick={() => handleButtonClick("channels")}
-            className={`p-1 ${
-              activeButton ? "rounded-full bg-dark5" : "bg-none"
+            className={`p-2 ${
+              activeButton === "channels" ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
             <RiChatVoiceFill />
           </button>
           <button
-            onClick={() => handleButtonClick("newchats")}
-            className={`p-1 ${
-              activeButton ? "rounded-full bg-dark5" : "bg-none"
+            onClick={() => handleButtonClick("status")}
+            className={`user-top-bottom-border p-2 ${
+              activeButton === "status" ? "rounded-full bg-dark5" : "bg-none"
             }`}
           >
-            <RiChatNewFill />
+            <IoSyncCircleOutline />
           </button>
-          <div className="relative">
-            <button
-              onClick={() => setIsclick((prev) => !prev)}
-              ref={buttonRef}
-              className={`p-1 ${isClick ? "rounded-full bg-dark5" : "bg-none"}`}
-            >
-              <BsThreeDotsVertical />
-            </button>
-            {isClick && (
-              <div
-                ref={dropDownRef}
-                className="absolute z-50 text-xs flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-52 right-0 mt-1 rounded-sm"
-              >
-                <button
-                  onClick={() => handleButtonClick("newgroup")}
-                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
-                >
-                  New Group
-                </button>
-                <button
-                  onClick={() => handleButtonClick("newcommunity")}
-                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
-                >
-                  New Community
-                </button>
-                <button
-                  onClick={() => handleButtonClick("starrdemessage")}
-                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
-                >
-                  Starred messages
-                </button>
-                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
-                  Select chats
-                </button>
-                <button
-                  onClick={() => handleButtonClick("sattings")}
-                  className="py-3 px-6 hover:bg-dark6 w-full text-start"
-                >
-                  Settings
-                </button>
-                <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
-                  Log out
-                </button>
-                <li className="user-top-border list-none w-full my-1" />
-                <button
-                  onClick={() => setIsModal((prev) => !prev)}
-                  className="py-2 px-5 w-full hover:bg-dark6"
-                >
-                  Get WhatsApp for Windows
-                </button>
-              </div>
-            )}
-          </div>
+          <button
+            onClick={() => handleButtonClick("archived")}
+            className={`p-2 ${
+              activeButton === "archived" ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
+            <RiInboxArchiveLine />
+          </button>
+          <button
+            onClick={() => handleButtonClick("starrdemessage")}
+            className={`p-2 ${
+              activeButton === "starrdemessage"
+                ? "rounded-full bg-dark5"
+                : "bg-none"
+            }`}
+          >
+            <IoIosStar />
+          </button>
+        </div>
+        <div className="flex flex-col gap-5 text-slate-400 text-2xl">
+          <button
+            onClick={() => handleButtonClick("help")}
+            className={` px-1 py-3 text-xs ${
+              activeButton === "help" ? "rounded-full bg-dark5" : "bg-none shadow"
+            }`}
+          >
+            BEAT
+          </button>
+          <button
+            onClick={() => handleButtonClick("sattings")}
+            className={`p-2 ${
+              activeButton === "sattings" ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
+            <TbSettings />
+          </button>
+          <button
+            onClick={() => handleButtonClick("profile")}
+            className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
+          >
+            <img src="amitimg.png" alt="Bird" />
+          </button>
         </div>
       </div>
-      <div className={`${activeButton ? "hidden" : ""}`}>
-        <Users />
+      <div className="w-[89%]">
+        {activeButton === "chats" && <Users />}
+        {activeButton === "help" && <Help />}
+        {activeButton === "profile" && <Profile />}
+        {activeButton === "communities" && <Communities />}
+        {activeButton === "status" && <Status />}
+        {activeButton === "channels" && <Channels />}
+        {activeButton === "sattings" && <Sattings />}
+        {activeButton === "starrdemessage" && <Starredmessage />}
+        {activeButton === "archived" && <Archived />}
       </div>
-      {activeButton === "profile" && (
-        <Profile onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "communities" && (
-        <Communities onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "status" && (
-        <Status onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "channels" && (
-        <Channels onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "newchats" && (
-        <Newchats onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "newgroup" && (
-        <Newgroup onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "sattings" && (
-        <Sattings onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "newcommunity" && (
-        <Newcommunity onClick={() => setActiveButton(false)} />
-      )}
-      {activeButton === "starrdemessage" && (
-        <Starredmessage onClick={() => setActiveButton(false)} />
-      )}
-      {isModal && (
-        <div className="absolute top-1 right-80">
-          <Modal onClick={() => setIsModal(false)} />
-        </div>
-      )}
     </div>
   );
 };

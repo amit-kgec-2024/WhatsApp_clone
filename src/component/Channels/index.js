@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import userChannelData from "../../utils/userChannelData";
 import { GoPlus } from "react-icons/go";
 import useClickOutside from "../../hooks/useClickOutside";
 import Channelcard from "../card/Channelcard";
 
-const Channels = ({onClick}) => {
+const Channels = () => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -16,11 +15,8 @@ const Channels = ({onClick}) => {
   });
   return (
     <div className="w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <buttonRef onClick={onClick} className="text-lg">
-          <FaArrowLeft />
-        </buttonRef>
-        <h1 className="text-lg font-semibold">Channels</h1>
+      <div className="p-4 pl-6 flex flex-row justify-items-center">
+        <h1 className="text-lg font-bold">Channels</h1>
         <div className="relative w-full flex justify-end">
           <button
             onClick={handleClick}

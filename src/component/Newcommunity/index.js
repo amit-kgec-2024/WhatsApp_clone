@@ -7,7 +7,7 @@ const Newcommunity = ({ onClick }) => {
   };
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
+      <div className="p-4 pl-6 flex flex-row justify-start items-center gap-8">
         <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
         </button>

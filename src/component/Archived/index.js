@@ -1,19 +1,13 @@
 import React from "react";
-import { FaArrowLeft } from "react-icons/fa6";
 import userData from "../../utils/userData";
 import Usercard from "../card/Archivedcard";
 
-const Archived = ({onClick}) => {
+const Archived = () => {
   return (
     <div className="w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-4 pl-6 pt-16 flex flex-row justify-start items-center gap-8">
-        <button onClick={onClick} className="text-lg">
-          <FaArrowLeft />
-        </button>
-        <h1 className="text-lg font-semibold">Archived</h1>
-      </div>
+      <h1 className="text-xl font-bold p-5 ">Archived</h1>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        <p className="text-xs p-3 bg-dark5">
+        <p className="text-xs p-3 ">
           These chats stay archived when new messages are received. To change
           this experience, go to <span className="font-bold">Settings </span>
           {">"} <span className="font-bold">Chats</span> on your phone.

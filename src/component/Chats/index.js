@@ -14,7 +14,6 @@ import Modal from "../Modal";
 import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
-import { RxCross2 } from "react-icons/rx";
 import Userprofile from "../Userprofile";
 
 const Chats = () => {
@@ -23,29 +22,37 @@ const Chats = () => {
   const handleNavbarClick = (navbarIndex) => {
     setActiveNavbar(navbarIndex);
   };
-  const [activeBottomNavbar, setActiveBottomNavbar] = useState(null);
+  const [activeBottomNavbar, setActiveBottomNavbar] = useState('emoji');
   const handleBottomNavbarClick = (navbarBottomIndex) => {
     setActiveBottomNavbar(navbarBottomIndex);
   };
-  // Three dot................
+  // Video call modal................
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
-
+  // three dot..................
   const [isClickMenu, setIsclickMenu] = useState(false);
   const dropDownRefMenu = useRef(null);
   const buttonRefMenu = useRef(null);
   useClickOutside([dropDownRefMenu, buttonRefMenu], () => {
     setIsclickMenu(false);
   });
+  // Plus.................
   const [isClickDocument, setIsclickDocument] = useState(false);
   const dropDownRefDocument = useRef(null);
   const buttonRefDocument = useRef(null);
   useClickOutside([dropDownRefDocument, buttonRefDocument], () => {
     setIsclickDocument(false);
+  });
+  // Emoji.................
+  const [isClickEmoji, setIsclickEmoji] = useState(false);
+  const dropDownRefEmoji = useRef(null);
+  const buttonRefEmoji = useRef(null);
+  useClickOutside([dropDownRefEmoji, buttonRefEmoji], () => {
+    setIsclickEmoji(false);
   });
 
   return (
@@ -160,111 +167,68 @@ const Chats = () => {
           </div>
           <div
             className="scrollbaruser w-full h-screen p-2 overflow-y-scroll"
-            style={{ backgroundImage: "url(wpbg.jpg)", backgroundattachment: "fixed", backgroundPosition: "center", backgroundSize: "cover" }}
+            style={{
+              backgroundImage: "url(wpbg.jpg)",
+              backgroundattachment: "fixed",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
           >
             <div className="wfull text-right">Amit Mandal</div>
           </div>
-          {activeBottomNavbar === "emoji" && (
-            <div className="w-full bg-dark3 flex flex-col h-[750px]">
-              <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
-                Emoji
-              </div>
-              <div className="mx-6 my-3 p-2 bg-dark5 rounded-md">
-                <input
-                  type="text"
-                  placeholder="Search emoji"
-                  className="w-full outline-none bg-dark5 text-sm px-4"
-                />
-              </div>
-              <div className="scrollbaruser w-full overflow-y-scroll text-xs px-6 text-slate-400 h-[207px] py-1">
-                Smilys& People
-              </div>
-            </div>
-          )}
-          {activeBottomNavbar === "gif" && (
-            <div className={`w-full bg-dark3 flex flex-col h-[750px]`}>
-              <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
-                GIF
-              </div>
-              <div className="mx-6 my-3 p-2 bg-dark5 rounded-md">
-                <input
-                  type="text"
-                  placeholder="Search emoji"
-                  className="w-full outline-none bg-dark5 text-sm px-4"
-                />
-              </div>
-              <div className="scrollbaruser w-full overflow-y-scroll text-xs px-6 text-slate-400 h-[207px] py-1">
-                Smilys& People
-              </div>
-            </div>
-          )}
-          {activeBottomNavbar === "sticker" && (
-            <div className="w-full bg-dark3 flex flex-col h-[750px]">
-              <div className="h-10 bg-dark4 flex flex-row justify-center items-center">
-                Sticker
-              </div>
-              <div className="mx-6 my-3 p-2 bg-dark5 rounded-md">
-                <input
-                  type="text"
-                  placeholder="Search emoji"
-                  className="w-full outline-none bg-dark5 text-sm px-4"
-                />
-              </div>
-              <div className="scrollbaruser w-full overflow-y-scroll text-xs px-6 text-slate-400 h-[207px] py-1">
-                Smilys& People
-              </div>
-            </div>
-          )}
-          <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
-            {activeBottomNavbar && (
-              <div className="flex flex-row gap-4">
-                <button
-                  onClick={() => setActiveBottomNavbar(false)}
-                  className="text-2xl text-slate-300"
-                >
-                  <RxCross2 />
-                </button>
-                <button
-                  onClick={() => handleBottomNavbarClick("emoji")}
-                  className={`text-2xl  
+          <div className="">
+            {isClickEmoji && (
+              <div
+                ref={dropDownRefEmoji}
+                className="absolute shadow-lg bg-dark6 bottom-16 ml-28 w-96 h-[70%] flex flex-col justify-between rounded-lg"
+              >
+                <div className="user-top-bottom-border py-3">
+                  {activeBottomNavbar === "emoji" && "Emoji"}
+                  {activeBottomNavbar === "gif" && "GIF"}
+                  {activeBottomNavbar === "sticker" && "Sticker"}
+                </div>
+                <div className="scrollbaruser bg-red-400 h-full p-3 overflow-y-scroll">
+                  {activeBottomNavbar === "emoji" && "Emoji"}
+                  {activeBottomNavbar === "gif" && "GIF"}
+                  {activeBottomNavbar === "sticker" && "Sticker"}
+                </div>
+                <div className="flex flex-row justify-center items-center py-3 gap-3">
+                  <button
+                    onClick={() => handleBottomNavbarClick("emoji")}
+                    className={`text-2xl  
                   ${
                     activeBottomNavbar === "emoji"
                       ? "text-teal-700"
                       : "text-slate-300"
                   }`}
-                >
-                  <BiHappy />
-                </button>
-                <button
-                  onClick={() => handleBottomNavbarClick("gif")}
-                  className={`text-2xl ${
-                    activeBottomNavbar === "gif"
-                      ? "text-teal-700"
-                      : "text-slate-300"
-                  }`}
-                >
-                  <MdOutlineGifBox />
-                </button>
-                <button
-                  onClick={() => handleBottomNavbarClick("sticker")}
-                  className={`text-2xl ${
-                    activeBottomNavbar === "sticker"
-                      ? "text-teal-700"
-                      : "text-slate-300"
-                  }`}
-                >
-                  <PiStickerFill />
-                </button>
+                  >
+                    <BiHappy />
+                  </button>
+                  <button
+                    onClick={() => handleBottomNavbarClick("gif")}
+                    className={`text-2xl ${
+                      activeBottomNavbar === "gif"
+                        ? "text-teal-700"
+                        : "text-slate-300"
+                    }`}
+                  >
+                    <MdOutlineGifBox />
+                  </button>
+                  <button
+                    onClick={() => handleBottomNavbarClick("sticker")}
+                    className={`text-2xl ${
+                      activeBottomNavbar === "sticker"
+                        ? "text-teal-700"
+                        : "text-slate-300"
+                    }`}
+                  >
+                    <PiStickerFill />
+                  </button>
+                </div>
               </div>
             )}
-            <button
-              onClick={() => handleBottomNavbarClick("emoji")}
-              className={`text-2xl text-slate-300 ${
-                activeBottomNavbar ? "hidden" : ""
-              }`}
-            >
-              <BiHappy />
-            </button>
+          </div>
+          <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
             <div className="relative">
               {isClickDocument && (
                 <div
@@ -311,11 +275,22 @@ const Chats = () => {
                 <FaPlus />
               </button>
             </div>
-            <input
-              type="text"
-              placeholder="Type a message"
-              className="w-full text-sm py-2 px-4 bg-dark5 outline-none rounded-md text-slate-400"
-            />
+            <div className="flex items-center w-full px-2 rounded-md bg-dark5">
+              <button
+                ref={buttonRefEmoji}
+                onClick={() => setIsclickEmoji((prev) => !prev)}
+                className={`text-2xl text-slate-300 ${
+                  isClickEmoji ? "text-teal-700" : "text-slate-400"
+                }`}
+              >
+                <BiHappy />
+              </button>
+              <input
+                type="text"
+                placeholder="Type a message"
+                className="text-sm py-2 px-4 outline-none bg-dark5 text-slate-400"
+              />
+            </div>
             <button className="text-2xl text-slate-300">
               <MdKeyboardVoice />
             </button>
