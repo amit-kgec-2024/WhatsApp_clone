@@ -28,6 +28,7 @@ body {
 }
 .parent:hover button {
     display: block;
+    opacity: 100;
     margin-right: 10px;
     transition: 0.5s;
 }

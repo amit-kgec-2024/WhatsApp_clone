@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import useClickOutside from "../../../hooks/useClickOutside";
 
-const Achivedcard = ({ username, userchats, usertime }) => {
+const Achivedcard = ({ username, userchats, usertime, handelUserChatsClick }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -13,7 +13,10 @@ const Achivedcard = ({ username, userchats, usertime }) => {
   });
   return (
     <div className="">
-      <button className="parent overflow-hidden w-full flex flex-row justify-center items-start hover:bg-dark3">
+      <button
+        onClick={() => handelUserChatsClick("userchats")}
+        className="parent w-full flex flex-row justify-center items-start hover:bg-dark3"
+      >
         <div className="p-3">
           <div className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5">
             x
@@ -30,7 +33,7 @@ const Achivedcard = ({ username, userchats, usertime }) => {
               <button
                 onClick={handleClick}
                 ref={buttonRef}
-                className="-mr-8 float-right"
+                className="-mr-4 opacity-0 float-right"
               >
                 <IoIosArrowDown />
               </button>

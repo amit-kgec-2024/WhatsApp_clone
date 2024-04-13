@@ -4,7 +4,7 @@ import { GoPlus } from "react-icons/go";
 import useClickOutside from "../../hooks/useClickOutside";
 import Channelcard from "../card/Channelcard";
 
-const Channels = () => {
+const Channels = ({ handelUserChatsClick }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -51,6 +51,7 @@ const Channels = () => {
             userimg={ele.userimg}
             username={ele.username}
             usertexts={ele.usertexts}
+            handelUserChatsClick={handelUserChatsClick}
             usertime={ele.usertime}
           />
         ))}

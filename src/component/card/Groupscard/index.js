@@ -2,11 +2,11 @@ import React, { useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import useClickOutside from "../../../hooks/useClickOutside";
 
-const Usercard = ({
-  username,
-  userchats,
-  usertime,
-  readmsg,
+const Groupscard = ({
+  groupname,
+  groupchats,
+  grouptime,
+  unreadmsg,
   handelUserChatsClick,
 }) => {
   const [isClick, setIsclick] = useState(false);
@@ -26,18 +26,18 @@ const Usercard = ({
       >
         <div className="p-3">
           <div className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5">
-            <img src="amitimg.png" alt="Bird" />
+            <img src="help.png" alt="Bird" />
           </div>
         </div>
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
-            <h1 className="font-light">{username}</h1>
-            <h4 className="text-xs text-slate-400 font-thin">{userchats}</h4>
+            <h1 className="font-light">{groupname}</h1>
+            <h4 className="text-xs text-slate-400 font-thin">{groupchats}</h4>
           </div>
           <div className="pr-4 float-right">
-            <h3 className="text-xs text-slate-400">{usertime}</h3>
+            <h3 className="text-xs text-slate-400">{grouptime}</h3>
             <div className="relative flex justify-around">
-              {readmsg === "true" ? (
+              {unreadmsg === "true" ? (
                 <h1 className="text-xs bg-teal-500 rounded-full text-black w-6 h-6  p-1">
                   15
                 </h1>
@@ -63,16 +63,13 @@ const Usercard = ({
                     Mute notifications
                   </button>
                   <button className="hover:bg-dark6 w-full text-start px-5 py-3">
-                    Delet chat
+                    Exit Group
                   </button>
                   <button className="hover:bg-dark6 w-full text-start px-5 py-3">
                     Pin chat
                   </button>
                   <button className="hover:bg-dark6 w-full text-start px-5 py-3">
-                    Mark as unread
-                  </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
-                    Block
+                    Mark as Read
                   </button>
                 </div>
               )}
@@ -84,4 +81,4 @@ const Usercard = ({
   );
 };
 
-export default Usercard;
+export default Groupscard;

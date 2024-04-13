@@ -6,12 +6,14 @@ import { FaArrowLeft } from "react-icons/fa";
 import useClickOutside from "../../hooks/useClickOutside";
 import Usercard from "../card/Usercard";
 import userData from "../../utils/userData";
+import Groupscard from "../card/Groupscard";
+import userGroupData from "../../utils/userGroupData";
 import Newchats from "../Newchats";
 import Modal from "../Modal";
 import Newgroup from "../Newgroup";
 
 
-const Users = () => {
+const Users = ({ handelUserChatsClick }) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -39,11 +41,12 @@ const Users = () => {
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
-// user.................
-const [activeUser, setActiveUser] = useState('all');
-const handelUserClick =(togglrUser)=>{
-  setActiveUser(togglrUser);
-}
+  // user.................
+  const [activeUser, setActiveUser] = useState("all");
+  const handelUserClick = (togglrUser) => {
+    setActiveUser(togglrUser);
+  };
+
   return (
     <div>
       <div className={`w-full ${isChats ? "hidden" : ""}`}>
@@ -157,28 +160,68 @@ const handelUserClick =(togglrUser)=>{
             Groups
           </button>
         </div>
-        <div className="scrollbaruser overflow-y-scroll h-[580px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+        <div className="scrollbaruser overflow-y-scroll h-[580px]">
           {activeUser === "all" && (
-            <div className="">
-              {userData.map((ele) => (
-                <Usercard
-                  key={ele.id}
-                  username={ele.username}
-                  userchats={ele.userchats}
-                  usertime={ele.usertime}
-                />
+            // <div className="">
+            //   {userData.map((ele) => (
+            //     <Usercard
+            //       key={ele.id}
+            //       username={ele.username}
+            //       userchats={ele.userchats}
+            //       readmsg={ele.readmsg}
+            //       handelUserChatsClick={handelUserChatsClick}
+            //       usertime={ele.usertime}
+            //     />
+            //   ))}
+            // </div>
+            <div>
+              {userData.concat(userGroupData).map((data) => (
+                <React.Fragment key={data.id}>
+                  {data.userchats ? (
+                    <Usercard
+                      username={data.username}
+                      userchats={data.userchats}
+                      readmsg={data.readmsg}
+                      handelUserChatsClick={handelUserChatsClick}
+                      usertime={data.usertime}
+                    />
+                  ) : (
+                    <Groupscard
+                      groupname={data.groupname}
+                      groupchats={data.groupchats}
+                      unreadmsg={data.unreadmsg}
+                      handelUserChatsClick={handelUserChatsClick}
+                      grouptime={data.grouptime}
+                    />
+                  )}
+                </React.Fragment>
               ))}
             </div>
           )}
           {activeUser === "unread" && (
-            <div className="">
-              {userData.map((ele) => (
-                <Usercard
-                  key={ele.id}
-                  username={ele.username}
-                  userchats={ele.userchats}
-                  usertime={ele.usertime}
-                />
+            <div>
+              {userData.concat(userGroupData).map((exle) => (
+                <React.Fragment key={exle.id}>
+                  {exle.userchats ? (
+                    exle.readmsg === 'true' &&
+                    <Usercard
+                      username={exle.username}
+                      userchats={exle.userchats}
+                      readmsg={exle.readmsg}
+                      handelUserChatsClick={handelUserChatsClick}
+                      usertime={exle.usertime}
+                    />
+                  ) : (
+                    exle.unreadmsg === 'true' &&
+                    <Groupscard
+                      groupname={exle.groupname}
+                      groupchats={exle.groupchats}
+                      unreadmsg={exle.unreadmsg}
+                      handelUserChatsClick={handelUserChatsClick}
+                      grouptime={exle.grouptime}
+                    />
+                  )}
+                </React.Fragment>
               ))}
             </div>
           )}
@@ -189,6 +232,8 @@ const handelUserClick =(togglrUser)=>{
                   key={ele.id}
                   username={ele.username}
                   userchats={ele.userchats}
+                  readmsg={ele.readmsg}
+                  handelUserChatsClick={handelUserChatsClick}
                   usertime={ele.usertime}
                 />
               ))}
@@ -196,12 +241,14 @@ const handelUserClick =(togglrUser)=>{
           )}
           {activeUser === "groups" && (
             <div className="">
-              {userData.map((ele) => (
-                <Usercard
+              {userGroupData.map((ele) => (
+                <Groupscard
                   key={ele.id}
-                  username={ele.username}
-                  userchats={ele.userchats}
-                  usertime={ele.usertime}
+                  groupname={ele.groupname}
+                  groupchats={ele.groupchats}
+                  unreadmsg={ele.unreadmsg}
+                  handelUserChatsClick={handelUserChatsClick}
+                  grouptime={ele.grouptime}
                 />
               ))}
             </div>

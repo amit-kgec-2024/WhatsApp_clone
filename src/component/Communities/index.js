@@ -4,7 +4,7 @@ import Usercard from "../card/Usercard";
 import { MdGroups } from "react-icons/md";
 import Newcommunity from "../Newcommunity";
 
-const Communities = () => {
+const Communities = ({ handelUserChatsClick }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -28,6 +28,7 @@ const Communities = () => {
                 key={ele.id}
                 username={ele.username}
                 userchats={ele.userchats}
+                handelUserChatsClick={handelUserChatsClick}
                 usertime={ele.usertime}
               />
             ))}
@@ -35,7 +36,7 @@ const Communities = () => {
         </div>
       </div>
       {activeButton === "newcommunity" && (
-          <Newcommunity onClick={() => setActiveButton(false)} />
+        <Newcommunity onClick={() => setActiveButton(false)} />
       )}
     </div>
   );

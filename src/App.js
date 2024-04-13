@@ -24,6 +24,11 @@ function App() {
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
+
+  const [userClickChat, setUserClickChat] = useState("mainses");
+  const handelUserChatsClick =(toggleUserChat)=>{
+    setUserClickChat(toggleUserChat);
+  }
   return (
     <div className="bg-dark2 flex flex-row justify-center">
       <div className="user-right-border bg-dark6 w-[33%] h-screen text-white">
@@ -121,23 +126,46 @@ function App() {
             </div>
           </div>
           <div className="w-[89%]">
-            {activeButton === "chats" && <Users />}
+            {activeButton === "chats" && (
+              <Users handelUserChatsClick={handelUserChatsClick} />
+            )}
             {activeButton === "help" && <Help />}
             {activeButton === "profile" && <Profile />}
-            {activeButton === "communities" && <Communities />}
+            {activeButton === "communities" && (
+              <Communities handelUserChatsClick={handelUserChatsClick} />
+            )}
             {activeButton === "status" && <Status />}
-            {activeButton === "channels" && <Channels />}
+            {activeButton === "channels" && (
+              <Channels handelUserChatsClick={handelUserChatsClick} />
+            )}
             {activeButton === "sattings" && <Sattings />}
             {activeButton === "starrdemessage" && <Starredmessage />}
-            {activeButton === "archived" && <Archived />}
+            {activeButton === "archived" && <Archived handelUserChatsClick={handelUserChatsClick}/>}
           </div>
         </div>
       </div>
-      <div
-        className="bg-dark2 w-[67%] h-screen text-white"
-        // style={{ backgroundImage: "url(wpbg.jpg)" }}
-      >
-        <Chats />
+      <div className="bg-dark2 w-[67%] h-screen text-white">
+        {userClickChat === "mainses" && (
+          <div className="w-full h-screen bg-dark3 flex flex-col items-center justify-center">
+            <div className="w-full flex justify-center">
+              <img src="frontchat.png" alt="Bird" />
+            </div>
+            <h1 className="text-4xl font-light text-center py-3">
+              Download WhatsApp for Windows
+            </h1>
+            <h1 className="text-sm text-slate-400 w-full text-center py-3">
+              Make Calls, share your screen and get a faster experience when you
+              download the <br />
+              Windows app.
+            </h1>
+            <div className="w-full flex justify-center py-3">
+              <button className="px-5 py-2 rounded-full text-black bg-teal-500">
+                Get from Microsoft Store
+              </button>
+            </div>
+          </div>
+        )}
+        {userClickChat === "userchats" && <Chats />}
       </div>
     </div>
   );

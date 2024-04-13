@@ -2,7 +2,7 @@ import React from "react";
 import userData from "../../utils/userData";
 import Usercard from "../card/Archivedcard";
 
-const Archived = () => {
+const Archived = ({ handelUserChatsClick }) => {
   return (
     <div className="w-full bg-dark6 h-screen">
       <h1 className="text-xl font-bold p-5 ">Archived</h1>
@@ -18,6 +18,7 @@ const Archived = () => {
               key={ele.id}
               username={ele.username}
               userchats={ele.userchats}
+              handelUserChatsClick={handelUserChatsClick}
               usertime={ele.usertime}
             />
           ))}
