@@ -5,6 +5,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 3,
@@ -19,6 +21,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 4,
@@ -26,6 +29,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 5,
@@ -33,6 +37,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 6,
@@ -40,6 +45,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 7,
@@ -47,6 +53,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 8,
@@ -54,6 +61,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 9,
@@ -61,6 +69,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 10,
@@ -68,6 +77,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 11,
@@ -75,6 +85,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 12,
@@ -82,6 +93,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 13,
@@ -89,6 +101,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 14,
@@ -96,6 +109,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 15,
@@ -103,6 +117,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "false",
   },
   {
     id: 16,
@@ -110,6 +125,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 17,
@@ -117,6 +133,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 18,
@@ -124,6 +141,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 19,
@@ -131,6 +149,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
   {
     id: 20,
@@ -138,6 +157,7 @@ const userStatusData = [
     username: "Amit Mandal",
     userday: "Today",
     usertime: "10:30 AM",
+    viewstatus: "true",
   },
 ];
 
