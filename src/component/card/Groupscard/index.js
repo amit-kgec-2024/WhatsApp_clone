@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import useClickOutside from "../../../hooks/useClickOutside";
 
@@ -18,6 +18,14 @@ const Groupscard = ({
     setIsclick(false);
   });
 
+  const [textLoder, setTextLoder] = useState(0);
+  useEffect(() => {
+    setTextLoder(true);
+    setTimeout(() => {
+      setTextLoder(false);
+    }, 1000);
+  }, []);
+
   return (
     <div className="">
       <button
@@ -32,7 +40,7 @@ const Groupscard = ({
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
             <h1 className="font-light">{groupname}</h1>
-            <h4 className="text-xs text-slate-400 font-thin">{groupchats}</h4>
+            <h4 className="text-xs text-slate-400 font-thin">{textLoder ? <div>Loading...</div> : <div>{groupchats}</div>}</h4>
           </div>
           <div className="pr-4 float-right">
             <h3 className="text-xs text-slate-400">{grouptime}</h3>

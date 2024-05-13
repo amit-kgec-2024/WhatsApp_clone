@@ -21,7 +21,7 @@ import Loaderhome from "./component/Loaderhome";
 
 function App() {
   // loader.................
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(0);
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
