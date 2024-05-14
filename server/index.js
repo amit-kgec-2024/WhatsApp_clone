@@ -25,7 +25,7 @@ app.listen(port, () => {
 // import files
 const Users = require("./modules/Users");
 
-app.post("/api/register", async (req, res) => {
+app.post("/api/register+login", async (req, res) => {
   try {
     const { mobile } = req.body;
     const mobileRegex = /^\d{10}$/;
