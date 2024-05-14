@@ -12,7 +12,7 @@ const Authorization = () => {
   const submitHandle = async (e) => {
     e.preventDefault();
     const res = await fetch(
-      "https://whats-app-clone-server-psi.vercel.app/api/register+login",
+      "https://whats-app-clone-server-psi.vercel.app/api/register&login",
       {
         method: "POST",
         headers: {

@@ -25,7 +25,7 @@ app.listen(port, () => {
 // import files
 const Users = require("./modules/Users");
 
-app.post("/api/register+login", async (req, res) => {
+app.post("/api/register&login", async (req, res) => {
   try {
     const { mobile } = req.body;
     const mobileRegex = /^\d{10}$/;
@@ -52,5 +52,3 @@ app.post("/api/register+login", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
