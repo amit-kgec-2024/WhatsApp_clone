@@ -1,0 +1,106 @@
+body {
+    overflow: hidden;
+}
+/* Users Element........... */
+.scrollbaruser::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbaruser::-webkit-scrollbar-track {
+    background: #111b21;
+}
+
+.scrollbaruser::-webkit-scrollbar-thumb {
+    background: #20272b;
+}
+
+.user-top-border{
+    border-top: 0.5px solid #233138;
+}
+.user-left-border{
+    border-left: 0.5px solid #494a4b;
+}
+.user-right-border{
+    border-right: 0.5px solid #494a4b;
+}
+.parent {
+    position: relative;
+}
+.parent:hover button {
+    display: block;
+    opacity: 100;
+    margin-right: 10px;
+    transition: 0.5s;
+}
+/* New Chats............... */
+.user-top-bottom-border {
+    border-bottom: 0.5px solid #233138;
+}
+/* Profile........... */
+.prof-Images:hover button {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    transition: all 1s;
+}
+/* .................. */
+/* Rotate left to right */
+.animate-rotate-left-to-right.border-x-8 {
+    animation: rotate-left-to-right 4s linear infinite;
+}
+.animate-rotate-right-to-left {
+    animation: rotate-right-to-left 4s linear infinite;
+}
+
+@keyframes rotate-left-to-right {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-right-to-left {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+/* text animations */
+.animate-text-white {
+    animation: text-animation-white 4s ease infinite alternate;
+}
+
+@keyframes text-animation-white {
+    0% {
+        transform: scale(1);
+        color: white;
+    }
+
+    100% {
+        transform: scale(1.2);
+        color: red;
+    }
+}
+.animate-text-red {
+    animation: text-animation-red 4s ease infinite alternate;
+}
+
+@keyframes text-animation-red {
+    0% {
+        transform: scale(1);
+        color: red;
+    }
+
+    100% {
+        transform: scale(1.2);
+        color: white;
+    }
+}
