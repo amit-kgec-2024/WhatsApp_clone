@@ -85,3 +85,50 @@ app.post("/api/profile", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 });
+
+// userProfile GET Request.......
+app.get("/api/userdetails/:_id", async (req, res) => {
+  try {
+    const _id = req.params._id;
+
+    const userDetails = await Users.findById(_id);
+
+    if (userDetails) {
+      res.status(200).json(userDetails);
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error!");
+  }
+});
+
+// userName PoST..................
+app.post("/api/nameuser", async (req, res) => {
+  try {
+    const { id, username } = req.body;
+    if ( !id || !username) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all required fields" });
+    }
+    const existingnameuser = await Users.findOne({ _id: id });
+    if (existingnameuser) {
+      existingnameuser.username = username;
+      await existingnameuser.save();
+      return res
+        .status(200)
+        .json({ message: "User name updated successfully" });
+    } else {
+      const newName = new Users({ username });
+      await newName.save();
+      return res
+        .status(201)
+        .json({ message: "User name registered successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
+import { MdOutlineModeEdit } from "react-icons/md";
 import useClickOutside from "../../hooks/useClickOutside";
 
 const Profile = () => {
@@ -11,6 +12,73 @@ const Profile = () => {
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
+
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  // profile images.....................
+  const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
+  const [getDetails, setGetDetails] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
+        );
+        const jsonData = await res.json();
+        setGetDetails(jsonData);
+        setImageUrl(jsonData.userimage);
+        console.log("data--->", jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // .....................................
+  const [inputValue, setInputValue] = useState("");
+  const [isEditing, setIsEditing] = useState(true);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(false);
+    console.log("Input value saved:", inputValue);
+  };
+
+  // .............................
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        "https://whats-app-clone-server-psi.vercel.app/api/nameuser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: inputValue,
+            id: users.id,
+          }),
+        }
+      );
+
+      if (res.status === 400) {
+        alert("Invalid Credential!");
+      } else {
+        await res.json();
+        setIsEditing(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred while uploading image.");
+    }
+  };
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
       <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
@@ -19,7 +87,7 @@ const Profile = () => {
           <div
             className="prof-Images overflow-hidden rounded-full w-40 h-40 bg-white flex justify-center items-center"
             style={{
-              backgroundImage: "url('amitimg.png')",
+              backgroundImage: `url(${imageUrl})`,
               backgroundPosition: "center",
               backgroundSize: "150px",
             }}
@@ -58,6 +126,31 @@ const Profile = () => {
           )}
         </div>
         <h2 className="my-4 text-whitmix1">Your name</h2>
+        <div>
+          {isEditing ? (
+            <div className="flex flex-row gap-4">
+              <h1 className="w-full border-b-4 border-b-whitmix2 p-1 font-semibold">
+                {getDetails.username}
+              </h1>
+              <button onClick={handleEdit} className="text-xl text-whitmix1">
+                <MdOutlineModeEdit />
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-row gap-4">
+              <input
+                type="text"
+                placeholder={getDetails.username}
+                value={inputValue}
+                onChange={handleInputChange}
+                className="bg-dark6 w-full outline-none border-b-4 border-b-whitmix2 p-1 font-semibold"
+              />
+              <button onClick={(e)=> handleSubmit(e)} className="text-xl text-whitmix1">
+                <MdOutlineModeEdit />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -37,6 +37,27 @@ function Home() {
   const handelUserChatsClick = (toggleUserChat) => {
     setUserClickChat(toggleUserChat);
   };
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  // profile images.....................
+   const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
+        );
+        const jsonData = await res.json();
+        setImageUrl(jsonData.userimage)
+        console.log('data--->', jsonData)
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="">
       {loading ? (
@@ -134,9 +155,12 @@ function Home() {
                   <button
                     onClick={() => handleButtonClick("profile")}
                     className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
-                  >
-                    <img src="amitimg.png" alt="Bird" />
-                  </button>
+                    style={{
+                      backgroundImage: `url(${imageUrl})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  ></button>
                 </div>
               </div>
               <div className="w-[89%]">
