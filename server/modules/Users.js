@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const usersSchame = mongoose.Schema({
   mobile: {
-    type: String,
+    type: Number,
     require: true,
   },
   token: {
@@ -12,7 +12,7 @@ const usersSchame = mongoose.Schema({
     type: String,
     require: true,
   },
-  email: {
+  userimage: {
     type: String,
     require: true,
   },

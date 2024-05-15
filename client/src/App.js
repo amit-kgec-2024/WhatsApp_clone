@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes as Router, Navigate } from "react-router-dom";
+import { Route, Routes as Router } from "react-router-dom";
 import AuthProfile from "./component/AuthProfile";
 import Authorization from "./component/Authorization";
 import Home from "./component/Home";

@@ -9,6 +9,7 @@ const Authorization = () => {
   const [mobileNumber, setMobileNumber] = useState({
     mobile: "",
   });
+  
   const submitHandle = async (e) => {
     e.preventDefault();
     const res = await fetch(
@@ -27,6 +28,7 @@ const Authorization = () => {
       const resData = await res.json();
       localStorage.setItem("users:token", resData.token);
       localStorage.setItem("users:detail", JSON.stringify(resData.users));
+      // console.log("Details----->", resData.users)
       navigate("/authprofile"); 
     }
   };
