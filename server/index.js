@@ -26,32 +26,42 @@ app.listen(port, () => {
 const Users = require("./modules/Users");
 
 // register....................
-app.post("/api/register&login", async (req, res) => {
+app.post("/api/register/login", async (req, res) => {
   try {
     const { mobile } = req.body;
     const mobileRegex = /^\d{10}$/;
 
     if (!mobile || !mobileRegex.test(mobile)) {
       return res.status(400).json({ error: "Invalid mobile number" });
+    }
+
+    let existingUser = await Users.findOne({ mobile });
+    let token;
+
+    if (!existingUser) {
+      // If the user doesn't exist, create a new user and generate a token
+      token = jwt.sign({ mobile }, "your_secret_key");
+
+      const newUser = new Users({ mobile, token });
+      await newUser.save();
+
+      return res.status(200).send({
+        message: "Mobile number registered successfully",
+        token,
+        user: { id: newUser._id, mobile: newUser.mobile },
+      });
     } else {
-      const isAlreadyExist = await Users.findOne({ mobile });
-      if (isAlreadyExist) {
-        return res.status(400).send("User already exists");
-      } else {
-        const token = jwt.sign({ mobile }, "your_secret_key");
+      // If the user exists, generate a token for login
+      token = jwt.sign({ mobile }, "your_secret_key");
 
-        const newUser = new Users({ mobile, token });
-        await newUser.save();
-
-        return res.status(200).send({
-          message: "Mobile number registered successfully",
-          token,
-          users: { id: newUser._id, mobile: newUser.mobile },
-        });
-      }
+      return res.status(200).send({
+        message: "Login successful",
+        token,
+        user: { id: existingUser._id, mobile: existingUser.mobile },
+      });
     }
   } catch (error) {
-    console.log(error, "Error");
+    console.error(error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -204,4 +214,5 @@ app.delete("/api/deleteUser/:id", async (req, res) => {
 });
 
 // .............................
+
 
