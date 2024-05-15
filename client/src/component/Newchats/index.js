@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import userNewData from "../../utils/userNewData";
 import Newchatcard from "../card/Newchatcard";
 import { MdGroups } from "react-icons/md";
 import { FaUserGroup } from "react-icons/fa6";
@@ -28,8 +27,26 @@ const Newchats = ({onClick}) => {
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
-
-  
+  // User Details
+  const [user] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  // Users all...................................
+  const [userAll, setUserAll] = useState();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/users/all/${user.id}`
+        );
+        const jsonData = await res.json();
+        setUserAll(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className={`${activeButton ? "hidden" : ""}`}>
@@ -85,13 +102,17 @@ const Newchats = ({onClick}) => {
             contacts on whatsapp
           </h1>
           <div className="">
-            {userNewData.map((ele) => (
-              <Newchatcard
-                key={ele.id}
-                username={ele.username}
-                userabout={ele.userabout}
-              />
-            ))}
+            {userAll &&
+              Array.isArray(userAll) &&
+              userAll.map((ele, index) => (
+                <Newchatcard
+                  key={index}
+                  mobile={ele.mobile}
+                  username={ele.username}
+                  userabout={ele.userabout}
+                  userimage={ele.userimage}
+                />
+              ))}
           </div>
         </div>
       </div>

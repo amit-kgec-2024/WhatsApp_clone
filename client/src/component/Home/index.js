@@ -19,6 +19,7 @@ import Help from "../satting/Help";
 import Loaderhome from "../Loaderhome";
 
 function Home() {
+
   // loader.................
   const [loading, setLoading] = useState(0);
   useEffect(() => {
@@ -42,7 +43,8 @@ function Home() {
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
   // profile images.....................
-   const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
+   const defaultImage = "/profiledefaultimage.jpg";
+   const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -156,7 +158,7 @@ function Home() {
                     onClick={() => handleButtonClick("profile")}
                     className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
                     style={{
-                      backgroundImage: `url(${imageUrl})`,
+                      backgroundImage: `url(${imageUrl || defaultImage})`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}

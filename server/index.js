@@ -108,7 +108,7 @@ app.get("/api/userdetails/:_id", async (req, res) => {
 app.post("/api/nameuser", async (req, res) => {
   try {
     const { id, username } = req.body;
-    if ( !id || !username) {
+    if (!id || !username) {
       return res
         .status(400)
         .json({ error: "Please provide all required fields" });
@@ -132,6 +132,7 @@ app.post("/api/nameuser", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 });
+
 // userAbout PoST..................
 app.post("/api/aboutuser", async (req, res) => {
   try {
@@ -160,3 +161,47 @@ app.post("/api/aboutuser", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 });
+// User Show all.........................
+app.get("/api/users/all/:loginUserID", async (req, res) => {
+  try {
+    const loginUserID = req.params.loginUserID;
+
+    const allUsers = await Users.find();
+
+    const otherUsers = allUsers.filter(
+      (user) => user._id.toString() !== loginUserID
+    );
+
+    res.json(otherUsers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+// User DELETE...........................
+
+app.delete("/api/deleteUser/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Please provide a user ID" });
+    }
+
+    const existingUser = await Users.findOne({ _id: id });
+
+    if (!existingUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    await Users.deleteOne({ _id: id });
+
+    return res.status(200).json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
+
+// .............................
+

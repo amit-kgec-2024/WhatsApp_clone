@@ -18,8 +18,10 @@ const Profile = () => {
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
   // profile images.....................
-  const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
-  const [getDetails, setGetDetails] = useState([]);
+  const defaultImage = "/profiledefaultimage.jpg";
+  const defaultName = "WhatsApp 0";
+  const defaultAbout = "Hey there! I am using WhatsApp";
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,9 +29,7 @@ const Profile = () => {
           `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
         );
         const jsonData = await res.json();
-        setGetDetails(jsonData);
-        setImageUrl(jsonData.userimage);
-        console.log("data--->", jsonData);
+        setUserData(jsonData);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -126,7 +126,7 @@ const Profile = () => {
           <div
             className="prof-Images overflow-hidden rounded-full w-40 h-40 bg-white flex justify-center items-center"
             style={{
-              backgroundImage: `url(${imageUrl})`,
+              backgroundImage: `url(${userData.userimage || defaultImage})`,
               backgroundPosition: "center",
               backgroundSize: "150px",
             }}
@@ -169,9 +169,7 @@ const Profile = () => {
           <div>
             {isEditing ? (
               <div className="flex flex-row gap-4">
-                <h1 className="w-full p-1 font-semibold">
-                  {getDetails.username}
-                </h1>
+                <h1 className="w-full p-1 font-semibold">{userData.username || defaultName}</h1>
                 <button onClick={handleEdit} className="text-xl text-slate-200">
                   <MdOutlineModeEdit />
                 </button>
@@ -180,7 +178,7 @@ const Profile = () => {
               <div className="flex flex-row gap-4">
                 <input
                   type="text"
-                  placeholder={getDetails.username}
+                  placeholder={userData.username || defaultName}
                   value={inputValue}
                   onChange={handleInputChange}
                   className="bg-dark6 w-full outline-none border-b-4 border-b-whitmix2 p-1 font-semibold"
@@ -202,9 +200,7 @@ const Profile = () => {
           <div>
             {isEditingabout ? (
               <div className="flex flex-row gap-4">
-                <h1 className="w-full p-1 font-semibold">
-                  {getDetails.userabout}
-                </h1>
+                <h1 className="w-full p-1 font-semibold">{userData.userabout || defaultAbout}</h1>
                 <button
                   onClick={handleEditabout}
                   className="text-xl text-slate-200"
@@ -216,7 +212,7 @@ const Profile = () => {
               <div className="flex flex-row gap-4">
                 <input
                   type="text"
-                  placeholder={getDetails.userabout}
+                  placeholder={userData.userabout || defaultAbout}
                   value={inputValueabout}
                   onChange={handleInputChangeabout}
                   className="bg-dark6 w-full outline-none border-b-4 border-b-whitmix2 p-1 font-semibold"

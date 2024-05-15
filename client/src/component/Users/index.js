@@ -140,16 +140,6 @@ const Users = ({ handelUserChatsClick }) => {
             Unread
           </button>
           <button
-            onClick={() => handelUserClick("contacts")}
-            className={`px-3 py-1 rounded-full text-xs lg:text-base font-ligh ${
-              activeUser === "contacts"
-                ? "bg-teal-400 bg-opacity-10 text-teal-400"
-                : "bg-dark3 text-slate-400"
-            }`}
-          >
-            Contacts
-          </button>
-          <button
             onClick={() => handelUserClick("groups")}
             className={`px-3 py-1 rounded-full text-xs lg:text-base font-ligh ${
               activeUser === "groups"
@@ -162,18 +152,6 @@ const Users = ({ handelUserChatsClick }) => {
         </div>
         <div className="scrollbaruser overflow-y-scroll h-[580px]">
           {activeUser === "all" && (
-            // <div className="">
-            //   {userData.map((ele) => (
-            //     <Usercard
-            //       key={ele.id}
-            //       username={ele.username}
-            //       userchats={ele.userchats}
-            //       readmsg={ele.readmsg}
-            //       handelUserChatsClick={handelUserChatsClick}
-            //       usertime={ele.usertime}
-            //     />
-            //   ))}
-            // </div>
             <div>
               {userData.concat(userGroupData).map((data) => (
                 <React.Fragment key={data.id}>
@@ -222,20 +200,6 @@ const Users = ({ handelUserChatsClick }) => {
                     />
                   )}
                 </React.Fragment>
-              ))}
-            </div>
-          )}
-          {activeUser === "contacts" && (
-            <div className="">
-              {userData.map((ele) => (
-                <Usercard
-                  key={ele.id}
-                  username={ele.username}
-                  userchats={ele.userchats}
-                  readmsg={ele.readmsg}
-                  handelUserChatsClick={handelUserChatsClick}
-                  usertime={ele.usertime}
-                />
               ))}
             </div>
           )}

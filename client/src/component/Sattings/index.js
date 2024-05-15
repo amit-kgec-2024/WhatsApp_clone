@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineSearch} from "react-icons/md";
 import {
   IoIosLogOut,
@@ -16,6 +16,7 @@ import Keyshort from "../satting/Keyshort";
 import Help from "../satting/Help";
 import Account from "../satting/Account";
 import Chatsatting from "../satting/Chatsatting";
+import { useNavigate } from "react-router-dom";
 
 
 const Sattings = () => {
@@ -24,8 +25,42 @@ const Sattings = () => {
     setActiveButton(buttonIndex);
   };
   const handleDeletAccountClick = () => {
-    window.open("https://faq.whatsapp.com/2138577903196467/?cms_platform=android&lang=en", "_blank");
+    window.open(
+      "https://faq.whatsapp.com/2138577903196467/?cms_platform=android&lang=en",
+      "_blank"
+    );
   };
+  // User Details................................
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  // profile images.....................
+  const defaultImage = "/profiledefaultimage.jpg";
+  const defaultName = "WhatsApp 0";
+  const defaultAbout = "Hey there! I am using WhatsApp";
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
+        );
+        const jsonData = await res.json();
+        setUserData(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, []);
+  // LOG Out................
+  const navigate = useNavigate();
+  const logOut = () => {
+    window.localStorage.removeItem("users:token");
+    window.localStorage.removeItem("users:detail");
+    navigate("/authorization");
+  };
+  
   return (
     <div className="w-full bg-dark6 h-screen flex flex-row">
       <div className={`${activeButton ? "hidden" : "w-full"}`}>
@@ -46,11 +81,13 @@ const Sattings = () => {
             className="flex flex-row justify-start items-center w-full py-2 px-3 gap-3 hover:bg-dark3"
           >
             <div className="w-20 h-20 overflow-hidden rounded-full border">
-              <img src="amitimg.png" alt="Bird" />
+              <img src={`${userData.userimage || defaultImage} `} alt="Bird" />
             </div>
             <h1 className="flex flex-col text-start">
-              <span>Amit Mandal</span>
-              <span className="text-xs">Hi its WhatsApp Clone Copy</span>
+              <span className="text-lg md:text-xl font-semibold">
+                {userData.username || defaultName}
+              </span>
+              <span className="text-sm">{userData.userabout || defaultAbout}</span>
             </h1>
           </button>
           <div className="">
@@ -117,7 +154,10 @@ const Sattings = () => {
                 Delet account
               </span>
             </button>
-            <button className="flex flex-row w-full gap-6 pl-6 text-red-600 justify-start items-center hover:bg-dark3">
+            <button
+              onClick={() => logOut()}
+              className="flex flex-row w-full gap-6 pl-6 text-red-600 justify-start items-center hover:bg-dark3"
+            >
               <IoIosLogOut className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
                 Log out
