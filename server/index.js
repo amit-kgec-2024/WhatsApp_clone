@@ -132,3 +132,31 @@ app.post("/api/nameuser", async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error!" });
   }
 });
+// userAbout PoST..................
+app.post("/api/aboutuser", async (req, res) => {
+  try {
+    const { id, userabout } = req.body;
+    if (!id || !userabout) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all required fields" });
+    }
+    const existingabout = await Users.findOne({ _id: id });
+    if (existingabout) {
+      existingabout.userabout = userabout;
+      await existingabout.save();
+      return res
+        .status(200)
+        .json({ message: "User about updated successfully" });
+    } else {
+      const newAbout = new Users({ userabout });
+      await newAbout.save();
+      return res
+        .status(201)
+        .json({ message: "User about registered successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});

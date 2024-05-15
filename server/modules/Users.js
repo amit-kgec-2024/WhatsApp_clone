@@ -16,6 +16,10 @@ const usersSchame = mongoose.Schema({
     type: String,
     require: true,
   },
+  userabout: {
+    type: String,
+    require: true,
+  },
 });
 
 const Users = mongoose.model("Users", usersSchame);
