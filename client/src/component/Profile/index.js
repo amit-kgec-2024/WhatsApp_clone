@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 import { MdOutlineModeEdit } from "react-icons/md";
 import useClickOutside from "../../hooks/useClickOutside";
 
@@ -12,7 +13,11 @@ const Profile = () => {
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
-
+  // Profile images...................
+  const [showProfile, setShowProfile] = useState(null)
+  const handelProfile = (toggleProfile) => {
+    setShowProfile(toggleProfile);
+  };
   // User Details
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
@@ -35,7 +40,7 @@ const Profile = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [users.id]);
 
   // Name changes.....................................
   const [inputValue, setInputValue] = useState("");
@@ -149,7 +154,10 @@ const Profile = () => {
               ref={dropDownRef}
               className="absolute mt-40 ml-48 py-2 w-44 lex-col justify-start items-start bg-dark3"
             >
-              <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
+              <button
+                onClick={() => handelProfile("profileImage")}
+                className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+              >
                 View photo
               </button>
               <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
@@ -169,7 +177,9 @@ const Profile = () => {
           <div>
             {isEditing ? (
               <div className="flex flex-row gap-4">
-                <h1 className="w-full p-1 font-semibold">{userData.username || defaultName}</h1>
+                <h1 className="w-full p-1 font-semibold">
+                  {userData.username || defaultName}
+                </h1>
                 <button onClick={handleEdit} className="text-xl text-slate-200">
                   <MdOutlineModeEdit />
                 </button>
@@ -200,7 +210,9 @@ const Profile = () => {
           <div>
             {isEditingabout ? (
               <div className="flex flex-row gap-4">
-                <h1 className="w-full p-1 font-semibold">{userData.userabout || defaultAbout}</h1>
+                <h1 className="w-full p-1 font-semibold">
+                  {userData.userabout || defaultAbout}
+                </h1>
                 <button
                   onClick={handleEditabout}
                   className="text-xl text-slate-200"
@@ -228,6 +240,29 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      {showProfile === "profileImage" && (
+        <div className="absolute w-full h-screen flex flex-col items-start bg-dark2 top-0 left-0 bg-opacity-95 justify-start">
+          <div className="flex flex-row justify-between items-center w-full p-3 top-0">
+            <div className="flex flex-row items-center gap-3">
+              <div
+                className="w-[35px] md:w-[50px] h-[35px] md:h-[50px] rounded-full"
+                style={{
+                  backgroundImage: `url(${userData.userimage || defaultImage})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              />
+              <h1 className="font-semibold text-lg md:text-xl">
+                {userData.mobile}
+              </h1>
+            </div>
+            <button onClick={()=> setShowProfile(false)} className="text-2xl md:text-4xl"><RxCross2/></button>
+          </div>
+          <div className="w-full flex justify-center">
+            <img src={`${userData.userimage || defaultImage}`} alt="Bird" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

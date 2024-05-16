@@ -9,6 +9,7 @@ const input = ({
   placeholder = "",
   isRequired = true,
   value = "",
+  checked = "",
   onChange = () => {},
 }) => {
   return (
@@ -22,6 +23,7 @@ const input = ({
         required={isRequired}
         value={value}
         onChange={onChange}
+        checked={checked}
       />
       <label htmlFor={name} className="block text-sm lg:text-lg">
         {label}

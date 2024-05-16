@@ -20,6 +20,14 @@ const usersSchame = mongoose.Schema({
     type: String,
     require: true,
   },
+  usertheme: {
+    type: String,
+    require: true,
+  },
+  userthemelabel: {
+    type: String,
+    require: true,
+  },
 });
 
 const Users = mongoose.model("Users", usersSchame);

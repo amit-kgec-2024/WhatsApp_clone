@@ -190,7 +190,7 @@ app.get("/api/users/all/:loginUserID", async (req, res) => {
 });
 // User DELETE...........................
 
-app.delete("/api/deleteUser/:id", async (req, res) => {
+app.delete("/api/deleteProfilePhoto/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -213,6 +213,32 @@ app.delete("/api/deleteUser/:id", async (req, res) => {
   }
 });
 
-// .............................
-
-
+// userTheme PoST..................
+app.post("/api/themeuser", async (req, res) => {
+  try {
+    const { id, usertheme, userthemelabel } = req.body;
+    if (!id || !usertheme || !userthemelabel) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all required fields" });
+    }
+    const existingthemeuser = await Users.findOne({ _id: id });
+    if (existingthemeuser) {
+      existingthemeuser.usertheme = usertheme;
+      existingthemeuser.userthemelabel = userthemelabel;
+      await existingthemeuser.save();
+      return res
+        .status(200)
+        .json({ message: "User theme updated successfully" });
+    } else {
+      const newtheme = new Users({ usertheme, userthemelabel });
+      await newtheme.save();
+      return res
+        .status(201)
+        .json({ message: "User theme registered successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
