@@ -24,6 +24,7 @@ app.listen(port, () => {
 });
 // import files
 const Users = require("./modules/Users");
+const Chat = require("./modules/Chat")
 
 // register....................
 app.post("/api/register/login", async (req, res) => {
@@ -190,28 +191,28 @@ app.get("/api/users/all/:loginUserID", async (req, res) => {
 });
 // User DELETE...........................
 
-app.delete("/api/deleteProfilePhoto/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
+// app.delete("/api/deleteProfilePhoto/:id", async (req, res) => {
+//   try {
+//     const { id } = req.params;
 
-    if (!id) {
-      return res.status(400).json({ error: "Please provide a user ID" });
-    }
+//     if (!id) {
+//       return res.status(400).json({ error: "Please provide a user ID" });
+//     }
 
-    const existingUser = await Users.findOne({ _id: id });
+//     const existingUser = await Users.findOne({ _id: id });
 
-    if (!existingUser) {
-      return res.status(404).json({ error: "User not found" });
-    }
+//     if (!existingUser) {
+//       return res.status(404).json({ error: "User not found" });
+//     }
 
-    await Users.deleteOne({ _id: id });
+//     await Users.deleteOne({ userimage: userimage });
 
-    return res.status(200).json({ message: "Account deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Internal Server Error!" });
-  }
-});
+//     return res.status(200).json({ message: "Photo deleted successfully" });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ error: "Internal Server Error!" });
+//   }
+// });
 
 // userTheme PoST..................
 app.post("/api/themeuser", async (req, res) => {
@@ -240,5 +241,52 @@ app.post("/api/themeuser", async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
+// Profile images delete only......................................
+app.delete("/api/deleteProfilePhoto/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({ error: "Please provide a user ID" });
+    }
+    const updatedUser = await Users.findByIdAndUpdate(
+      id,
+      { $unset: { userimage: "" } },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Photo deleted successfully", updatedUser });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
+// Chats Api call......................
+// Routes
+app.get('/api/get/chats', async (req, res) => {
+  try {
+    const chats = await Chat.find();
+    res.json(chats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/api/post/chats', async (req, res) => {
+  const chat = new Chat({
+    sender: req.body.sender,
+    receiver: req.body.receiver,
+    message: req.body.message
+  });
+  try {
+    const newChat = await chat.save();
+    res.status(201).json(newChat);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });

@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { FaRegCalendar } from "react-icons/fa6";
 import { IoMdSearch } from "react-icons/io";
 
-const Searchmessage = ({ onClick }) => {
+const Searchmessage = ({ onClick, userId }) => {
+  const [userDetails, setUserDetails] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${userId}`
+        );
+        const jsonData = await res.json();
+        setUserDetails(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [userId]);
   return (
     <div className="user-left-border w-full h-screen bg-dark2">
       <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
@@ -20,10 +35,16 @@ const Searchmessage = ({ onClick }) => {
           <button>
             <IoMdSearch />
           </button>
-          <input type="text" placeholder="Search" className="outline-none px-2 text-sm bg-dark3 w-full" />
+          <input
+            type="text"
+            placeholder="Search"
+            className="outline-none px-2 text-sm bg-dark3 w-full"
+          />
         </div>
       </div>
-      <p className="text-xs text-slate-400 w-full text-center mt-28">Search for messages width Amit Mandal.</p>
+      <p className="text-xs text-slate-400 w-full text-center mt-28">
+        Search for messages width {userDetails.username || userDetails.mobile}.
+      </p>
     </div>
   );
 };

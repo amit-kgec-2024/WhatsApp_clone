@@ -10,8 +10,8 @@ const AuthProfile = () => {
 
   // image..................................
 
-  const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
   const [name, setName] = useState("");
+  const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
   const [userImage, setUserImage] = useState("");
 
   const handleImageChange = (e) => {

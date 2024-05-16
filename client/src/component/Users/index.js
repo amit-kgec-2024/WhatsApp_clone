@@ -11,6 +11,7 @@ import userGroupData from "../../utils/userGroupData";
 import Newchats from "../Newchats";
 import Modal from "../Modal";
 import Newgroup from "../Newgroup";
+import { useNavigate } from "react-router-dom";
 
 
 const Users = ({ handelUserChatsClick }) => {
@@ -46,7 +47,13 @@ const Users = ({ handelUserChatsClick }) => {
   const handelUserClick = (togglrUser) => {
     setActiveUser(togglrUser);
   };
-
+  // LOG Out................
+  const navigate = useNavigate();
+  const logOut = () => {
+    window.localStorage.removeItem("users:token");
+    window.localStorage.removeItem("users:detail");
+    navigate("/authorization");
+  };
   return (
     <div>
       <div className={`w-full ${isChats ? "hidden" : ""}`}>
@@ -83,7 +90,7 @@ const Users = ({ handelUserChatsClick }) => {
                   <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
                     Select chats
                   </button>
-                  <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  <button onClick={()=> logOut()} className="py-3 px-6 hover:bg-dark6 w-full text-start">
                     Log out
                   </button>
                   <li className="user-top-border list-none w-full my-1" />
@@ -180,25 +187,25 @@ const Users = ({ handelUserChatsClick }) => {
             <div>
               {userData.concat(userGroupData).map((exle) => (
                 <React.Fragment key={exle.id}>
-                  {exle.userchats ? (
-                    exle.readmsg === 'true' &&
-                    <Usercard
-                      username={exle.username}
-                      userchats={exle.userchats}
-                      readmsg={exle.readmsg}
-                      handelUserChatsClick={handelUserChatsClick}
-                      usertime={exle.usertime}
-                    />
-                  ) : (
-                    exle.unreadmsg === 'true' &&
-                    <Groupscard
-                      groupname={exle.groupname}
-                      groupchats={exle.groupchats}
-                      unreadmsg={exle.unreadmsg}
-                      handelUserChatsClick={handelUserChatsClick}
-                      grouptime={exle.grouptime}
-                    />
-                  )}
+                  {exle.userchats
+                    ? exle.readmsg === "true" && (
+                        <Usercard
+                          username={exle.username}
+                          userchats={exle.userchats}
+                          readmsg={exle.readmsg}
+                          handelUserChatsClick={handelUserChatsClick}
+                          usertime={exle.usertime}
+                        />
+                      )
+                    : exle.unreadmsg === "true" && (
+                        <Groupscard
+                          groupname={exle.groupname}
+                          groupchats={exle.groupchats}
+                          unreadmsg={exle.unreadmsg}
+                          handelUserChatsClick={handelUserChatsClick}
+                          grouptime={exle.grouptime}
+                        />
+                      )}
                 </React.Fragment>
               ))}
             </div>
@@ -219,8 +226,18 @@ const Users = ({ handelUserChatsClick }) => {
           )}
         </div>
       </div>
-      {isChats === "newchats" && <Newchats onClick={() => setIsChats(false)} />}
-      {isChats === "newgroup" && <Newgroup onClick={() => setIsChats(false)} />}
+      {isChats === "newchats" && (
+        <Newchats
+          handelUserChatsClick={handelUserChatsClick}
+          onClick={() => setIsChats(false)}
+        />
+      )}
+      {isChats === "newgroup" && (
+        <Newgroup
+          handelUserChatsClick={handelUserChatsClick}
+          onClick={() => setIsChats(false)}
+        />
+      )}
       {isModal && (
         <div className="absolute top-1 right-80">
           <Modal onClick={() => setIsModal(false)} />

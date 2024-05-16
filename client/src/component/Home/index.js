@@ -33,10 +33,12 @@ function Home() {
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
-
+  
+  const [userId, setUserId] = useState()
   const [userClickChat, setUserClickChat] = useState("mainses");
-  const handelUserChatsClick = (toggleUserChat) => {
+  const handelUserChatsClick = (toggleUserChat, userId) => {
     setUserClickChat(toggleUserChat);
+    setUserId(userId);
   };
   // User Details
   const [users] = useState(
@@ -53,13 +55,12 @@ function Home() {
         );
         const jsonData = await res.json();
         setImageUrl(jsonData.userimage)
-        console.log('data--->', jsonData)
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
     };
     fetchData();
-  }, []);
+  }, [users.id]);
   return (
     <div className="">
       {loading ? (
@@ -207,7 +208,7 @@ function Home() {
                 </div>
               </div>
             )}
-            {userClickChat === "userchats" && <Chats />}
+            {userClickChat === "userchats" && <Chats userId={userId} />}
           </div>
         </div>
       )}

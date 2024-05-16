@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineModeEdit } from "react-icons/md";
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
 import useClickOutside from "../../hooks/useClickOutside";
 
 const Profile = () => {
@@ -14,7 +16,7 @@ const Profile = () => {
     setIsclick(false);
   });
   // Profile images...................
-  const [showProfile, setShowProfile] = useState(null)
+  const [showProfile, setShowProfile] = useState(null);
   const handelProfile = (toggleProfile) => {
     setShowProfile(toggleProfile);
   };
@@ -123,6 +125,118 @@ const Profile = () => {
       alert("Error occurred while uploading image.");
     }
   };
+  // delet profile images........................
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `http://localhost:4000/api/deleteProfilePhoto/${users.id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: users.id,
+          }),
+        }
+      );
+
+      if (res.status === 400) {
+        alert("Invalid Credential!");
+      } else {
+        await res.json();
+        // setIsEditing(true);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred while Delete image.");
+    }
+  };
+  // ...............................................
+  const [src, setSrc] = useState(null);
+  const [crop, setCrop] = useState({ aspect: 1 / 1 });
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSrc(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  const handleSave = () => {
+    // Logic to save cropped image
+    // You can send the cropped image to your server or perform any other action here
+    console.log("Cropped image saved");
+  };
+  // Profile image uploade........................
+  const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
+  const [userImage, setUserImage] = useState("");
+
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setImageUrl(URL.createObjectURL(file));
+  //   }
+  // };
+
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", document.getElementById("fileInput").files[0]);
+    formData.append("upload_preset", "WhatsApp-profile");
+    formData.append("cloud_name", "dn2tlzn9b");
+
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/dn2tlzn9b/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    if (res.status === 200) {
+      const data = await res.json();
+      setUserImage(data.secure_url);
+      return data;
+    } else {
+      throw new Error("Image upload failed");
+    }
+  };
+
+  const handleUploadImage = async (e) => {
+    e.preventDefault();
+    try {
+      const { secure_url } = await uploadImage();
+      console.log("Image URL:", secure_url);
+      console.log("Image URL:", userImage);
+
+      const res = await fetch(
+        "https://whats-app-clone-server-psi.vercel.app/api/profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userimage: secure_url,
+            id: users.id,
+          }),
+        }
+      );
+
+      if (res.status === 400) {
+        alert("Invalid Credential!");
+      } else {
+        await res.json();
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error occurred while uploading image.");
+    }
+  };
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
       <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
@@ -163,10 +277,21 @@ const Profile = () => {
               <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
                 Take photo
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
-                Upload photo
+              <button className="hover:bg-dark6 cursor-pointer py-2 text-sm px-4 w-full">
+                <input
+                  type="file"
+                  id="fileInput"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                  name="fileInput"
+                />
+                <label htmlFor="fileInput">Upload photo</label>
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
+              <button
+                onClick={(e) => handleDelete(e)}
+                className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+              >
                 Remove photo
               </button>
             </div>
@@ -241,7 +366,7 @@ const Profile = () => {
         </div>
       </div>
       {showProfile === "profileImage" && (
-        <div className="absolute w-full h-screen flex flex-col items-start bg-dark2 top-0 left-0 bg-opacity-95 justify-start">
+        <div className="absolute w-full h-screen flex flex-col items-start bg-dark2 top-0 left-0 z-50 bg-opacity-95 justify-start">
           <div className="flex flex-row justify-between items-center w-full p-3 top-0">
             <div className="flex flex-row items-center gap-3">
               <div
@@ -256,11 +381,27 @@ const Profile = () => {
                 {userData.mobile}
               </h1>
             </div>
-            <button onClick={()=> setShowProfile(false)} className="text-2xl md:text-4xl"><RxCross2/></button>
+            <button
+              onClick={() => setShowProfile(false)}
+              className="text-2xl md:text-4xl"
+            >
+              <RxCross2 />
+            </button>
           </div>
           <div className="w-full flex justify-center">
-            <img src={`${userData.userimage || defaultImage}`} alt="Bird" />
+            <img src={`${userData.userimage || defaultImage}`} width={500} height={500} alt="Bird" />
           </div>
+        </div>
+      )}
+      {src && (
+        <div className="absolute top-0 left-0 w-full h-screen bg-red-600">
+          <ReactCrop
+            src={src}
+            crop={crop}
+            onChange={setCrop}
+            className="w-[300px] h-[100px] border"
+          />
+          <button onClick={handleSave}>Save</button>
         </div>
       )}
     </div>

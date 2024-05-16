@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaAngleRight } from "react-icons/fa6";
 import { IoStar, IoNotificationsSharp, IoTimer } from "react-icons/io5";
@@ -11,12 +11,31 @@ import Disappearing from "../contactinfo/Disappearing";
 import Userpimage from "../contactinfo/Userpimage";
 import Encryption from "../contactinfo/Encryption";
 
-const Userprofile = ({ onClick }) => {
+const Userprofile = ({ onClick, userId }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
   const [isProfilePicture, setProfilePicture] = useState(false);
+  // User Details........................
+  const defaultAbout = "Hey there! I am using WhatsApp";
+  const defaultName = "WhatsApp 0";
+  const defaultImage = "/profiledefaultimage.jpg";
+  const [userDetails, setUserDetails] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${userId}`
+        );
+        const jsonData = await res.json();
+        setUserDetails(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [userId]);
   return (
     <div className="user-left-border w-full h-screen bg-dark2">
       <div className={`${activeButton ? "hidden" : ""}`}>
@@ -32,19 +51,19 @@ const Userprofile = ({ onClick }) => {
               onClick={() => setProfilePicture((prev) => !prev)}
               className="w-48 h-48 rounded-full overflow-hidden"
             >
-              <img src="amitimg.png" alt="Bird" />
+              <img src={`${userDetails.userimage || defaultImage}`} alt="Bird" />
             </button>
             {isProfilePicture && (
               <div className="absolute w-full h-screen left-0 top-0">
-                <Userpimage onClick={() => setProfilePicture(false)} />
+                <Userpimage userId={userId} onClick={() => setProfilePicture(false)} />
               </div>
             )}
-            <h1 className="font-semibold text-2xl mt-3">Amit Mandal</h1>
-            <h2 className="font-light">+91 8513089660</h2>
+            <h1 className="font-semibold text-2xl mt-3">{userDetails.username || defaultName}</h1>
+            <h2 className="font-light">+91 {userDetails.mobile}</h2>
           </div>
           <div className="bg-dark1 mt-2 py-6 px-8">
             <h1 className="font-light mb-2">About</h1>
-            <p>Hey there! I am using WhatsApp</p>
+            <p>{userDetails.userabout || defaultAbout}</p>
           </div>
           <div className="bg-dark1">
             <button
@@ -134,7 +153,7 @@ const Userprofile = ({ onClick }) => {
         <Disappearing onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "encryption" && (
-        <Encryption onClick={() => setActiveButton(false)} />
+        <Encryption userId={userId} onClick={() => setActiveButton(false)} />
       )}
     </div>
   );

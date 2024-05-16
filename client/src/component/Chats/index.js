@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../hooks/useClickOutside";
 import { IoVideocam } from "react-icons/io5";
 import { FaAngleDown, FaPlus, FaUserLarge } from "react-icons/fa6";
@@ -18,13 +18,13 @@ import Userprofile from "../Userprofile";
 import SenderChatPanel from "../SenderChatPanel";
 import ReceiverChatPanel from "../ReceiverChatPanel";
 
-const Chats = () => {
+const Chats = ({ userId }) => {
   const [isModal, setIsModal] = useState(false);
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
     setActiveNavbar(navbarIndex);
   };
-  const [activeBottomNavbar, setActiveBottomNavbar] = useState('emoji');
+  const [activeBottomNavbar, setActiveBottomNavbar] = useState("emoji");
   const handleBottomNavbarClick = (navbarBottomIndex) => {
     setActiveBottomNavbar(navbarBottomIndex);
   };
@@ -56,12 +56,90 @@ const Chats = () => {
   useClickOutside([dropDownRefEmoji, buttonRefEmoji], () => {
     setIsclickEmoji(false);
   });
-const [messages, setMessages] = useState([
-  { id: 1, text: "Hello, how are you?", sender: "sender" },
-  { id: 2, text: "I'm good, thanks!", sender: "receiver" },
-  { id: 3, text: "What are you up to?", sender: "sender" },
-  { id: 4, text: "I'm good, thanks! dfg sdfh sdfh sdyf sofdy sdfkf sdf csdf sdf sdf ", sender: "receiver" },
- ]);
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Hello, how are you?", sender: "sender" },
+    { id: 2, text: "I'm good, thanks!", sender: "receiver" },
+    { id: 3, text: "What are you up to?", sender: "sender" },
+    {
+      id: 4,
+      text: "I'm good, thanks! dfg sdfh sdfh sdyf sofdy sdfkf sdf csdf sdf sdf ",
+      sender: "receiver",
+    },
+  ]);
+  // User Details........................
+  const defaultImage = "/profiledefaultimage.jpg";
+  const [userDetails, setUserDetails] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${userId}`
+        );
+        const jsonData = await res.json();
+        setUserDetails(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [userId]);
+  // Chats...........POST.......................
+  const [message, setMessage] = useState("");
+  const handelInputMessage = (e) => {
+    setMessage(e.target.value);
+  };
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  const handleSendMessage = () => {
+    const data = {
+      sender: userId,
+      receiver: users.id,
+      message: message,
+    };
+
+    fetch("https://whats-app-clone-server-psi.vercel.app/api/post/chats", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMessage("");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSendMessage();
+    }
+  };
+  // Chats.............GET...................
+  const [getChats, stGetChats] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          "https://whats-app-clone-server-psi.vercel.app/api/get/chats"
+        );
+        const jsonData = await res.json();
+        stGetChats(jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <div className=" w-full h-full">
       <div className="flex flex-row w-full justify-between">
@@ -76,10 +154,14 @@ const [messages, setMessages] = useState([
               className="flex flex-row gap-3 w-full"
             >
               <div className="w-8 h-8 rounded-full overflow-hidden">
-                <img src="amitimg.png" alt="Bird" />
+                <img
+                  src={`${userDetails.userimage || defaultImage}`}
+                  alt="Bird"
+                />
               </div>
               <h2 className="flex flex-col items-start">
-                Amit Mandal <span className="text-xs font-light">online</span>
+                {userDetails.username || userDetails.mobile}{" "}
+                <span className="text-xs font-light">online</span>
               </h2>
             </button>
             <div className="flex flex-row gap-6 pr-2">
@@ -174,7 +256,7 @@ const [messages, setMessages] = useState([
           </div>
           {/* Chats pannel */}
           <div
-            className="scrollbaruser w-full h-screen p-2 md:p-4 overflow-y-scroll"
+            className="scrollbaruser w-full h-screen md:px-16 py-1 md:py-3 overflow-y-scroll"
             style={{
               backgroundImage: "url(wpbg.jpg)",
               backgroundattachment: "fixed",
@@ -183,16 +265,36 @@ const [messages, setMessages] = useState([
             }}
           >
             <div className="chat-container">
-              {messages.map((message) =>
-                message.sender === "sender" ? (
-                  <SenderChatPanel key={message.id} message={message.text} />
-                ) : (
-                  <ReceiverChatPanel key={message.id} message={message.text} />
-                )
+              {Array.isArray(getChats) && getChats.length > 0 ? (
+                getChats.map((chat) => {
+                  if (
+                    (chat.sender === users.id && chat.receiver === userId) ||
+                    (chat.sender === userId && chat.receiver === users.id)
+                  ) {
+                    return (
+                      <div key={chat._id}>
+                        {chat.sender === userId ? (
+                          <ReceiverChatPanel
+                            key={chat._id}
+                            message={chat.message}
+                          />
+                        ) : (
+                          <SenderChatPanel
+                            key={chat._id}
+                            message={chat.message}
+                          />
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                })
+              ) : (
+                <p>No chats available</p>
               )}
             </div>
           </div>
-          {/* oooooooooooooo */}
+          {/* oooooo Buttom emoj input file oooooooo */}
           <div className="">
             {isClickEmoji && (
               <div
@@ -304,6 +406,9 @@ const [messages, setMessages] = useState([
               </button>
               <input
                 type="text"
+                value={message}
+                onChange={handelInputMessage}
+                onKeyPress={handleKeyPress}
                 placeholder="Type a message"
                 className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
               />
@@ -315,10 +420,16 @@ const [messages, setMessages] = useState([
         </div>
         <div className={`${activeNavbar ? "w-[40%]" : ""}`}>
           {activeNavbar === "searchchats" && (
-            <Searchmessage onClick={() => setActiveNavbar(false)} />
+            <Searchmessage
+              userId={userId}
+              onClick={() => setActiveNavbar(false)}
+            />
           )}
           {activeNavbar === "profiledetails" && (
-            <Userprofile onClick={() => setActiveNavbar(false)} />
+            <Userprofile
+              userId={userId}
+              onClick={() => setActiveNavbar(false)}
+            />
           )}
         </div>
       </div>

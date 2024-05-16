@@ -8,7 +8,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import Newgroup from "../Newgroup";
 import Newcommunity from "../Newcommunity";
 
-const Newchats = ({onClick}) => {
+const Newchats = ({ onClick, handelUserChatsClick }) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -46,7 +46,7 @@ const Newchats = ({onClick}) => {
       }
     };
     fetchData();
-  }, []);
+  }, [user.id]);
   return (
     <div className="w-full bg-dark6 h-screen">
       <div className={`${activeButton ? "hidden" : ""}`}>
@@ -107,10 +107,12 @@ const Newchats = ({onClick}) => {
               userAll.map((ele, index) => (
                 <Newchatcard
                   key={index}
+                  userId={ele._id}
                   mobile={ele.mobile}
                   username={ele.username}
                   userabout={ele.userabout}
                   userimage={ele.userimage}
+                  handelUserChatsClick={handelUserChatsClick}
                 />
               ))}
           </div>
