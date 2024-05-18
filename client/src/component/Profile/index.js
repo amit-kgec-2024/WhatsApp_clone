@@ -130,7 +130,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       const res = await fetch(
-        `http://localhost:4000/api/deleteProfilePhoto/${users.id}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/deleteProfilePhoto/${users.id}`,
         {
           method: "DELETE",
           headers: {

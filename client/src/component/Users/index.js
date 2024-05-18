@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { RiChatNewFill } from "react-icons/ri";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa";
+import { RiInboxArchiveLine } from "react-icons/ri";
 import useClickOutside from "../../hooks/useClickOutside";
 import Usercard from "../card/Usercard";
 import userData from "../../utils/userData";
@@ -12,6 +13,8 @@ import Newchats from "../Newchats";
 import Modal from "../Modal";
 import Newgroup from "../Newgroup";
 import { useNavigate } from "react-router-dom";
+import Archived from "../Archived";
+import Starredmessage from "../Starredmessage";
 
 
 const Users = ({ handelUserChatsClick }) => {
@@ -47,6 +50,10 @@ const Users = ({ handelUserChatsClick }) => {
   const handelUserClick = (togglrUser) => {
     setActiveUser(togglrUser);
   };
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
   // LOG Out................
   const navigate = useNavigate();
   const logOut = () => {
@@ -54,6 +61,24 @@ const Users = ({ handelUserChatsClick }) => {
     window.localStorage.removeItem("users:detail");
     navigate("/authorization");
   };
+  // chats users api call get...........................
+  const defaultImage = "/profiledefaultimage.jpg";
+  const [userDetails, setUserDetails] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/get/chats/${users.id}`
+        );
+        const jsonData = await res.json();
+        setUserDetails(jsonData);
+        console.log("Details--->", jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [users.id]);
   return (
     <div>
       <div className={`w-full ${isChats ? "hidden" : ""}`}>
@@ -87,10 +112,19 @@ const Users = ({ handelUserChatsClick }) => {
                   >
                     New Group
                   </button>
+                  <button
+                    onClick={() => handelChatsClick("starrdemessage")}
+                    className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                  >
+                    Starred messages
+                  </button>
                   <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
                     Select chats
                   </button>
-                  <button onClick={()=> logOut()} className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  <button
+                    onClick={() => logOut()}
+                    className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                  >
                     Log out
                   </button>
                   <li className="user-top-border list-none w-full my-1" />
@@ -157,30 +191,41 @@ const Users = ({ handelUserChatsClick }) => {
             Groups
           </button>
         </div>
+        <div className="">
+          <button
+            onClick={() => handelChatsClick("archived")}
+            className={`flex flex-row justify-between items-center py-2 px-5 w-full ${
+              isChats ? "rounded-full bg-dark5" : "bg-none"
+            }`}
+          >
+            <div className="flex flex-row items-center text-lg gap-4">
+              <RiInboxArchiveLine className="text-whitmix1" />
+              <p>Archived</p>
+            </div>
+            <h1 className="text-whitmix1">18</h1>
+          </button>
+        </div>
         <div className="scrollbaruser overflow-y-scroll h-[580px]">
           {activeUser === "all" && (
             <div>
-              {userData.concat(userGroupData).map((data) => (
-                <React.Fragment key={data.id}>
-                  {data.userchats ? (
-                    <Usercard
-                      username={data.username}
-                      userchats={data.userchats}
-                      readmsg={data.readmsg}
-                      handelUserChatsClick={handelUserChatsClick}
-                      usertime={data.usertime}
-                    />
-                  ) : (
-                    <Groupscard
-                      groupname={data.groupname}
-                      groupchats={data.groupchats}
-                      unreadmsg={data.unreadmsg}
-                      handelUserChatsClick={handelUserChatsClick}
-                      grouptime={data.grouptime}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
+              {userDetails.length > 0 ? (
+                userDetails.map((element, index) => (
+                  <Usercard
+                    key={index}
+                    username={
+                      element.userDetails?.username ||
+                      element.userDetails?.mobile
+                    }
+                    userimage={element.userDetails?.userimage || defaultImage}
+                    userId={element.userDetails?._id}
+                    lastmessage={element.lastMessage?.message}
+                    timestamp={element.lastMessage?.time}
+                    handelUserChatsClick={handelUserChatsClick}
+                  />
+                ))
+              ) : (
+                <p>No user details available</p>
+              )}
             </div>
           )}
           {activeUser === "unread" && (
@@ -232,9 +277,20 @@ const Users = ({ handelUserChatsClick }) => {
           onClick={() => setIsChats(false)}
         />
       )}
+      {isChats === "archived" && (
+        <Archived
+          handelUserChatsClick={handelUserChatsClick}
+          onClick={() => setIsChats(false)}
+        />
+      )}
       {isChats === "newgroup" && (
         <Newgroup
           handelUserChatsClick={handelUserChatsClick}
+          onClick={() => setIsChats(false)}
+        />
+      )}
+      {isChats === "starrdemessage" && (
+        <Starredmessage
           onClick={() => setIsChats(false)}
         />
       )}

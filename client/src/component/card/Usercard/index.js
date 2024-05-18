@@ -4,8 +4,10 @@ import useClickOutside from "../../../hooks/useClickOutside";
 
 const Usercard = ({
   username,
-  userchats,
-  usertime,
+  userimage,
+  userId,
+  lastmessage,
+  timestamp,
   readmsg,
   handelUserChatsClick,
 }) => {
@@ -29,23 +31,23 @@ const Usercard = ({
   return (
     <div className="">
       <button
-        onClick={() => handelUserChatsClick("userchats")}
+        onClick={() => handelUserChatsClick("userchats", userId)}
         className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3"
       >
         <div className="p-3">
           <div className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5">
-            <img src="amitimg.png" alt="Bird" />
+            <img src={userimage} alt="Bird" />
           </div>
         </div>
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
             <h1 className="font-light">{username}</h1>
             <h4 className="text-xs text-slate-400 font-thin">
-              {textLoder ? <div>Loading...</div> : <div>{userchats}</div>}
+              {textLoder ? <div>Loading...</div> : <div>{lastmessage}</div>}
             </h4>
           </div>
           <div className="pr-4 float-right">
-            <h3 className="text-xs text-slate-400">{usertime}</h3>
+            <h3 className="text-xs text-slate-400">{timestamp}</h3>
             <div className="relative flex justify-around">
               {readmsg === "true" ? (
                 <h1 className="text-xs bg-teal-500 rounded-full text-black w-6 h-6  p-1">

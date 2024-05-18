@@ -1,11 +1,17 @@
 import React from "react";
+import { FaArrowLeft } from "react-icons/fa6";
 import userData from "../../utils/userData";
 import Usercard from "../card/Archivedcard";
 
-const Archived = ({ handelUserChatsClick }) => {
+const Archived = ({ onClick, handelUserChatsClick }) => {
   return (
     <div className="w-full bg-dark6 h-screen">
-      <h1 className="text-xl font-bold p-5 ">Archived</h1>
+      <div className="flex flex-row gap-4">
+        <button onClick={onClick} className="text-xl px-3">
+          <FaArrowLeft />
+        </button>
+        <h1 className="text-xl font-bold p-5 ">Archived</h1>
+      </div>
       <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
         <p className="text-xs p-3 ">
           These chats stay archived when new messages are received. To change

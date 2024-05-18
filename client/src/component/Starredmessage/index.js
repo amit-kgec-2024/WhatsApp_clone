@@ -1,9 +1,10 @@
 import React, { useRef, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import useClickOutside from "../../hooks/useClickOutside";
 
 
-const Starredmessage = () => {
+const Starredmessage = ({onClick}) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -15,7 +16,12 @@ const Starredmessage = () => {
   return (
     <div className="profile-animation w-full bg-dark6 h-screen">
       <div className="p-4 pl-6 flex flex-row justify-between items-center gap-8">
+        <div className="flex flex-row gap-4">
+          <button onClick={onClick} className="text-xl px-3">
+            <FaArrowLeft />
+          </button>
         <h1 className="text-lg font-bold">Starred messages</h1>
+        </div>
         <div className="">
           <button
             onClick={handleClick}

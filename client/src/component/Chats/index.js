@@ -56,16 +56,7 @@ const Chats = ({ userId }) => {
   useClickOutside([dropDownRefEmoji, buttonRefEmoji], () => {
     setIsclickEmoji(false);
   });
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hello, how are you?", sender: "sender" },
-    { id: 2, text: "I'm good, thanks!", sender: "receiver" },
-    { id: 3, text: "What are you up to?", sender: "sender" },
-    {
-      id: 4,
-      text: "I'm good, thanks! dfg sdfh sdfh sdyf sofdy sdfkf sdf csdf sdf sdf ",
-      sender: "receiver",
-    },
-  ]);
+  
   // User Details........................
   const defaultImage = "/profiledefaultimage.jpg";
   const [userDetails, setUserDetails] = useState("");
@@ -134,6 +125,7 @@ const Chats = ({ userId }) => {
         );
         const jsonData = await res.json();
         stGetChats(jsonData);
+        console.log("Chats--->", jsonData)
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -276,12 +268,16 @@ const Chats = ({ userId }) => {
                         {chat.sender === userId ? (
                           <ReceiverChatPanel
                             key={chat._id}
+                            chatId={chat._id}
                             message={chat.message}
+                            time={chat.timestamp?.time}
                           />
                         ) : (
                           <SenderChatPanel
                             key={chat._id}
+                            chatId={chat._id}
                             message={chat.message}
+                            time={chat.timestamp?.time}
                           />
                         )}
                       </div>

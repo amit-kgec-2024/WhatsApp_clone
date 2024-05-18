@@ -3,18 +3,14 @@ import React, { useEffect, useState } from "react";
 import { MdOutlineGroups } from "react-icons/md";
 import { IoSyncCircleOutline } from "react-icons/io5";
 import { RiChatVoiceFill } from "react-icons/ri";
-import { IoIosStar } from "react-icons/io";
 import { TbSettings } from "react-icons/tb";
 import { MdChat } from "react-icons/md";
-import { RiInboxArchiveLine } from "react-icons/ri";
 import Profile from "../Profile";
 import Communities from "../Communities";
 import Status from "../Status";
 import Channels from "../Channels";
 import Sattings from "../Sattings";
-import Starredmessage from "../Starredmessage";
 import Users from "../Users";
-import Archived from "../Archived";
 import Help from "../satting/Help";
 import Loaderhome from "../Loaderhome";
 
@@ -113,26 +109,6 @@ function Home() {
                   >
                     <IoSyncCircleOutline />
                   </button>
-                  <button
-                    onClick={() => handleButtonClick("archived")}
-                    className={`p-2 ${
-                      activeButton === "archived"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <RiInboxArchiveLine />
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("starrdemessage")}
-                    className={`p-2 ${
-                      activeButton === "starrdemessage"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <IoIosStar />
-                  </button>
                 </div>
                 <div className="flex flex-col gap-5 text-slate-400 text-2xl">
                   <button
@@ -180,10 +156,6 @@ function Home() {
                   <Channels handelUserChatsClick={handelUserChatsClick} />
                 )}
                 {activeButton === "sattings" && <Sattings />}
-                {activeButton === "starrdemessage" && <Starredmessage />}
-                {activeButton === "archived" && (
-                  <Archived handelUserChatsClick={handelUserChatsClick} />
-                )}
               </div>
             </div>
           </div>
