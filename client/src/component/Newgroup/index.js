@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FaAngleRight, FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import Groupuser from "../card/Groupuser";
-import { BiLeftArrow } from "react-icons/bi";
 import { IoCameraOutline, IoCheckmarkSharp } from "react-icons/io5";
 
 const Newgroup = ({ onClick }) => {
@@ -130,13 +129,17 @@ const Newgroup = ({ onClick }) => {
       console.log("Image URL:", secure_url);
       console.log("Image URL:", userImage);
       const res = await fetch(
-        `http://localhost:4000/api/create/groups/${user.id}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/create/groups/${user.id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userIds, groupimage: secure_url, groupname: groupName }),
+          body: JSON.stringify({
+            userIds,
+            groupimage: secure_url,
+            groupname: groupName,
+          }),
         }
       );
       const data = await res.json();
