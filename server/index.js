@@ -25,6 +25,7 @@ app.listen(port, () => {
 // import files
 const Users = require("./modules/Users");
 const Chat = require("./modules/Chat");
+const Group = require("./modules/Group");
 
 // register....................
 app.post("/api/register/login", async (req, res) => {
@@ -40,7 +41,6 @@ app.post("/api/register/login", async (req, res) => {
     let token;
 
     if (!existingUser) {
-      // If the user doesn't exist, create a new user and generate a token
       token = jwt.sign({ mobile }, "your_secret_key");
 
       const newUser = new Users({ mobile, token });
@@ -52,7 +52,6 @@ app.post("/api/register/login", async (req, res) => {
         user: { id: newUser._id, mobile: newUser.mobile },
       });
     } else {
-      // If the user exists, generate a token for login
       token = jwt.sign({ mobile }, "your_secret_key");
 
       return res.status(200).send({
@@ -299,118 +298,6 @@ app.get("/api/get/chats", async (req, res) => {
   }
 });
 // conversations user..................................
-
-// app.get("/api/get/chats/:id", async (req, res) => {
-//   const userId = req.params.id;
-
-//   if (!userId) {
-//     return res.status(400).json({ message: "UserId is required" });
-//   }
-
-//   try {
-//     const chats = await Chat.find({
-//       $or: [{ sender: userId }, { receiver: userId }],
-//     }).select("sender receiver");
-
-//     const otherParties = new Set();
-
-//     chats.forEach((chat) => {
-//       const otherParty =
-//         chat.sender.toString() === userId ? chat.receiver : chat.sender;
-//       otherParties.add(otherParty.toString());
-//     });
-
-//     const formattedChats = Array.from(otherParties).map((id) => ({
-//       othersId: id,
-//     }));
-
-//     res.json(formattedChats);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-// app.get("/api/get/chats/:id", async (req, res) => {
-//   const userId = req.params.id;
-
-//   if (!userId) {
-//     return res.status(400).json({ message: "UserId is required" });
-//   }
-
-//   try {
-//     const chats = await Chat.find({
-//       $or: [{ sender: userId }, { receiver: userId }],
-//     }).select("sender receiver");
-
-//     const otherParties = new Set();
-
-//     chats.forEach((chat) => {
-//       const otherParty =
-//         chat.sender.toString() === userId ? chat.receiver : chat.sender;
-//       otherParties.add(otherParty.toString());
-//     });
-
-//     const othersIds = Array.from(otherParties);
-
-//     const userDetailsPromises = othersIds.map((id) =>
-//       Users.findById(id).then((userDetails) => ({
-//         othersId: id,
-//         userDetails: userDetails || null,
-//       }))
-//     );
-
-//     const usersDetails = await Promise.all(userDetailsPromises);
-
-//     res.json(usersDetails);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-// app.get("/api/get/chats/:id", async (req, res) => {
-//   const userId = req.params.id;
-
-//   if (!userId) {
-//     return res.status(400).json({ message: "UserId is required" });
-//   }
-
-//   try {
-//     const chats = await Chat.find({
-//       $or: [{ sender: userId }, { receiver: userId }],
-//     })
-//       .select("sender receiver message timestamp")
-//       .sort({ timestamp: -1 });
-
-//     const lastMessagesMap = new Map();
-
-//     chats.forEach((chat) => {
-//       const otherParty =
-//         chat.sender.toString() === userId
-//           ? chat.receiver.toString()
-//           : chat.sender.toString();
-
-//       if (!lastMessagesMap.has(otherParty)) {
-//         lastMessagesMap.set(otherParty, chat);
-//       }
-//     });
-
-//     const formattedChats = [];
-
-//     for (const [otherPartyId, lastMessage] of lastMessagesMap.entries()) {
-//       const userDetails = await Users.findById(otherPartyId);
-//       formattedChats.push({
-//         othersId: otherPartyId,
-//         userDetails: userDetails || null,
-//         lastMessage: {
-//           message: lastMessage.message,
-//           timestamp: lastMessage.timestamp,
-//         },
-//       });
-//     }
-
-//     res.json(formattedChats);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
 app.get("/api/get/chats/:id", async (req, res) => {
   const userId = req.params.id;
 
@@ -504,5 +391,17 @@ app.delete("/api/delete/chats/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
+
+// Create Groups............................................/api/create/groups
+app.post("/api/create/groups/:adminId", async (req, res) => {
+  const { adminId } = req.params;
+  const { userIds, groupimage, groupname } = req.body;
+  try {
+    const group = await Group.create({ adminId, userIds, groupimage, groupname });
+    res.status(201).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
   }
 });
