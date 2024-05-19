@@ -399,9 +399,141 @@ app.post("/api/create/groups/:adminId", async (req, res) => {
   const { adminId } = req.params;
   const { userIds, groupimage, groupname } = req.body;
   try {
-    const group = await Group.create({ adminId, userIds, groupimage, groupname });
+    const group = await Group.create({
+      adminId,
+      userIds,
+      groupimage,
+      groupname,
+    });
     res.status(201).json({ success: true, data: group });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
+  }
+});
+// groups Update request About....................
+app.put("/api/groups/updat/about/:id", async (req, res) => {
+  const { id } = req.params;
+  const { groupabout } = req.body;
+
+  try {
+    const group = await Group.findByIdAndUpdate(
+      id,
+      { groupabout },
+      { new: true }
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Update Group Profile Name....................
+app.put("/api/groups/name/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const { groupname  } = req.body;
+
+  try {
+    const group = await Group.findByIdAndUpdate(
+      id,
+      { groupname },
+      { new: true } 
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Update Group Profile Images....................
+app.put("/api/groups/update/profile/images/:id", async (req, res) => {
+  const { id } = req.params;
+  const { groupimage } = req.body;
+
+  try {
+    const group = await Group.findByIdAndUpdate(
+      id,
+      { groupimage },
+      { new: true }
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Remove group profile i,age.....................
+app.put("/api/groups/update/profile/images/remove/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const group = await Group.findByIdAndUpdate(
+      id,
+      { groupimage: null }, 
+      { new: true }
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Group Shows...New.......
+app.get("/api/show/groups/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const groups = await Group.find({
+      $or: [{ adminId: id }, { userIds: id }, {_id: id}],
+    });
+
+    if (!groups.length) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No groups found for this id." });
+    }
+
+    const userDetailsPromises = groups.map(async (group) => {
+      const adminDetails = await Users.findById(group.adminId);
+      const userDetailPromises = group.userIds.map((userId) =>
+        Users.findById(userId)
+      );
+      const userDetails = await Promise.all(userDetailPromises);
+
+      return {
+        ...group._doc,
+        adminDetails,
+        userDetails,
+      };
+    });
+
+    const detailedGroups = await Promise.all(userDetailsPromises);
+
+    res.status(200).json({ success: true, data: detailedGroups });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 });

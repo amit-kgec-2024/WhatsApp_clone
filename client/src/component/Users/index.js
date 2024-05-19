@@ -15,6 +15,7 @@ import Newgroup from "../Newgroup";
 import { useNavigate } from "react-router-dom";
 import Archived from "../Archived";
 import Starredmessage from "../Starredmessage";
+import Groups from "../groups/Groups";
 
 
 const Users = ({ handelUserChatsClick }) => {
@@ -72,7 +73,6 @@ const Users = ({ handelUserChatsClick }) => {
         );
         const jsonData = await res.json();
         setUserDetails(jsonData);
-        console.log("Details--->", jsonData);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -255,20 +255,7 @@ const Users = ({ handelUserChatsClick }) => {
               ))}
             </div>
           )}
-          {activeUser === "groups" && (
-            <div className="">
-              {userGroupData.map((ele) => (
-                <Groupscard
-                  key={ele.id}
-                  groupname={ele.groupname}
-                  groupchats={ele.groupchats}
-                  unreadmsg={ele.unreadmsg}
-                  handelUserChatsClick={handelUserChatsClick}
-                  grouptime={ele.grouptime}
-                />
-              ))}
-            </div>
-          )}
+          {activeUser === "groups" && <Groups handelUserChatsClick={handelUserChatsClick}/>}
         </div>
       </div>
       {isChats === "newchats" && (
@@ -290,9 +277,7 @@ const Users = ({ handelUserChatsClick }) => {
         />
       )}
       {isChats === "starrdemessage" && (
-        <Starredmessage
-          onClick={() => setIsChats(false)}
-        />
+        <Starredmessage onClick={() => setIsChats(false)} />
       )}
       {isModal && (
         <div className="absolute top-1 right-80">

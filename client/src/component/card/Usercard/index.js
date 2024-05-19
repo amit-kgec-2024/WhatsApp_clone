@@ -35,8 +35,14 @@ const Usercard = ({
         className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3"
       >
         <div className="p-3">
-          <div className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5">
-            <img src={userimage} alt="Bird" />
+          <div
+            className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
+            style={{
+              backgroundImage: `url(${userimage})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+          >
           </div>
         </div>
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">

@@ -18,7 +18,7 @@ import Userprofile from "../Userprofile";
 import SenderChatPanel from "../SenderChatPanel";
 import ReceiverChatPanel from "../ReceiverChatPanel";
 
-const Chats = ({ userId }) => {
+const Chats = ({ userId, groupId, chatType }) => {
   const [isModal, setIsModal] = useState(false);
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
@@ -56,7 +56,7 @@ const Chats = ({ userId }) => {
   useClickOutside([dropDownRefEmoji, buttonRefEmoji], () => {
     setIsclickEmoji(false);
   });
-  
+
   // User Details........................
   const defaultImage = "/profiledefaultimage.jpg";
   const [userDetails, setUserDetails] = useState("");
@@ -125,15 +125,40 @@ const Chats = ({ userId }) => {
         );
         const jsonData = await res.json();
         stGetChats(jsonData);
-        console.log("Chats--->", jsonData)
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
     };
     fetchData();
   }, []);
+  // Group details........GET..........
+  const [groupDetails, setGroupDetails] = useState(null);
+
+  useEffect(() => {
+    const fetchGroupDetails = async () => {
+      try {
+        const response = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/show/groups/${groupId}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch group details");
+        }
+        const data = await response.json();
+        setGroupDetails(data.data[0]);
+        console.log("Group Details--->", data.data[0]);
+      } catch (error) {
+        console.error("Error fetching group details:", error);
+      }
+    };
+
+    fetchGroupDetails();
+  }, [groupId]);
+
+  // if (!groupDetails) {
+  //   return <p>Loading...</p>;
+  // }
   return (
-    <div className=" w-full h-full">
+    <div className=" w-full h-full pd-2">
       <div className="flex flex-row w-full justify-between">
         <div
           className={`h-screen flex flex-col justify-between ${
@@ -145,14 +170,22 @@ const Chats = ({ userId }) => {
               onClick={() => handleNavbarClick("profiledetails")}
               className="flex flex-row gap-3 w-full"
             >
-              <div className="w-8 h-8 rounded-full overflow-hidden">
-                <img
-                  src={`${userDetails.userimage || defaultImage}`}
-                  alt="Bird"
-                />
-              </div>
+              <div
+                className="w-8 h-8 rounded-full overflow-hidden"
+                style={{
+                  backgroundImage: `url(${
+                    chatType === "userchats"
+                      ? userDetails.userimage || defaultImage
+                      : groupDetails?.groupimage || defaultImage
+                  })`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              />
               <h2 className="flex flex-col items-start">
-                {userDetails.username || userDetails.mobile}{" "}
+                {chatType === "userchats"
+                  ? userDetails.username || userDetails.mobile
+                  : groupDetails?.groupname}
                 <span className="text-xs font-light">online</span>
               </h2>
             </button>
@@ -424,6 +457,8 @@ const Chats = ({ userId }) => {
           {activeNavbar === "profiledetails" && (
             <Userprofile
               userId={userId}
+              groupId={groupId}
+              chatType={chatType}
               onClick={() => setActiveNavbar(false)}
             />
           )}

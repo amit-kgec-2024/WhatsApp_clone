@@ -15,7 +15,6 @@ import Help from "../satting/Help";
 import Loaderhome from "../Loaderhome";
 
 function Home() {
-
   // loader.................
   const [loading, setLoading] = useState(0);
   useEffect(() => {
@@ -29,20 +28,27 @@ function Home() {
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
   };
-  
-  const [userId, setUserId] = useState()
+
+  const [userId, setUserId] = useState();
+  const [groupId, setGroupId] = useState();
   const [userClickChat, setUserClickChat] = useState("mainses");
-  const handelUserChatsClick = (toggleUserChat, userId) => {
+  const handelUserChatsClick = (toggleUserChat, id) => {
     setUserClickChat(toggleUserChat);
-    setUserId(userId);
+    if (toggleUserChat === "userchats") {
+      setUserId(id);
+    } else {
+      setGroupId(id);
+    }
+
+    console.log(id);
   };
   // User Details
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
   // profile images.....................
-   const defaultImage = "/profiledefaultimage.jpg";
-   const [imageUrl, setImageUrl] = useState("");
+  const defaultImage = "/profiledefaultimage.jpg";
+  const [imageUrl, setImageUrl] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +56,7 @@ function Home() {
           `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
         );
         const jsonData = await res.json();
-        setImageUrl(jsonData.userimage)
+        setImageUrl(jsonData.userimage);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -180,7 +186,14 @@ function Home() {
                 </div>
               </div>
             )}
-            {userClickChat === "userchats" && <Chats userId={userId} />}
+            {(userClickChat === "userchats" ||
+              userClickChat === "groupchats") && (
+              <Chats
+                userId={userId}
+                groupId={groupId}
+                chatType={userClickChat}
+              />
+            )}
           </div>
         </div>
       )}
