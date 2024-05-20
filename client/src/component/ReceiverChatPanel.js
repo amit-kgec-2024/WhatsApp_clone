@@ -32,6 +32,7 @@ const ReceiverChatPanel = ({ message, time, chatId }) => {
         alert("Invalid Credential!");
       } else {
         await res.json();
+        setIsclick(false);
       }
     } catch (error) {
       console.error("Error:", error);

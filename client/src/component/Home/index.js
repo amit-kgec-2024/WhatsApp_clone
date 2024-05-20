@@ -13,6 +13,7 @@ import Sattings from "../Sattings";
 import Users from "../Users";
 import Help from "../satting/Help";
 import Loaderhome from "../Loaderhome";
+import Groupchats from "../groups/Groupchats";
 
 function Home() {
   // loader.................
@@ -186,14 +187,16 @@ function Home() {
                 </div>
               </div>
             )}
-            {(userClickChat === "userchats" ||
-              userClickChat === "groupchats") && (
+            {userClickChat === "userchats" &&
               <Chats
                 userId={userId}
-                groupId={groupId}
-                chatType={userClickChat}
               />
-            )}
+            }
+            {userClickChat === "groupchats" && 
+              <Groupchats
+                groupId={groupId}
+              />
+            }
           </div>
         </div>
       )}

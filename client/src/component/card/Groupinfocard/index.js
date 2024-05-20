@@ -10,7 +10,8 @@ const Groupinfocard = ({
   userId,
   adminid,
 }) => {
-    const defauGroupImage = "/defaultgroupimage.png";
+  const defaultAbout = "Hey there! I am using WhatsApp";
+  const defaultImage = "/profiledefaultimage.jpg";
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -19,10 +20,6 @@ const Groupinfocard = ({
   useClickOutside([dropDownRef, buttonRef], () => {
     setIsclick(false);
   });
-  // User Details
-  const [users] = useState(
-    () => JSON.parse(localStorage.getItem("users:detail")) || {}
-  );
   // Remove users......................
   const [message, setMessage] = useState("");
   const handleSubmit = async (e) => {
@@ -46,7 +43,7 @@ const Groupinfocard = ({
         setMessage(`Error: ${data.message}`);
       }
     } catch (error) {
-      setMessage(`Error: ${error.message}`);
+      console.error("Error fetching group details:", error);
     }
   };
   return (
@@ -56,7 +53,7 @@ const Groupinfocard = ({
           <div
             className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
             style={{
-              backgroundImage: `url(${userimage || defauGroupImage})`,
+              backgroundImage: `url(${userimage || defaultImage})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
@@ -67,7 +64,7 @@ const Groupinfocard = ({
             <div className="flex flex-col items-start">
               <h1 className="font-light">{username}</h1>
               <h4 className="text-xs text-slate-400 font-thin">
-                <div>{userabout}</div>
+                <div>{userabout || defaultAbout}</div>
               </h4>
             </div>
           </div>

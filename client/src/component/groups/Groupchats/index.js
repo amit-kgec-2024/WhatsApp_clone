@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import useClickOutside from "../../hooks/useClickOutside";
+import useClickOutside from "../../../hooks/useClickOutside";
 import { IoVideocam } from "react-icons/io5";
 import { FaAngleDown, FaPlus, FaUserLarge } from "react-icons/fa6";
 import { IoMdSearch, IoMdCamera } from "react-icons/io";
@@ -9,16 +9,14 @@ import {
   MdOutlineGifBox,
 } from "react-icons/md";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Searchmessage from "../Searchmessage";
-import Modal from "../Modal";
+import Searchmessage from "../../Searchmessage";
+import Modal from "../../Modal";
 import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
-import Userprofile from "../Userprofile";
-import SenderChatPanel from "../SenderChatPanel";
-import ReceiverChatPanel from "../ReceiverChatPanel";
+import Groupprofile from '../Groupprofile'
 
-const Chats = ({ userId }) => {
+const Groupchats = ({ groupId }) => {
   const [isModal, setIsModal] = useState(false);
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
@@ -57,81 +55,36 @@ const Chats = ({ userId }) => {
     setIsclickEmoji(false);
   });
 
-  // User Details........................
-  const defaultImage = "/profiledefaultimage.jpg";
-  const [userDetails, setUserDetails] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${userId}`
-        );
-        const jsonData = await res.json();
-        setUserDetails(jsonData);
-      } catch (error) {
-        console.log("Error Fetching Data", error);
-      }
-    };
-    fetchData();
-  }, [userId]);
+  const defauGroupImage = "/defaultgroupimage.png";
   // Chats...........POST.......................
   const [message, setMessage] = useState("");
   const handelInputMessage = (e) => {
     setMessage(e.target.value);
   };
-  // User Details
-  const [users] = useState(
-    () => JSON.parse(localStorage.getItem("users:detail")) || {}
-  );
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
-  };
-  const handleSendMessage = () => {
-    const data = {
-      sender: userId,
-      receiver: users.id,
-      message: message,
-    };
-
-    fetch("https://whats-app-clone-server-psi.vercel.app/api/post/chats", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setMessage("");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-  
-  // Chats.............GET...................
-  const [getChats, stGetChats] = useState("");
+  // Group details........GET..........
+  const [groupDetails, setGroupDetails] = useState(null);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchGroupDetails = async () => {
       try {
-        const res = await fetch(
-          "https://whats-app-clone-server-psi.vercel.app/api/get/chats"
+        const response = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/show/groups/${groupId}`
         );
-        const jsonData = await res.json();
-        stGetChats(jsonData);
+        if (!response.ok) {
+          throw new Error("Failed to fetch group details");
+        }
+        const data = await response.json();
+        setGroupDetails(data.data[0]);
       } catch (error) {
-        console.log("Error Fetching Data", error);
+        console.error("Error fetching group details:", error);
       }
     };
-    fetchData();
-  }, []);
+
+    fetchGroupDetails();
+  }, [groupId]);
+
+  // if (!groupDetails) {
+  //   return <p>Loading...</p>;
+  // }
   return (
     <div className=" w-full h-full pd-2">
       <div className="flex flex-row w-full justify-between">
@@ -140,7 +93,7 @@ const Chats = ({ userId }) => {
             activeNavbar ? "w-[60%]" : "w-full"
           }`}
         >
-          <div className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center">
+          <div className="w-full bg-red-400 py-2 px-4 h-14 flex flex-row justify-between items-center">
             <button
               onClick={() => handleNavbarClick("profiledetails")}
               className="flex flex-row gap-3 w-full"
@@ -149,14 +102,14 @@ const Chats = ({ userId }) => {
                 className="w-8 h-8 rounded-full overflow-hidden"
                 style={{
                   backgroundImage: `url(${
-                    userDetails.userimage || defaultImage
+                    groupDetails?.groupimage || defauGroupImage
                   })`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
               />
               <h2 className="flex flex-col items-start">
-                {userDetails.username || userDetails.mobile}
+                {groupDetails?.groupname}
                 <span className="text-xs font-light">online</span>
               </h2>
             </button>
@@ -260,39 +213,7 @@ const Chats = ({ userId }) => {
               backgroundSize: "cover",
             }}
           >
-            <div className="chat-container">
-              {Array.isArray(getChats) && getChats.length > 0 ? (
-                getChats.map((chat) => {
-                  if (
-                    (chat.sender === users.id && chat.receiver === userId) ||
-                    (chat.sender === userId && chat.receiver === users.id)
-                  ) {
-                    return (
-                      <div key={chat._id}>
-                        {chat.sender === userId ? (
-                          <ReceiverChatPanel
-                            key={chat._id}
-                            chatId={chat._id}
-                            message={chat.message}
-                            time={chat.timestamp?.time}
-                          />
-                        ) : (
-                          <SenderChatPanel
-                            key={chat._id}
-                            chatId={chat._id}
-                            message={chat.message}
-                            time={chat.timestamp?.time}
-                          />
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-              ) : (
-                <p>No chats available</p>
-              )}
-            </div>
+            <div className="chat-container">Group Chats.....</div>
           </div>
           {/* oooooo Buttom emoj input file oooooooo */}
           <div className="">
@@ -408,7 +329,7 @@ const Chats = ({ userId }) => {
                 type="text"
                 value={message}
                 onChange={handelInputMessage}
-                onKeyPress={handleKeyPress}
+                // onKeyPress={handleKeyPress}
                 placeholder="Type a message"
                 className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
               />
@@ -420,14 +341,11 @@ const Chats = ({ userId }) => {
         </div>
         <div className={`${activeNavbar ? "w-[40%]" : ""}`}>
           {activeNavbar === "searchchats" && (
-            <Searchmessage
-              userId={userId}
-              onClick={() => setActiveNavbar(false)}
-            />
+            <Searchmessage onClick={() => setActiveNavbar(false)} />
           )}
           {activeNavbar === "profiledetails" && (
-            <Userprofile
-              userId={userId}
+            <Groupprofile
+              groupId={groupId}
               onClick={() => setActiveNavbar(false)}
             />
           )}
@@ -437,4 +355,4 @@ const Chats = ({ userId }) => {
   );
 };
 
-export default Chats;
+export default Groupchats;
