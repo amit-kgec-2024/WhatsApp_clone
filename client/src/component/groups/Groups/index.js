@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import Groupscard from '../../card/Groupscard';
 
 const Groups = ({ handelUserChatsClick }) => {
+  const defauGroupImage = "/defaultgroupimage.png";
   // User Details
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
 //   Group get data..........................
-const defaultImage = "/profiledefaultimage.jpg";
   const [groupDetails, setGroupDetails] = useState();
   useEffect(() => {
     const fetchGroupDetails = async () => {
@@ -36,7 +36,7 @@ const defaultImage = "/profiledefaultimage.jpg";
               key={ele._id}
               groupId={ele._id}
               groupname={ele.groupname}
-              groupimage={ele.groupimage || defaultImage}
+              groupimage={ele.groupimage || defauGroupImage}
               handelUserChatsClick={handelUserChatsClick}
             />
           ))

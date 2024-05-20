@@ -115,6 +115,34 @@ app.get("/api/userdetails/:_id", async (req, res) => {
 });
 
 // userName PoST..................
+app.post("/api/users/profile", async (req, res) => {
+  try {
+    const { id, userimage } = req.body;
+    if (!id || !userimage) {
+      return res
+        .status(400)
+        .json({ error: "Please provide all required fields" });
+    }
+    const existingimageuser = await Users.findOne({ _id: id });
+    if (existingimageuser) {
+      existingimageuser.userimage = userimage;
+      await existingimageuser.save();
+      return res
+        .status(200)
+        .json({ message: "User image updated successfully" });
+    } else {
+      const newImage = new Users({ userimage });
+      await newImage.save();
+      return res
+        .status(201)
+        .json({ message: "User image registered successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
+  }
+});
+// userName PoST..................
 app.post("/api/nameuser", async (req, res) => {
   try {
     const { id, username } = req.body;
@@ -404,6 +432,7 @@ app.post("/api/create/groups/:adminId", async (req, res) => {
       userIds,
       groupimage,
       groupname,
+      groupabout: null
     });
     res.status(201).json({ success: true, data: group });
   } catch (err) {
@@ -436,13 +465,13 @@ app.put("/api/groups/updat/about/:id", async (req, res) => {
 // Update Group Profile Name....................
 app.put("/api/groups/name/update/:id", async (req, res) => {
   const { id } = req.params;
-  const { groupname  } = req.body;
+  const { groupname } = req.body;
 
   try {
     const group = await Group.findByIdAndUpdate(
       id,
       { groupname },
-      { new: true } 
+      { new: true }
     );
 
     if (!group) {
@@ -486,7 +515,7 @@ app.put("/api/groups/update/profile/images/remove/:id", async (req, res) => {
   try {
     const group = await Group.findByIdAndUpdate(
       id,
-      { groupimage: null }, 
+      { groupimage: null },
       { new: true }
     );
 
@@ -507,7 +536,7 @@ app.get("/api/show/groups/:id", async (req, res) => {
 
   try {
     const groups = await Group.find({
-      $or: [{ adminId: id }, { userIds: id }, {_id: id}],
+      $or: [{ adminId: id }, { userIds: id }, { _id: id }],
     });
 
     if (!groups.length) {
@@ -535,5 +564,85 @@ app.get("/api/show/groups/:id", async (req, res) => {
     res.status(200).json({ success: true, data: detailedGroups });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
+  }
+});
+// Remove group Users.......................................
+app.post("/api/remove/groups/users/:groupId", async (req, res) => {
+  const { groupId } = req.params;
+  const { userIds } = req.body;
+
+  try {
+    const group = await Group.findByIdAndUpdate(
+      groupId,
+      { $pull: { userIds: { $in: userIds } } },
+      { new: true }
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Exit group.............................
+app.post("/api/groups/remove-admin/:groupId", async (req, res) => {
+  const { groupId } = req.params;
+  const { adminId } = req.body;
+
+  try {
+    const group = await Group.findOneAndUpdate(
+      { _id: groupId, adminId: adminId },
+      { $unset: { adminId: "" } },
+      { new: true }
+    );
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({
+          success: false,
+          message: "Group not found or adminId mismatch",
+        });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Exit Group ...........................
+app.post("/api/groups/remove-ids/:groupId", async (req, res) => {
+  const { groupId } = req.params;
+  const { adminId, userIds } = req.body;
+
+  try {
+    let update = {};
+
+    if (adminId) {
+      update.$unset = { adminId: "" };
+    }
+
+    if (userIds && userIds.length > 0) {
+      update.$pull = { userIds: { $in: userIds } };
+    }
+
+    const group = await Group.findOneAndUpdate({ _id: groupId }, update, {
+      new: true,
+    });
+
+    if (!group) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Group not found" });
+    }
+
+    res.status(200).json({ success: true, data: group });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
   }
 });

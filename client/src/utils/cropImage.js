@@ -1,4 +1,4 @@
-import { createImage, getRadianAngle } from "./utils";
+import { createImage } from "./utils";
 
 export default async function getCroppedImg(imageSrc, pixelCrop) {
   const image = await createImage(imageSrc);

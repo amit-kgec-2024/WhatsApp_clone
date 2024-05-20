@@ -52,7 +52,7 @@ const Sattings = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [users.id]);
   // LOG Out................
   const navigate = useNavigate();
   const logOut = () => {
@@ -80,14 +80,21 @@ const Sattings = () => {
             onClick={() => handleButtonClick("profile")}
             className="flex flex-row justify-start items-center w-full py-2 px-3 gap-3 hover:bg-dark3"
           >
-            <div className="w-20 h-20 overflow-hidden rounded-full border">
-              <img src={`${userData.userimage || defaultImage} `} alt="Bird" />
-            </div>
+            <div
+              className="w-20 h-20 overflow-hidden rounded-full border"
+              style={{
+                backgroundImage: `url(${userData.userimage || defaultImage})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+            ></div>
             <h1 className="flex flex-col text-start">
               <span className="text-lg md:text-xl font-semibold">
                 {userData.username || defaultName}
               </span>
-              <span className="text-sm">{userData.userabout || defaultAbout}</span>
+              <span className="text-sm">
+                {userData.userabout || defaultAbout}
+              </span>
             </h1>
           </button>
           <div className="">

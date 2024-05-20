@@ -58,6 +58,7 @@ const Chats = ({ userId, groupId, chatType }) => {
   });
 
   // User Details........................
+  const defauGroupImage = "/defaultgroupimage.png";
   const defaultImage = "/profiledefaultimage.jpg";
   const [userDetails, setUserDetails] = useState("");
   useEffect(() => {
@@ -176,7 +177,7 @@ const Chats = ({ userId, groupId, chatType }) => {
                   backgroundImage: `url(${
                     chatType === "userchats"
                       ? userDetails.userimage || defaultImage
-                      : groupDetails?.groupimage || defaultImage
+                      : groupDetails?.groupimage || defauGroupImage
                   })`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
@@ -437,7 +438,7 @@ const Chats = ({ userId, groupId, chatType }) => {
                 type="text"
                 value={message}
                 onChange={handelInputMessage}
-                onKeyPress={handleKeyPress}
+                handleKeyPress={handleKeyPress}
                 placeholder="Type a message"
                 className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
               />

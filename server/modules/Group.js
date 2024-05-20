@@ -13,16 +13,15 @@ const groupSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  groupabout: {
-    type: String,
-    required: true,
-  },
   userIds: [
     {
       type: String,
       required: true,
     },
   ],
+  groupabout: {
+    type: String,
+  },
 });
 
 const Group = mongoose.model("Group", groupSchema);

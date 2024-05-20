@@ -6,7 +6,6 @@ const Groupuser = ({
   userabout,
   _id,
   handelGroup,
-  adminDetails,
 }) => {
   return (
     <div className="">
@@ -33,9 +32,6 @@ const Groupuser = ({
               </h4>
             </div>
           </div>
-          {adminDetails && <h1 className="text-[10px] px-1 rounded-sm text-slate-400 mr-[5%] bg-dark5">
-            Group Admin
-          </h1>}
         </div>
       </button>
     </div>

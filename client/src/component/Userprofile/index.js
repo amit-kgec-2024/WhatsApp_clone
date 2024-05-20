@@ -5,7 +5,7 @@ import { RxCross2 } from "react-icons/rx";
 import { FaAngleRight, FaCheck } from "react-icons/fa6";
 import { IoStar, IoNotificationsSharp, IoTimer, IoExitOutline } from "react-icons/io5";
 import { IoMdLock } from "react-icons/io";
-import { MdOutlineBlock, MdDelete, MdModeEdit } from "react-icons/md";
+import { MdOutlineBlock, MdDelete, MdModeEdit, MdGroup } from "react-icons/md";
 import { BiSolidDislike } from "react-icons/bi";
 import Starredmessage from "../Starredmessage";
 import Medialink from "../contactinfo/Medialink";
@@ -13,7 +13,7 @@ import Disappearing from "../contactinfo/Disappearing";
 import Userpimage from "../contactinfo/Userpimage";
 import Encryption from "../contactinfo/Encryption";
 import useClickOutside from "../../hooks/useClickOutside";
-import Groupuser from "../card/Groupuser";
+import Groupinfocard from "../card/Groupinfocard";
 
 const Userprofile = ({ onClick, chatType, userId, groupId }) => {
   const [activeButton, setActiveButton] = useState(null);
@@ -47,6 +47,7 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
   const defaultAbout = "Hey there! I am using WhatsApp";
   const defaultName = "WhatsApp 0";
   const defaultImage = "/profiledefaultimage.jpg";
+  const defauGroupImage = "/defaultgroupimage.png";
   const [userDetailShow, setUserDetails] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +64,7 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
     fetchData();
   }, [userId]);
   // Group details........GET..........
-  const [groupDetails, setGroupDetails] = useState('');
+  const [groupDetails, setGroupDetails] = useState("");
 
   useEffect(() => {
     const fetchGroupDetails = async () => {
@@ -233,11 +234,41 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
       if (response.status === 400) {
         alert("Invalid Credential!");
       } else {
-         await response.json();
+        await response.json();
         setImageUrl("profiledefaultimage.jpg");
+        setIsclick(false);
       }
     } catch (error) {
       console.error("Error removing group image:", error);
+    }
+  };
+  // Group Exit.......................
+  const handleSubmitExit = async () => {
+    console.log("Kata-->", groupDetails.userIds);
+    console.log("Kata2-->", groupDetails.adminId);
+    try {
+      const response = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/groups/remove-ids/${groupId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            adminId: groupDetails.adminId,
+            userIds: groupDetails.userIds,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      const data = await response.json();
+      console.log("Data:", data);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
     }
   };
   return (
@@ -271,7 +302,7 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
                 className="w-48 h-48 rounded-full overflow-hidden"
                 style={{
                   backgroundImage: `url(${
-                    groupDetails?.groupimage || defaultImage
+                    groupDetails?.groupimage || defauGroupImage
                   })`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
@@ -504,19 +535,23 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
           </div>
           {chatType === "groupchats" && (
             <div className="w-full bg-dark1 max-h-[50vh] overflow-y-scroll scrollbaruser">
-              <Groupuser
+              <Groupinfocard
                 key={adminDetails?._id}
-                userabout={adminDetails?.userabout || defaultAbout}
-                username={"You"}
+                adminid={adminDetails?._id}
                 adminDetails={adminDetails}
-                userimage={adminDetails?.userimage || defaultImage}
+                userabout={adminDetails?.userabout || defaultAbout}
+                username={adminDetails?.username || adminDetails?.mobile}
+                userimage={adminDetails?.userimage}
+                groupId={groupId}
               />
               {userDetails?.map((user, index) => (
-                <Groupuser
+                <Groupinfocard
                   key={user._id}
+                  userId={user._id}
                   userabout={user.userabout || defaultAbout}
                   username={user.username || user.mobile}
-                  userimage={user.userimage || defaultImage}
+                  userimage={user.userimage}
+                  groupId={groupId}
                 />
               ))}
             </div>
@@ -546,7 +581,10 @@ const Userprofile = ({ onClick, chatType, userId, groupId }) => {
           )}
           {chatType === "groupchats" && (
             <div className="w-full py-4 bg-dark1 mb-16">
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+              <button
+                onClick={handleSubmitExit}
+                className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+              >
                 <IoExitOutline />
                 <h1>Exit group</h1>
               </button>

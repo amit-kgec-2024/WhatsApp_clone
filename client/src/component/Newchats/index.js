@@ -8,7 +8,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import Newgroup from "../Newgroup";
 import Newcommunity from "../Newcommunity";
 
-const Newchats = ({ onClick, handelUserChatsClick }) => {
+const Newchats = ({ onClick, handelUserChatsClick}) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -119,7 +119,9 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
         </div>
       </div>
       {activeButton === "newgroup" && (
-        <Newgroup onClick={() => setActiveButton(false)} />
+        <Newgroup
+          onClick={() => setActiveButton(false)}
+        />
       )}
       {activeButton === "newcommunity" && (
         <Newcommunity onClick={() => setActiveButton(false)} />

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 
 const Userpimage = ({ onClick, userId, groupId, chatType }) => {
+  const defauGroupImage = "/defaultgroupimage.png";
   // User Details........................
   const defaultImage = "/profiledefaultimage.jpg";
   const [userDetails, setUserDetails] = useState("");
@@ -51,7 +52,7 @@ const Userpimage = ({ onClick, userId, groupId, chatType }) => {
               backgroundImage: `url(${
                 chatType === "userchats"
                   ? userDetails.userimage || defaultImage
-                  : groupDetails?.groupimage
+                  : groupDetails?.groupimage || defaultImage
               })`,
               backgroundPosition: "center",
               backgroundSize: "cover",
@@ -73,7 +74,7 @@ const Userpimage = ({ onClick, userId, groupId, chatType }) => {
           src={`${
             chatType === "userchats"
               ? userDetails.userimage || defaultImage
-              : groupDetails?.groupimage
+              : groupDetails?.groupimage || defauGroupImage
           }`}
           width={500}
           height={500}

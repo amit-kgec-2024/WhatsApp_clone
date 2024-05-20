@@ -205,7 +205,7 @@ const Users = ({ handelUserChatsClick }) => {
             <h1 className="text-whitmix1">18</h1>
           </button>
         </div>
-        <div className="scrollbaruser overflow-y-scroll h-[580px]">
+        <div className="scrollbaruser overflow-y-scroll max-h-[70vh]">
           {activeUser === "all" && (
             <div>
               {userDetails.length > 0 ? (
@@ -255,7 +255,9 @@ const Users = ({ handelUserChatsClick }) => {
               ))}
             </div>
           )}
-          {activeUser === "groups" && <Groups handelUserChatsClick={handelUserChatsClick}/>}
+          {activeUser === "groups" && (
+            <Groups handelUserChatsClick={handelUserChatsClick} />
+          )}
         </div>
       </div>
       {isChats === "newchats" && (

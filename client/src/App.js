@@ -4,7 +4,6 @@ import AuthProfile from "./component/AuthProfile";
 import Authorization from "./component/Authorization";
 import Home from "./component/Home";
 
-
 function App() {
   return (
     <Router>
