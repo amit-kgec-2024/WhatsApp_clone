@@ -21,7 +21,6 @@ const Groupinfocard = ({
     setIsclick(false);
   });
   // Remove users......................
-  const [message, setMessage] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,6 +45,9 @@ const Groupinfocard = ({
       console.error("Error fetching group details:", error);
     }
   };
+ 
+  const [message, setMessage] = useState("");
+  
   return (
     <div className="">
       <button className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3">

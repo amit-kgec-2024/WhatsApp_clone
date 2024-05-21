@@ -15,6 +15,8 @@ import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
 import Groupprofile from '../Groupprofile'
+import SenderGroupChatPanel from "../SenderGroupChatPanel";
+import ReciverGroupChatPanel from "../ReciverGroupChatPanel";
 
 const Groupchats = ({ groupId }) => {
   const [isModal, setIsModal] = useState(false);
@@ -56,11 +58,7 @@ const Groupchats = ({ groupId }) => {
   });
 
   const defauGroupImage = "/defaultgroupimage.png";
-  // Chats...........POST.......................
-  const [message, setMessage] = useState("");
-  const handelInputMessage = (e) => {
-    setMessage(e.target.value);
-  };
+
   // Group details........GET..........
   const [groupDetails, setGroupDetails] = useState(null);
   useEffect(() => {
@@ -81,10 +79,82 @@ const Groupchats = ({ groupId }) => {
 
     fetchGroupDetails();
   }, [groupId]);
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  // Group Chats Post............................
+  const [message, setMessage] = useState("");
+  const handelInputMessage = (e) => {
+    setMessage(e.target.value);
+  };
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSendGroupMessage();
+    }
+  };
+  const handleSendGroupMessage = () => {
+    const data = {
+      userId: users.id,
+      message: message,
+    };
 
-  // if (!groupDetails) {
-  //   return <p>Loading...</p>;
-  // }
+    fetch(
+      `https://whats-app-clone-server-psi.vercel.app/api/group/chats/post/${groupId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setMessage("");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const [groupChats, setGroupChats] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const response = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/group/chats/get/${groupId}`
+        );
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        const data = await response.json();
+        setGroupChats(data);
+      } 
+      catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChats();
+  }, [groupId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <div className=" w-full h-full pd-2">
       <div className="flex flex-row w-full justify-between">
@@ -93,7 +163,7 @@ const Groupchats = ({ groupId }) => {
             activeNavbar ? "w-[60%]" : "w-full"
           }`}
         >
-          <div className="w-full bg-red-400 py-2 px-4 h-14 flex flex-row justify-between items-center">
+          <div className="w-full bg-dark5 py-2 px-4 h-14 flex flex-row justify-between items-center">
             <button
               onClick={() => handleNavbarClick("profiledetails")}
               className="flex flex-row gap-3 w-full"
@@ -213,7 +283,35 @@ const Groupchats = ({ groupId }) => {
               backgroundSize: "cover",
             }}
           >
-            <div className="chat-container">Group Chats.....</div>
+            <div className="chat-container">
+              {Array.isArray(groupChats) && groupChats.length > 0 ? (
+                groupChats.map((chat) => {
+                  if (chat.receiver === groupId) {
+                    return (
+                      <div key={chat._id}>
+                        {chat.sender === users.id ? (
+                          <ReciverGroupChatPanel
+                          chatId={chat._id}
+                          message={chat.message}
+                          time={chat.timestamp?.time}
+                          />
+                        ) : (
+                          <SenderGroupChatPanel
+                          chatId={chat._id}
+                          message={chat.message}
+                          time={chat.timestamp?.time}
+                          senderDetails={chat.senderDetails} 
+                          />
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                })
+              ) : (
+                <p>No chats available</p>
+              )}
+            </div>
           </div>
           {/* oooooo Buttom emoj input file oooooooo */}
           <div className="">
@@ -329,7 +427,7 @@ const Groupchats = ({ groupId }) => {
                 type="text"
                 value={message}
                 onChange={handelInputMessage}
-                // onKeyPress={handleKeyPress}
+                onKeyPress={handleKeyPress}
                 placeholder="Type a message"
                 className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
               />

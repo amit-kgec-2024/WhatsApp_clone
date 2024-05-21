@@ -26,6 +26,7 @@ app.listen(port, () => {
 const Users = require("./modules/Users");
 const Chat = require("./modules/Chat");
 const Group = require("./modules/Group");
+const GroupChats = require("./modules/GroupChats");
 
 // register....................
 app.post("/api/register/login", async (req, res) => {
@@ -432,7 +433,7 @@ app.post("/api/create/groups/:adminId", async (req, res) => {
       userIds,
       groupimage,
       groupname,
-      groupabout: null
+      groupabout: null,
     });
     res.status(201).json({ success: true, data: group });
   } catch (err) {
@@ -508,7 +509,7 @@ app.put("/api/groups/update/profile/images/:id", async (req, res) => {
     res.status(400).json({ success: false, message: err.message });
   }
 });
-// Remove group profile i,age.....................
+// Remove group profile image.....................
 app.put("/api/groups/update/profile/images/remove/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -602,12 +603,10 @@ app.post("/api/groups/remove-admin/:groupId", async (req, res) => {
     );
 
     if (!group) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "Group not found or adminId mismatch",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "Group not found or adminId mismatch",
+      });
     }
 
     res.status(200).json({ success: true, data: group });
@@ -644,5 +643,84 @@ app.post("/api/groups/remove-ids/:groupId", async (req, res) => {
     res.status(200).json({ success: true, data: group });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
+  }
+});
+// Group Chats conversations...............................
+app.post("/api/group/chats/post/:groupId", async (req, res) => {
+  const { userId, message } = req.body;
+  const { groupId } = req.params;
+  
+  const groupChat = new GroupChats({
+    sender: userId,
+    receiver: groupId,
+    message: message,
+  });
+
+  try {
+    const newGroupChat = await groupChat.save();
+    res.status(201).json(newGroupChat);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Group chats request GET................................
+app.get("/api/group/chats/get/:groupId", async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const groupChats = await GroupChats.find({ receiver: groupId });
+
+    if (groupChats.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const chatsWithSenderDetails = await Promise.all(
+      groupChats.map(async (chat) => {
+        const senderDetails = await Users.findById(chat.sender);
+        const chatObj = chat.toObject();
+
+        const timestamp = new Date(chatObj.timestamp);
+        const date = timestamp.toLocaleDateString();
+        const time = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        return {
+          ...chatObj,
+          senderDetails: senderDetails ? senderDetails.toObject() : null,
+          timestamp: {
+            date,
+            time,
+          },
+        };
+      })
+    );
+
+    res.status(200).json(chatsWithSenderDetails);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error!" });
+  }
+});
+// DELETE cHats..........................
+app.delete("/api/delete/group/chats/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Please provide a Chat ID" });
+    }
+
+    const existingChat = await GroupChats.findById(id);
+
+    if (!existingChat) {
+      return res.status(404).json({ error: "Chat ID not found" });
+    }
+
+    await GroupChats.deleteOne({ _id: id });
+
+    return res.status(200).json({ message: "Chat deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error!" });
   }
 });
