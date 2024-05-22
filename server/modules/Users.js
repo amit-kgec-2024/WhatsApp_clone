@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const usersSchame = mongoose.Schema({
   mobile: {
-    type: Number,
-    require: true,
+    type: String,
+    required: true,
+    unique: true,
   },
   token: {
     type: String,

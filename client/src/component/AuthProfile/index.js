@@ -124,8 +124,6 @@ const AuthProfile = () => {
           </button>
         </div>
       </form>
-      <h1>{users.mobile}</h1>
-      <h1>{users.id}</h1>
     </div>
   );
 };

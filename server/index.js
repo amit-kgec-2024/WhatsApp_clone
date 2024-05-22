@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const bodyParser = require("body-parser");
 // use appp
 const app = express();

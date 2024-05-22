@@ -38,6 +38,7 @@ const Profile = () => {
         );
         const jsonData = await res.json();
         setUserData(jsonData);
+        console.log('mmmm--->', jsonData)
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -220,16 +221,19 @@ const Profile = () => {
       console.log("Image URL:", secure_url);
       console.log("Image URL:", userImage);
 
-      const res = await fetch("http://localhost:4000/api/users/profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userimage: secure_url,
-          id: users.id,
-        }),
-      });
+      const res = await fetch(
+        "https://whats-app-clone-server-psi.vercel.app/api/users/profile",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userimage: secure_url,
+            id: users.id,
+          }),
+        }
+      );
 
       if (res.status === 400) {
         alert("Invalid Credential!");
@@ -246,6 +250,7 @@ const Profile = () => {
     <div className="profile-animation w-full bg-dark6 h-screen">
       <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
       <div className="flex flex-col p-4 w-full">
+        <div className="">{userData.mobile}</div>
         <div className="w-full justify-center items-center flex py-8">
           <div
             className="prof-Images overflow-hidden rounded-full w-32 h-32 md:w-48 md:h-48 bg-white flex justify-center items-center"

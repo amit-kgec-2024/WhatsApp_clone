@@ -1,4 +1,5 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const Users = require("../modules/Users");
 
@@ -6,7 +7,7 @@ const Users = require("../modules/Users");
 router.post("/register/login", async (req, res) => {
   try {
     const { mobile } = req.body;
-    const mobileRegex = /^\+\d{13}$/;
+    const mobileRegex = /^\+\d{12}$/; // Allow '+' followed by exactly 12 digits
 
     if (!mobile || !mobileRegex.test(mobile)) {
       return res.status(400).json({ error: "Invalid mobile number" });
@@ -40,7 +41,6 @@ router.post("/register/login", async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 // userProfile PoST..................
 router.post("/profile", async (req, res) => {
