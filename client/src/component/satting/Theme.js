@@ -64,33 +64,39 @@ const Theme = ({ setActiveTheme }) => {
         style={{ backgroundColor: `${userData.usertheme}` }}
       >
         <h1 className="text-lg font-light text-red-500">Theme</h1>
-        <form action="" onSubmit={(e) => handleSubmit(e)}>
+        <div>
           <Input
             type="radio"
             name="theme"
-            value="#333"
-            onChange={(e) => setInputValue({value: e.target.value, label: "Light"})}
+            value="#fff"
+            onChange={(e) =>
+              setInputValue({ value: e.target.value, label: "Light" })
+            }
             label="Light"
             className="w-5 h-5"
-            checked={userData.usertheme === "#333"}
+            checked={userData.usertheme === "#fff"}
           />
           <Input
             type="radio"
             name="theme"
-            value="#121212"
-            onChange={(e) => setInputValue({value: e.target.value, label: "Dark"})}
+            value="#000"
+            onChange={(e) =>
+              setInputValue({ value: e.target.value, label: "Dark" })
+            }
             label="Dark"
             className="w-5 h-5"
-            checked={userData.usertheme === "#121212"}
+            checked={userData.usertheme === "#000"}
           />
           <Input
             type="radio"
             name="theme"
-            value="#fafafa"
-            onChange={(e) => setInputValue({value: e.target.value, label: "System default"})}
+            value="null"
+            onChange={(e) =>
+              setInputValue({ value: e.target.value, label: "System default" })
+            }
             label="System default"
             className="w-5 h-5"
-            checked={userData.usertheme === "#fafafa"}
+            checked={userData.usertheme === "null"}
           />
           <div className="flex flex-row w-full justify-end items-center pt-4 gap-4">
             <button
@@ -100,13 +106,13 @@ const Theme = ({ setActiveTheme }) => {
               Cancel
             </button>
             <button
-              type="submit"
+              onClick={(e) => handleSubmit(e)}
               className="text-lg px-4 rounded-full text-black bg-teal-600 hover:bg-teal-500"
             >
               OK
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -16,14 +16,6 @@ import Loaderhome from "../Loaderhome";
 import Groupchats from "../groups/Groupchats";
 
 function Home() {
-  // loader.................
-  const [loading, setLoading] = useState(0);
-  useEffect(() => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 6000);
-  }, []);
   // profile...............
   const [activeButton, setActiveButton] = useState("chats");
   const handleButtonClick = (buttonIndex) => {
@@ -43,36 +35,71 @@ function Home() {
 
     console.log(id);
   };
-  // User Details
+  
+  const defaultImage = "/profiledefaultimage.jpg";
+  const [imageUrl, setImageUrl] = useState("");
+  
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
-  // profile images.....................
-  const defaultImage = "/profiledefaultimage.jpg";
-  const [imageUrl, setImageUrl] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [percent, setPercent] = useState(0);
+
   useEffect(() => {
+    if (!users.id) {
+      console.error("User ID is undefined. Cannot fetch user details.");
+      return;
+    }
     const fetchData = async () => {
       try {
         const res = await fetch(
           `https://whats-app-clone-server-psi.vercel.app/api/userdetails/${users.id}`
         );
+
+        if (!res.ok) {
+          throw new Error(`Error fetching data: ${res.statusText}`);
+        }
+
         const jsonData = await res.json();
-        setImageUrl(jsonData.userimage);
+        setImageUrl(jsonData);
+        console.log("API response data:", jsonData);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
     };
+
     fetchData();
+
+    const interval = setInterval(() => {
+      setProgress((val) => {
+        if (val < 100) {
+          return val + 5;
+        }
+        clearInterval(interval);
+        return val;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
   }, [users.id]);
+
+  useEffect(() => {
+    if (progress <= 100) {
+      setPercent(progress);
+    }
+  }, [progress]);
+
   return (
     <div className="">
-      {loading ? (
-        <Loaderhome />
-      ) : (
-        <div className="bg-dark2 flex flex-row justify-center">
-          <div className="user-right-border bg-dark6 w-[33%] h-screen text-white">
+      {progress === 100 ? (
+        <div className="flex flex-row justify-center">
+          <div
+            className="user-right-border bg-dark6 w-[33%] h-screen text-white"
+            style={{ backgroundColor: `${imageUrl.usertheme}111` }}
+          >
             <div className="flex flex-row w-full h-screen">
               <div
+                style={{ backgroundColor: `${imageUrl.usertheme}7f8` }}
                 className={`w-[11%] bg-dark3 flex flex-col items-center justify-between py-5`}
               >
                 <div className="flex flex-col gap-5 text-slate-400 text-2xl">
@@ -142,7 +169,9 @@ function Home() {
                     onClick={() => handleButtonClick("profile")}
                     className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
                     style={{
-                      backgroundImage: `url(${imageUrl || defaultImage})`,
+                      backgroundImage: `url(${
+                        imageUrl.userimage || defaultImage
+                      })`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
@@ -166,9 +195,15 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="bg-dark2 w-[67%] h-screen text-white">
+          <div
+            className="bg-dark2 w-[67%] h-screen text-white"
+            style={{ backgroundColor: `${imageUrl.usertheme}101` }}
+          >
             {userClickChat === "mainses" && (
-              <div className="w-full h-screen bg-dark3 flex flex-col items-center justify-center">
+              <div
+                className="w-full h-screen bg-dark3 flex flex-col items-center justify-center"
+                style={{ backgroundColor: `${imageUrl.usertheme}b21` }}
+              >
                 <div className="w-full flex justify-center">
                   <img src="frontchat.png" alt="Bird" />
                 </div>
@@ -187,10 +222,12 @@ function Home() {
                 </div>
               </div>
             )}
-            {userClickChat === "userchats" && <Chats userId={userId} />}
-            {userClickChat === "groupchats" && <Groupchats groupId={groupId} />}
+            {userClickChat === "userchats" && <Chats theme={imageUrl?.usertheme} userId={userId} />}
+            {userClickChat === "groupchats" && <Groupchats theme={imageUrl?.usertheme} groupId={groupId} />}
           </div>
         </div>
+      ) : (
+        <Loaderhome percent={percent} />
       )}
     </div>
   );

@@ -18,7 +18,7 @@ import Userprofile from "../Userprofile";
 import SenderChatPanel from "../SenderChatPanel";
 import ReceiverChatPanel from "../ReceiverChatPanel";
 
-const Chats = ({ userId }) => {
+const Chats = ({ userId, theme }) => {
   const [isModal, setIsModal] = useState(false);
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
@@ -140,7 +140,10 @@ const Chats = ({ userId }) => {
             activeNavbar ? "w-[60%]" : "w-full"
           }`}
         >
-          <div className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center">
+          <div
+            className="w-full bg-dark3 py-2 px-4 h-14 flex flex-row justify-between items-center"
+            style={{ backgroundColor: `${theme}b21` }}
+          >
             <button
               onClick={() => handleNavbarClick("profiledetails")}
               className="flex flex-row gap-3 w-full"
@@ -347,7 +350,10 @@ const Chats = ({ userId }) => {
               </div>
             )}
           </div>
-          <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
+          <div
+            className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4"
+            style={{ backgroundColor: `${theme}b21` }}
+          >
             <div className="relative">
               {isClickDocument && (
                 <div
@@ -394,7 +400,10 @@ const Chats = ({ userId }) => {
                 <FaPlus />
               </button>
             </div>
-            <div className="flex items-center w-full px-2 rounded-md bg-dark5">
+            <div
+              className="flex items-center w-full px-2 rounded-md bg-dark5"
+              style={{ backgroundColor: `${theme}b40` }}
+            >
               <button
                 ref={buttonRefEmoji}
                 onClick={() => setIsclickEmoji((prev) => !prev)}

@@ -1,48 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Loaderhome = () => {
-  const [progress, setProgress] = useState(0);
-  const [percent, setPercent] = useState(progress);
-  useEffect(() => {
-    setInterval(() => {
-      setProgress((val) => val + 1);
-    }, 100);
-  }, []);
-  useEffect(() => {
-    if (percent < 100) {
-      setTimeout(() => setPercent((nval) => nval + 2), 100);
-    }
-  }, [percent]);
+const Loaderhome = ({ percent }) => {
   return (
-    <div className="w-full h-screen bg-dark6 text-white flex flex-col gap-6 justify-center items-center">
-      <div className=" border-x-8 border-yellow-700 border-x-lime-700 rounded-full p-4 animate-rotate-left-to-right">
-        <div className="border-y-8 border-emerald-700 border-x-cyan-700 rounded-full p-4 animate-rotate-right-to-left">
-          <div className="border-x-8 border-blue-700 border-x-pink-700 rounded-full p-4 animate-rotate-right-to-left">
-            <div className="animate-rotate-left-to-right border-x-8 border-red-700 border-x-white gap-2 rounded-full flex justify-center items-center px-4 sm:px-7 md:px-8 lg:px-9 py-10 sm:py-16 md:py-20 lg:py-24">
-              <h1 className="uppercase animate-text-white shadow-sm shadow-red-300 font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
-                r
-              </h1>
-              <h1 className="uppercase animate-text-red shadow-sm shadow-red-300 text-2xl sm:text-4xl md:text-5xl font-extrabold lg:text-6xl">
-                e
-              </h1>
-              <h1 className="uppercase animate-text-red shadow-sm shadow-red-300 text-2xl sm:text-4xl md:text-5xl font-extrabold lg:text-6xl">
-                a
-              </h1>
-              <h1 className="uppercase animate-text-white shadow-sm shadow-red-300 font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-6xl">
-                l
-              </h1>
-            </div>
+    <>
+      <div className="w-full h-screen bg-dark6 text-white flex flex-col gap-6 justify-center items-center">
+        <div className="animate-rotate-left-to-right border-8 border-t-whitmix1 border-b-whitmix2 border-r-teal-500 border-l-green-500 w-28 sm:w-44 h-28 sm:h-44 overflow-hidden rounded-full">
+          <div className="animate-rotate-right-to-left flex flex-row justify-center items-center gap-2 w-full h-full bg-dark6">
+            <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
+              r
+            </h1>
+            <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
+              e
+            </h1>
+            <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
+              a
+            </h1>
+            <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
+              l
+            </h1>
           </div>
         </div>
+        <div className="bg-dark4 w-[30%] h-1">
+          <div
+            className="bg-whitmix1 h-[100%]"
+            style={{ width: `${percent}%` }}
+          ></div>
+        </div>
+        <div className="text-slate-400 my-5 ">WhatsApp</div>
       </div>
-      <div className="bg-dark4 w-[30%] h-1.5">
-        <div
-          className="bg-whitmix1 h-[100%]"
-          style={{ width: `${percent}%` }}
-        ></div>
-      </div>
-      <div className="text-white">{percent}%</div>
-    </div>
+      {/* Style in animations */}
+      <style>
+        {`
+      .animate-rotate-left-to-right {
+    animation: rotate-left-to-right 4s linear infinite;
+}
+.animate-rotate-right-to-left {
+    animation: rotate-right-to-left 4s linear infinite;
+}
+
+@keyframes rotate-left-to-right {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-right-to-left {
+    0% {
+        transform: rotate(360deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.animate-text-white {
+    animation: text-animation-white 4s ease infinite alternate;
+}
+
+@keyframes text-animation-white {
+    0% {
+        transform: scale(1);
+        color: #0d9488;
+    }
+
+    100% {
+        transform: scale(1.2);
+        color: #6ee7b7;
+    }
+}
+.animate-text-red {
+    animation: text-animation-red 4s ease infinite alternate;
+}
+
+@keyframes text-animation-red {
+    0% {
+        transform: scale(1);
+        color: #6ee7b7;
+    }
+
+    100% {
+        transform: scale(1.2);
+        color: #0d9488;
+    }
+}
+      `}
+      </style>
+    </>
   );
 };
 

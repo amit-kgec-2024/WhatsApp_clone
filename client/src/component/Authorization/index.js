@@ -6,10 +6,21 @@ const Authorization = () => {
   const navigate = useNavigate();
 
   const [mobileNumber, setMobileNumber] = useState({
-    mobile: "",
+    mobile: "+91 ",
   });
   const [errorsMsg, setErrorMsg] = useState(null);
-  const [successSave, setSuccessSave] = useState(null)
+  const [successSave, setSuccessSave] = useState(null);
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (value.startsWith("+") && value.length <= 14) {
+      setMobileNumber({ mobile: value });
+    }
+  };
+const handleKeyPress = (e) => {
+  if (e.key === "Enter") {
+    submitHandle(e);
+  }
+};
   const submitHandle = async (e) => {
     e.preventDefault();
     try {
@@ -76,10 +87,9 @@ const Authorization = () => {
           <input
             type="text"
             value={mobileNumber.mobile}
-            onChange={(r) =>
-              setMobileNumber({ ...mobileNumber, mobile: r.target.value })
-            }
-            maxLength={10}
+            onChange={handleChange}
+            onKeyPress={handleKeyPress}
+            maxLength={14}
             className="w-[100%] bg-slate-100 outline-none p-1 md:p-2 font-bold"
             placeholder="Mobile number"
           />
