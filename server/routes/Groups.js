@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Users = require("../modules/Users");
 const Group = require("../modules/Group");
+const GroupChats = require("../modules/GroupChats");
 
 // Create Groups............................................/api/create/groups
 router.post("/create/groups/:adminId", async (req, res) => {
@@ -225,6 +226,5 @@ router.post("/groups/remove-ids/:groupId", async (req, res) => {
     res.status(400).json({ success: false, message: err.message });
   }
 });
-
 
 module.exports = router;

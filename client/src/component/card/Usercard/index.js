@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import useClickOutside from "../../../hooks/useClickOutside";
 
@@ -20,14 +20,6 @@ const Usercard = ({
     setIsclick(false);
   });
 
-  const [textLoder, setTextLoder] = useState(0);
-  useEffect(() => {
-    setTextLoder(true);
-    setTimeout(() => {
-      setTextLoder(false);
-    }, 1000);
-  }, []);
-
   return (
     <div className="">
       <button
@@ -48,9 +40,7 @@ const Usercard = ({
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
             <h1 className="font-light">{username}</h1>
-            <h4 className="text-xs text-slate-400 font-thin">
-              {textLoder ? <div>Loading...</div> : <div>{lastmessage}</div>}
-            </h4>
+            <h4 className="text-xs text-slate-400 font-thin">{lastmessage}</h4>
           </div>
           <div className="pr-4 float-right">
             <h3 className="text-xs text-slate-400">{timestamp}</h3>

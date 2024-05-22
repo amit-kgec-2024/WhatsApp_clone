@@ -97,16 +97,6 @@ function Home() {
                     <MdOutlineGroups />
                   </button>
                   <button
-                    onClick={() => handleButtonClick("channels")}
-                    className={`p-2 ${
-                      activeButton === "channels"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <RiChatVoiceFill />
-                  </button>
-                  <button
                     onClick={() => handleButtonClick("status")}
                     className={`user-top-bottom-border p-2 ${
                       activeButton === "status"
@@ -115,6 +105,16 @@ function Home() {
                     }`}
                   >
                     <IoSyncCircleOutline />
+                  </button>
+                  <button
+                    onClick={() => handleButtonClick("channels")}
+                    className={`p-2 ${
+                      activeButton === "channels"
+                        ? "rounded-full bg-dark5"
+                        : "bg-none"
+                    }`}
+                  >
+                    <RiChatVoiceFill />
                   </button>
                 </div>
                 <div className="flex flex-col gap-5 text-slate-400 text-2xl">
@@ -187,16 +187,8 @@ function Home() {
                 </div>
               </div>
             )}
-            {userClickChat === "userchats" &&
-              <Chats
-                userId={userId}
-              />
-            }
-            {userClickChat === "groupchats" && 
-              <Groupchats
-                groupId={groupId}
-              />
-            }
+            {userClickChat === "userchats" && <Chats userId={userId} />}
+            {userClickChat === "groupchats" && <Groupchats groupId={groupId} />}
           </div>
         </div>
       )}

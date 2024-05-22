@@ -13,18 +13,17 @@ app.use(bodyParser.json());
 // connect DB
 require("./db/connections");
 
-
 // Import Routes...................
-const userRoutes = require('./routes/User');
-const userChatRoutes = require('./routes/UserChats');
-const groupRoutes = require('./routes/Groups');
-const groupChatRoutes = require('./routes/GroupChats')
+const userRoutes = require("./routes/User");
+const userChatRoutes = require("./routes/UserChats");
+const groupRoutes = require("./routes/Groups");
+const groupChatRoutes = require("./routes/GroupChats");
 
 // Use Routes..........
-app.use('/api', userRoutes);
-app.use('/api', userChatRoutes);
-app.use('/api', groupRoutes);
-app.use('/api', groupChatRoutes);
+app.use("/api", userRoutes);
+app.use("/api", userChatRoutes);
+app.use("/api", groupRoutes);
+app.use("/api", groupChatRoutes);
 
 const port = process.env.PORT || 4000;
 // .....................

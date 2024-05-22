@@ -14,12 +14,10 @@ const Newchats = ({ onClick, handelUserChatsClick}) => {
   const inputRef = useRef(null);
 
   useClickOutside([searchRef, inputRef], () => {
-    // console.log("check hook");
     setShowSearch(true);
   });
 
   const toggleSearch = () => {
-    // console.log("check toggle");
     setShowSearch((prev) => !prev);
   };
   // New Groups.............

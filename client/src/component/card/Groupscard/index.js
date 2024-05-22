@@ -17,14 +17,29 @@ const Groupscard = ({
     setIsclick(false);
   });
 
-  const [textLoder, setTextLoder] = useState(0);
-  useEffect(() => {
-    setTextLoder(true);
-    setTimeout(() => {
-      setTextLoder(false);
-    }, 1000);
-  }, []);
+  // User Details
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  const [lastMessage, setLastMessage] = useState(null);
 
+  useEffect(() => {
+    const fetchLastMessage = async () => {
+      try {
+        const response = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/group/card/chat/data/${groupId}`
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setLastMessage(data.lastMessage);
+      } catch (err) {
+        console.log(err.message);
+      }
+    };
+    fetchLastMessage();
+  }, [groupId]);
   return (
     <div className="">
       <button
@@ -39,18 +54,23 @@ const Groupscard = ({
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
-          >
-          </div>
+          ></div>
         </div>
         <div className="user-top-border w-full py-3 flex flex-row justify-between items-center">
           <div className="flex flex-col items-start">
             <h1 className="font-light">{groupname}</h1>
-            <h4 className="text-xs text-slate-400 font-thin">
-              {textLoder ? <div>Loading...</div> : <div>hii</div>}
-            </h4>
+            <div className="text-xs text-slate-400 font-thin">
+                <div className="text-sm">
+                  {lastMessage?.sender === users.id
+                    ? "You"
+                    : lastMessage?.senderDetails?.username ||
+                      lastMessage?.senderDetails?.mobile}
+                  {lastMessage && ":"} {lastMessage?.message}
+                </div>
+            </div>
           </div>
           <div className="pr-4 float-right">
-            <h3 className="text-xs text-slate-400">0</h3>
+            <h3 className="text-xs text-slate-400">{lastMessage?.timestamp}</h3>
             <div className="relative flex justify-around">
               {/* {unreadmsg === "true" ? (
                 <h1 className="text-xs bg-teal-500 rounded-full text-black w-6 h-6  p-1">

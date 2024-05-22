@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import Archived from "../Archived";
 import Starredmessage from "../Starredmessage";
 import Groups from "../groups/Groups";
+import LoaderCard from "../card/LoaderCard";
 
 
 const Users = ({ handelUserChatsClick }) => {
@@ -191,23 +192,24 @@ const Users = ({ handelUserChatsClick }) => {
             Groups
           </button>
         </div>
-        <div className="">
-          <button
-            onClick={() => handelChatsClick("archived")}
-            className={`flex flex-row justify-between items-center py-2 px-5 w-full ${
-              isChats ? "rounded-full bg-dark5" : "bg-none"
-            }`}
-          >
-            <div className="flex flex-row items-center text-lg gap-4">
-              <RiInboxArchiveLine className="text-whitmix1" />
-              <p>Archived</p>
-            </div>
-            <h1 className="text-whitmix1">18</h1>
-          </button>
-        </div>
-        <div className="scrollbaruser overflow-y-scroll max-h-[70vh]">
+
+        <div className="scrollbaruser overflow-y-scroll max-h-[76vh]">
           {activeUser === "all" && (
             <div>
+              <div className="py-2">
+                <button
+                  onClick={() => handelChatsClick("archived")}
+                  className={`flex flex-row justify-between items-center py-2 px-5 w-full ${
+                    isChats ? "rounded-full bg-dark5" : "bg-none"
+                  }`}
+                >
+                  <div className="flex flex-row items-center text-lg gap-4">
+                    <RiInboxArchiveLine className="text-whitmix1" />
+                    <p>Archived</p>
+                  </div>
+                  <h1 className="text-whitmix1">18</h1>
+                </button>
+              </div>
               {userDetails.length > 0 ? (
                 userDetails.map((element, index) => (
                   <Usercard
@@ -223,8 +225,8 @@ const Users = ({ handelUserChatsClick }) => {
                     handelUserChatsClick={handelUserChatsClick}
                   />
                 ))
-              ) : (
-                <p>No user details available</p>
+              ) : 
+                [1,2,3,4,5,6,7,8].map((ele)=><LoaderCard/>
               )}
             </div>
           )}

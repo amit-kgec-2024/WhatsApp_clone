@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Groupscard from '../../card/Groupscard';
+import LoaderCard from '../../card/LoaderCard';
 
 const Groups = ({ handelUserChatsClick }) => {
   const defauGroupImage = "/defaultgroupimage.png";
@@ -41,8 +42,8 @@ const Groups = ({ handelUserChatsClick }) => {
             />
           ))
         ) : (
-          <p>No groups found</p>
-        )}
+          [1,2,3,4,5,6,7,8].map((ele)=><LoaderCard/>
+        ))}
       </div>
     </div>
   );

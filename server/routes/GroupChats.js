@@ -88,3 +88,42 @@ router.delete("/delete/group/chats/:id", async (req, res) => {
 
 
 module.exports = router;
+
+// .............Group Cre chats data show.........................
+router.get("/group/card/chat/data/:groupId", async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const groupChats = await GroupChats.find({ receiver: groupId }).sort({
+      timestamp: -1,
+    });
+
+    if (groupChats.length === 0) {
+      return res.status(200).json({ lastMessage: null });
+    }
+
+    const lastMessage = groupChats[0];
+
+    const lastMessageSenderDetails = await Users.findById(lastMessage.sender);
+    const lastMessageObj = lastMessage.toObject();
+
+    const lastMessageTimestamp = new Date(lastMessageObj.timestamp);
+    const lastMessageTime = lastMessageTimestamp.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+
+    const lastMessageDetails = {
+      ...lastMessageObj,
+      senderDetails: lastMessageSenderDetails
+        ? lastMessageSenderDetails.toObject()
+        : null,
+      timestamp: lastMessageTime,
+    };
+
+    res.status(200).json({ lastMessage: lastMessageDetails });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error!" });
+  }
+});
