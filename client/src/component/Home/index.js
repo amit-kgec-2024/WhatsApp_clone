@@ -8,12 +8,13 @@ import { MdChat } from "react-icons/md";
 import Profile from "../Profile";
 import Communities from "../Communities";
 import Status from "../Status";
-import Channels from "../Channels";
+import Channels from "../channel/Channels";
 import Sattings from "../Sattings";
 import Users from "../Users";
 import Help from "../satting/Help";
 import Loaderhome from "../Loaderhome";
 import Groupchats from "../groups/Groupchats";
+import ChannelChats from "../channel/ChannelChats";
 
 function Home() {
   // profile...............
@@ -224,6 +225,7 @@ function Home() {
             )}
             {userClickChat === "userchats" && <Chats theme={imageUrl?.usertheme} userId={userId} />}
             {userClickChat === "groupchats" && <Groupchats theme={imageUrl?.usertheme} groupId={groupId} />}
+            {userClickChat === "channelchats" && <ChannelChats theme={imageUrl?.usertheme} groupId={groupId} />}
           </div>
         </div>
       ) : (

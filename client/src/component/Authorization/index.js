@@ -23,7 +23,6 @@ const Authorization = () => {
   };
   const submitHandle = async (e) => {
     e.preventDefault();
-    console.log("op--->", mobileNumber.mobile);
     try {
       const res = await fetch(
         "https://whats-app-clone-server-psi.vercel.app/api/register/login",
@@ -53,7 +52,7 @@ const Authorization = () => {
     if (errorsMsg) {
       const timer = setTimeout(() => {
         setErrorMsg(null);
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [errorsMsg]);
@@ -61,7 +60,7 @@ const Authorization = () => {
     if (successSave) {
       const timer = setTimeout(() => {
         setSuccessSave(null);
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [successSave]);

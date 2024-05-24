@@ -2,14 +2,18 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../../../utils/cropImage";
 import { RxCross2 } from "react-icons/rx";
-import { FaAngleRight, FaCheck } from "react-icons/fa6";
-import {
-  IoStar,
-  IoNotificationsSharp,
-  IoTimer,
-  IoExitOutline,
-} from "react-icons/io5";
-import { IoMdLock } from "react-icons/io";
+import { FaAngleRight, FaCheck, FaPlus } from "react-icons/fa6";
+import { MdOutlinePublic } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
+import { GoAlertFill } from "react-icons/go";
+import { IoKeypad } from "react-icons/io5";
+import { IoIosNotifications } from "react-icons/io";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiUserShared2Fill } from "react-icons/ri";
+import { IoExitOutline } from "react-icons/io5";
+import { IoMdCheckmark } from "react-icons/io";
+import { TiArrowForward } from "react-icons/ti";
+import { MdInsertLink } from "react-icons/md";
 import { MdModeEdit } from "react-icons/md";
 import { BiSolidDislike } from "react-icons/bi";
 import Starredmessage from "../../Starredmessage";
@@ -17,10 +21,9 @@ import Medialink from "../../contactinfo/Medialink";
 import Disappearing from "../../contactinfo/Disappearing";
 import Encryption from "../../contactinfo/Encryption";
 import useClickOutside from "../../../hooks/useClickOutside";
-import Groupinfocard from "../../card/Groupinfocard";
-import Groupimage from "../Groupimage";
+import ChannelImage from "../ChannelImage";
 
-const Groupprofile = ({ onClick, groupId }) => {
+const ChannelProfile = ({ onClick, groupId}) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -264,7 +267,7 @@ const Groupprofile = ({ onClick, groupId }) => {
           <button onClick={onClick} className="ml-8">
             <RxCross2 />
           </button>
-          <h1>Group info</h1>
+          <h1>Channel info</h1>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
           <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
@@ -346,7 +349,7 @@ const Groupprofile = ({ onClick, groupId }) => {
             )}
             {isProfilePicture && (
               <div className="absolute w-full h-screen left-0 top-0">
-                <Groupimage
+                <ChannelImage
                   groupId={groupId}
                   onClick={() => setProfilePicture(false)}
                 />
@@ -382,9 +385,21 @@ const Groupprofile = ({ onClick, groupId }) => {
                 </div>
               )}
             </div>
-            <h3 className="font-light text-slate-400">
-              Group . {groupDetails?.userIds?.length + 1} members
-            </h3>
+            <h3 className="font-light text-slate-400">Channel . 0 followers</h3>
+            <div className="flex justify-around items-center w-full my-3">
+              <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
+                <IoMdCheckmark />
+                <span className="text-sm">Following</span>
+              </button>
+              <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
+                <TiArrowForward />
+                <span className="text-sm">Forward</span>
+              </button>
+              <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
+                <MdInsertLink />
+                <span className="text-sm">Copy link</span>
+              </button>
+            </div>
           </div>
           <div className="bg-dark1 mt-2 py-6 px-8">
             {/* Edit group About */}
@@ -421,93 +436,91 @@ const Groupprofile = ({ onClick, groupId }) => {
               </div>
             )}
           </div>
-          <div className="bg-dark1">
-            <button
-              onClick={() => handleButtonClick("medialinks")}
-              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center bg-dark1 mt-2 py-4 px-8"
-            >
-              <h1 className="font-light">Media, links and docs</h1>
-              <h1 className="flex flex-row items-center gap-1 font-light">
-                16
-                <FaAngleRight />
-              </h1>
-            </button>
-            <div className="w-full h-[130px]"></div>
-          </div>
           <div className="w-full py-4 bg-dark1 mt-4 px-8">
             <button
-              onClick={() => handleButtonClick("starredmessages")}
-              className="flex flex-row justify-between items-center py-4 w-full"
-            >
-              <div className="flex flex-row items-center gap-5">
-                <IoStar />
-                <h1>Starred messages</h1>
-              </div>
-              <FaAngleRight />
-            </button>
-            <button className="flex flex-row justify-between items-center py-4 w-full">
-              <div className="flex flex-row items-center gap-5">
-                <IoNotificationsSharp />
-                <h1>Mute notifications</h1>
-              </div>
-              <FaAngleRight />
-            </button>
-            <button
-              onClick={() => handleButtonClick("disappearingmessages")}
-              className="flex flex-row justify-between items-center py-4 w-full"
-            >
-              <div className="flex flex-row items-center gap-5">
-                <IoTimer />
-                <h1 className="flex flex-col items-start">
-                  Diseppearing messages{" "}
-                  <span className="text-xs font-light">Off</span>
-                </h1>
-              </div>
-              <FaAngleRight />
-            </button>
-            <button
               onClick={() => handleButtonClick("encryption")}
-              className="py-4 w-full"
+              className="py-4 w-full flex items-center text-2xl gap-4"
             >
-              <div className="flex flex-row items-center gap-5">
-                <IoMdLock />
-                <h1 className="flex flex-col items-start">
-                  Encryption{" "}
-                  <span className="text-xs font-light">
-                    Messages are End-to-end encrypted. Click to verify.
-                  </span>
-                </h1>
+              <IoIosNotifications />
+              <h1 className="text-lg">Mute</h1>
+            </button>
+            <button className="flex flex-row justify-start items-center py-4 w-full text-4xl gap-4">
+              <MdOutlinePublic />
+              <div className="flex flex-col justify-start items-start text-lg">
+                <h1>Public channel</h1>
+                <h2 className="text-xs text-start text-slate-400">
+                  What you share is visiable to anyone, but you phone number
+                  isn`t. Click to learn more.
+                </h2>
+              </div>
+            </button>
+            <button className="flex flex-row items-center py-4 gap-4 text-3xl w-full">
+              <IoMdSettings />
+              <div className="flex flex-row items-center text-xl justify-between w-full">
+                <h1>Channel setting</h1>
+                <FaAngleRight />
+              </div>
+            </button>
+            <button className="flex flex-row gap-4 text-2xl items-center py-4 w-full">
+              <GoAlertFill />
+              <div className="text-xl">Channel alerts</div>
+            </button>
+            <button className="py-4 w-full">
+              <div className="flex flex-row items-center gap-5 text-2xl">
+                <IoKeypad />
+                <div className="flex flex-col text-start">
+                  <h1 className="text-xl">Profile privacy</h1>
+                  <h1 className="text-xs text-slate-400">
+                    The channel has added privacy for your profile and phone
+                    number. Click to learn more.
+                  </h1>
+                </div>
               </div>
             </button>
           </div>
-          <div className="w-full bg-dark1 max-h-[50vh] overflow-y-scroll scrollbaruser">
-            <Groupinfocard
-              key={adminDetails?._id}
-              adminid={adminDetails?._id}
-              adminDetails={adminDetails}
-              userabout={adminDetails?.userabout}
-              username={adminDetails?.username || adminDetails?.mobile}
-              userimage={adminDetails?.userimage}
-              groupId={groupId}
-            />
-            {userDetails?.map((user, index) => (
-              <Groupinfocard
-                key={user._id}
-                userId={user._id}
-                userabout={user.userabout}
-                username={user.username || user.mobile}
-                userimage={user.userimage}
-                groupId={groupId}
-              />
-            ))}
+          <div className="w-full py-1 my-2 bg-dark1">
+            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+              <h1 className="p-2 bg-whitmix1 rounded-full">
+                <FaPlus />
+              </h1>
+              <h1>Invite admins</h1>
+            </button>
+            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+              <h1 className="p-2 bg-whitmix1 rounded-full">
+                <MdInsertLink />
+              </h1>
+              <h1>Channel link</h1>
+            </button>
+            <div className="flex flex-row justify-start items-center gap-4 py-4 px-10">
+              <div className="w-10 h-10 bg-red-400 rounded-full"></div>
+              <div className="flex flex-row w-full justify-between">
+                <div className="flex flex-col items-start">
+                  <h1 className="">You</h1>
+                  <h2 className="text-xs text-slate-400">
+                    You`re not visiable to followers
+                  </h2>
+                </div>
+                <button className="text-xs p-1 bg-slate-600 flex text-start my-3">
+                  Owner
+                </button>
+              </div>
+            </div>
+            <div className="user-top-border p-2 text-sm text-slate-400">
+              You can only view individual followers who are contacts or admins.
+            </div>
           </div>
           <div className="w-full py-4 bg-dark1 mb-16">
-            <button
-              onClick={handleSubmitExit}
-              className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
-            >
+            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-whitmix1 w-full hover:bg-dark3">
+              <RiUserShared2Fill />
+              <h1>Transfer ownership</h1>
+            </button>
+            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+              <RiDeleteBin6Line />
+              <h1>Delete channel</h1>
+            </button>
+            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
               <IoExitOutline />
-              <h1>Exit group</h1>
+              <h1>Unfollow</h1>
             </button>
             <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
               <BiSolidDislike />
@@ -532,4 +545,4 @@ const Groupprofile = ({ onClick, groupId }) => {
   );
 };
 
-export default Groupprofile;
+export default ChannelProfile;

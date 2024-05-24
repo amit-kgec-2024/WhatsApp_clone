@@ -1,11 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaAngleRight, FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa6";
+import {
+  FaAngleRight,
+  FaArrowLeft,
+  FaArrowRight,
+  FaCheck,
+} from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-import Groupuser from "../card/Groupuser";
+import Groupuser from "../../card/Groupuser";
 import { IoCameraOutline, IoCheckmarkSharp } from "react-icons/io5";
-import getCroppedImg from "../../utils/cropImage";
+import getCroppedImg from "../../../utils/cropImage";
 import Cropper from "react-easy-crop";
-import useClickOutside from "../../hooks/useClickOutside";
+import useClickOutside from "../../../hooks/useClickOutside";
 
 const Newgroup = ({ onClick }) => {
   const [isClick, setIsclick] = useState(false);
@@ -214,12 +219,13 @@ const Newgroup = ({ onClick }) => {
                   <div
                     className="w-[25px] h-[25px] rounded-full overflow-hidden"
                     style={{
-                      backgroundImage: `url(${userDetails[group.userId].userimage || defaultImage})`,
+                      backgroundImage: `url(${
+                        userDetails[group.userId].userimage || defaultImage
+                      })`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
-                  >
-                  </div>
+                  ></div>
                   <h3 className="text-xs">
                     {userDetails[group.userId].username ||
                       userDetails[group.userId].mobile}

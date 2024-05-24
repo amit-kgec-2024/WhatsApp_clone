@@ -11,13 +11,12 @@ import Groupscard from "../card/Groupscard";
 import userGroupData from "../../utils/userGroupData";
 import Newchats from "../Newchats";
 import Modal from "../Modal";
-import Newgroup from "../Newgroup";
+import Newgroup from "../groups/Newgroup";
 import { useNavigate } from "react-router-dom";
 import Archived from "../Archived";
 import Starredmessage from "../Starredmessage";
 import Groups from "../groups/Groups";
 import LoaderCard from "../card/LoaderCard";
-
 
 const Users = ({ handelUserChatsClick }) => {
   const [showSearch, setShowSearch] = useState(true);
@@ -210,24 +209,22 @@ const Users = ({ handelUserChatsClick }) => {
                   <h1 className="text-whitmix1">18</h1>
                 </button>
               </div>
-              {userDetails.length > 0 ? (
-                userDetails.map((element, index) => (
-                  <Usercard
-                    key={index}
-                    username={
-                      element.userDetails?.username ||
-                      element.userDetails?.mobile
-                    }
-                    userimage={element.userDetails?.userimage || defaultImage}
-                    userId={element.userDetails?._id}
-                    lastmessage={element.lastMessage?.message}
-                    timestamp={element.lastMessage?.time}
-                    handelUserChatsClick={handelUserChatsClick}
-                  />
-                ))
-              ) : 
-                [1,2,3,4,5,6,7,8].map((ele)=><LoaderCard/>
-              )}
+              {userDetails.length > 0
+                ? userDetails.map((element, index) => (
+                    <Usercard
+                      key={index}
+                      username={
+                        element.userDetails?.username ||
+                        element.userDetails?.mobile
+                      }
+                      userimage={element.userDetails?.userimage || defaultImage}
+                      userId={element.userDetails?._id}
+                      lastmessage={element.lastMessage?.message}
+                      timestamp={element.lastMessage?.time}
+                      handelUserChatsClick={handelUserChatsClick}
+                    />
+                  ))
+                : [1, 2, 3, 4, 5, 6, 7, 8].map((ele) => <LoaderCard />)}
             </div>
           )}
           {activeUser === "unread" && (

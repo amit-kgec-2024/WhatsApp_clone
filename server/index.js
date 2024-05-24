@@ -17,12 +17,14 @@ const userRoutes = require("./routes/User");
 const userChatRoutes = require("./routes/UserChats");
 const groupRoutes = require("./routes/Groups");
 const groupChatRoutes = require("./routes/GroupChats");
+const channelRouts = require("./routes/Channel");
 
 // Use Routes..........
 app.use("/api", userRoutes);
 app.use("/api", userChatRoutes);
 app.use("/api", groupRoutes);
 app.use("/api", groupChatRoutes);
+app.use("/api/channel", channelRouts);
 
 const port = process.env.PORT || 4000;
 // .....................

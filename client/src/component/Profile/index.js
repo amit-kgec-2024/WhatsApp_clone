@@ -250,7 +250,6 @@ const Profile = () => {
     <div className="profile-animation w-full bg-dark6 h-screen">
       <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
       <div className="flex flex-col p-4 w-full">
-        <div className="">{userData.mobile}</div>
         <div className="w-full justify-center items-center flex py-8">
           <div
             className="prof-Images overflow-hidden rounded-full w-32 h-32 md:w-48 md:h-48 bg-white flex justify-center items-center"

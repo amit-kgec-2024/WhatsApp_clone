@@ -4,7 +4,7 @@ const Channelcard = ({ userimg, username, usertexts, usertime, handelUserChatsCl
   return (
     <div className="">
       <button
-        onClick={() => handelUserChatsClick("userchats")}
+        onClick={() => handelUserChatsClick("channelchats")}
         className=".user-top-bottom-border w-full hover:bg-dark3"
       >
         <div className="p-3 flex flex-row w-full justify-start gap-4 items-center">
