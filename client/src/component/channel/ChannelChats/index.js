@@ -21,7 +21,7 @@ import SenderGroupChatPanel from "../../groups/SenderGroupChatPanel";
 import ReciverGroupChatPanel from "../../groups/ReciverGroupChatPanel";
 import ChannelProfile from "../ChannelProfile";
 
-const ChannelChats = () => {
+const ChannelChats = ({ channelId }) => {
   const [activeNavbar, setActiveNavbar] = useState(null);
   const handleNavbarClick = (navbarIndex) => {
     setActiveNavbar(navbarIndex);
@@ -68,7 +68,23 @@ const ChannelChats = () => {
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
-  
+  const [isAllChannel, setIsAllChannel] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/channel/details/${channelId}`
+        );
+        const jsonData = await res.json();
+        setIsAllChannel(jsonData);
+        console.log("bbb--->", jsonData)
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [channelId]);
   return (
     <div className=" w-full h-full pd-2">
       <div className="flex flex-row w-full justify-between">
@@ -85,27 +101,47 @@ const ChannelChats = () => {
               <div
                 className="w-8 h-8 rounded-full overflow-hidden"
                 style={{
-                  backgroundImage: `url(${defauGroupImage})`,
+                  backgroundImage: `url(${isAllChannel?.channelDetails?.channelimage})`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
               />
               <h2 className="flex flex-col items-start">
-                KGEC
-                <span className="text-xs font-light">0 Followers</span>
+                {isAllChannel?.channelDetails?.channelname}
+                <span className="text-xs font-light">
+                  {isAllChannel?.memberDetails?.length}{" "}Followers
+                </span>
               </h2>
             </button>
             <div className="flex flex-row gap-6 pr-2">
+              {isAllChannel?.channelDetails?.channeladminId === users.id ? (
                 <button
                   onClick={() => setIsclick((prev) => !prev)}
                   className={`flex flex-row justify-center items-center text-xl p-1 text-slate-400 gap-1 ${
                     isClick ? "rounded-full bg-dark5" : "bg-none"
                   }`}
                 >
-                  <IoLink/>
+                  <IoLink />
                 </button>
-                {isNotification ? <button onClick={handelNotification} className="text-xl text-slate-400"><MdOutlineNotificationsActive/></button> :
-                <button onClick={()=> setIsNotification(true)} className="text-xl text-slate-400"><MdOutlineNotificationsOff/></button>}
+              ) : (
+                <div className="flex items-center">
+                  {isNotification ? (
+                    <button
+                      onClick={handelNotification}
+                      className="text-xl text-slate-400"
+                    >
+                      <MdOutlineNotificationsActive />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setIsNotification(true)}
+                      className="text-xl text-slate-400"
+                    >
+                      <MdOutlineNotificationsOff />
+                    </button>
+                  )}
+                </div>
+              )}
               <div className="relative">
                 <button
                   onClick={() => setIsclickMenu((prev) => !prev)}
@@ -240,76 +276,80 @@ const ChannelChats = () => {
               </div>
             )}
           </div>
-          <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
-            <div className="relative">
-              {isClickDocument && (
-                <div
-                  ref={dropDownRefDocument}
-                  className="absolute -mt-[300px] bg-dark3 px-2 py-3 rounded-xl w-52 shadow-2xl"
+          {isAllChannel?.channelDetails?.channeladminId === users.id && (
+            <div className="w-full bg-dark3 py-3 px-4 flex flex-row gap-4">
+              <div className="relative">
+                {isClickDocument && (
+                  <div
+                    ref={dropDownRefDocument}
+                    className="absolute -mt-[300px] bg-dark3 px-2 py-3 rounded-xl w-52 shadow-2xl"
+                  >
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <HiDocumentText className="text-violet-600" />
+                      <span className="text-lg text-slate-300">Document</span>
+                    </button>
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <MdPhotoLibrary className="text-blue-600" />
+                      <span className="text-lg text-slate-300">
+                        Photos & videos
+                      </span>
+                    </button>
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <IoMdCamera className="text-pink-600" />
+                      <span className="text-lg text-slate-300">Camera</span>
+                    </button>
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <FaUserLarge className="text-cyan-600" />
+                      <span className="text-lg text-slate-300">Contact</span>
+                    </button>
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <HiBars3BottomLeft className="text-yellow-600" />
+                      <span className="text-lg text-slate-300">Poll</span>
+                    </button>
+                    <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
+                      <PiStickerFill className="text-teal-600" />
+                      <span className="text-lg text-slate-300">
+                        New Sticker
+                      </span>
+                    </button>
+                  </div>
+                )}
+                <button
+                  onClick={() => setIsclickDocument((prev) => !prev)}
+                  ref={buttonRefDocument}
+                  className={`text-2xl text-slate-300 p-1 ${
+                    isClickDocument
+                      ? "bg-dark6 rounded-full rotate-45"
+                      : "bg-none"
+                  }`}
                 >
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <HiDocumentText className="text-violet-600" />
-                    <span className="text-lg text-slate-300">Document</span>
-                  </button>
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <MdPhotoLibrary className="text-blue-600" />
-                    <span className="text-lg text-slate-300">
-                      Photos & videos
-                    </span>
-                  </button>
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <IoMdCamera className="text-pink-600" />
-                    <span className="text-lg text-slate-300">Camera</span>
-                  </button>
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <FaUserLarge className="text-cyan-600" />
-                    <span className="text-lg text-slate-300">Contact</span>
-                  </button>
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <HiBars3BottomLeft className="text-yellow-600" />
-                    <span className="text-lg text-slate-300">Poll</span>
-                  </button>
-                  <button className="flex flex-row items-center gap-3 text-xl hover:bg-dark6 py-2 px-1 w-full rounded-md">
-                    <PiStickerFill className="text-teal-600" />
-                    <span className="text-lg text-slate-300">New Sticker</span>
-                  </button>
-                </div>
-              )}
-              <button
-                onClick={() => setIsclickDocument((prev) => !prev)}
-                ref={buttonRefDocument}
-                className={`text-2xl text-slate-300 p-1 ${
-                  isClickDocument
-                    ? "bg-dark6 rounded-full rotate-45"
-                    : "bg-none"
-                }`}
-              >
-                <FaPlus />
+                  <FaPlus />
+                </button>
+              </div>
+              <div className="flex items-center w-full px-2 rounded-md bg-dark5">
+                <button
+                  ref={buttonRefEmoji}
+                  onClick={() => setIsclickEmoji((prev) => !prev)}
+                  className={`text-2xl text-slate-300 ${
+                    isClickEmoji ? "text-teal-700" : "text-slate-400"
+                  }`}
+                >
+                  <BiHappy />
+                </button>
+                <input
+                  type="text"
+                  // value={message}
+                  // onChange={handelInputMessage}
+                  // onKeyPress={handleKeyPress}
+                  placeholder="Type a message"
+                  className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
+                />
+              </div>
+              <button className="text-2xl text-slate-300">
+                <MdKeyboardVoice />
               </button>
             </div>
-            <div className="flex items-center w-full px-2 rounded-md bg-dark5">
-              <button
-                ref={buttonRefEmoji}
-                onClick={() => setIsclickEmoji((prev) => !prev)}
-                className={`text-2xl text-slate-300 ${
-                  isClickEmoji ? "text-teal-700" : "text-slate-400"
-                }`}
-              >
-                <BiHappy />
-              </button>
-              <input
-                type="text"
-                // value={message}
-                // onChange={handelInputMessage}
-                // onKeyPress={handleKeyPress}
-                placeholder="Type a message"
-                className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
-              />
-            </div>
-            <button className="text-2xl text-slate-300">
-              <MdKeyboardVoice />
-            </button>
-          </div>
+          )}
         </div>
         <div className={`${activeNavbar ? "w-[40%]" : ""}`}>
           {activeNavbar === "searchchats" && (
@@ -318,6 +358,7 @@ const ChannelChats = () => {
           {activeNavbar === "profiledetails" && (
             <ChannelProfile
               onClick={() => setActiveNavbar(false)}
+              channelId={channelId}
             />
           )}
         </div>

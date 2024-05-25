@@ -176,18 +176,21 @@ const CreateChannel = ({ setIsChannel }) => {
   // ...............Submit Channel..................
   const handleCreateChannel = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/channel/create`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          channelname: isChannelData.channelname,
-          channelimage: isChannelImage,
-          channelabout: isChannelData.channelabout,
-          channeladminId: users.id,
-        }),
-      });
+      const res = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            channelname: isChannelData.channelname,
+            channelimage: isChannelImage,
+            channelabout: isChannelData.channelabout,
+            channeladminId: users.id,
+          }),
+        }
+      );
       if (res.status === 400) {
         alert("Invalid Credential!");
       } else {

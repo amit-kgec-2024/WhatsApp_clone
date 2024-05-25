@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaArrowLeftLong,
   FaChevronLeft,
@@ -8,7 +8,7 @@ import SmallCard from "../SmallCard";
 import { MdSearch } from "react-icons/md";
 import ExploreChannel from "../ExploreChannel";
 
-const Findchannel = ({ onClick }) => {
+const Findchannel = ({ setIsChannel, handelUserChatsClick }) => {
   const [isExplore, setIsExplore] = useState(false);
   // Channel short card...........................
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15];
@@ -24,11 +24,39 @@ const Findchannel = ({ onClick }) => {
       Math.min(prevIndex + itemsPerPage, items.length - itemsPerPage)
     );
   };
+  // All Channel show............................
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  const [isAllChannel, setIsAllChannel] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/channel/all/${users.id}`
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok " + res.statusText);
+        }
+        const jsonData = await res.json();
+        setIsAllChannel(jsonData);
+      } catch (error) {
+        console.error("Error Fetching Data", error);
+      }
+    };
+
+    fetchData();
+  }, [users.id]);
+
   return (
     <div className="">
       <div className={`${isExplore ? "hidden" : ""}`}>
         <div className="flex flex-row gap-6 my-4 p-3 justify-start items-center w-full">
-          <button onClick={onClick} className="text-xl text-slate-400">
+          <button
+            onClick={() => setIsChannel(false)}
+            className="text-xl text-slate-400"
+          >
             <FaArrowLeftLong />
           </button>
           <h1 className="">Find channel</h1>
@@ -89,10 +117,27 @@ const Findchannel = ({ onClick }) => {
             </div>
           </div>
           {/* Cards................................. */}
-          <SmallCard />
+          {isAllChannel &&
+          isAllChannel.channels &&
+          isAllChannel.channels.length > 0 ? (
+            <ul>
+              {isAllChannel.channels.map((channel) => (
+                <SmallCard
+                  key={channel._id}
+                  channelId={channel._id}
+                  channelimage={channel.channelimage}
+                  channelname={channel.channelname}
+                  handelUserChatsClick={handelUserChatsClick}
+                  setIsChannel={setIsChannel}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p>No channels found</p>
+          )}
         </div>
       </div>
-      {isExplore && <ExploreChannel onClick={()=> setIsExplore(false)}/>}
+      {isExplore && <ExploreChannel onClick={() => setIsExplore(false)} />}
     </div>
   );
 };

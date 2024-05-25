@@ -18,6 +18,12 @@ const ChannelSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  channelmembers: [
+    {
+      type: String,
+      required: true,
+    }
+  ]
 });
 
 const Channels = mongoose.model("Channels", ChannelSchema);

@@ -25,13 +25,16 @@ function Home() {
 
   const [userId, setUserId] = useState();
   const [groupId, setGroupId] = useState();
+  const [channelId, setCgannelId] = useState();
   const [userClickChat, setUserClickChat] = useState("mainses");
   const handelUserChatsClick = (toggleUserChat, id) => {
     setUserClickChat(toggleUserChat);
     if (toggleUserChat === "userchats") {
       setUserId(id);
-    } else {
+    } else if(toggleUserChat === "groupchats") {
       setGroupId(id);
+    }else {
+      setCgannelId(id);
     }
 
     console.log(id);
@@ -225,7 +228,7 @@ function Home() {
             )}
             {userClickChat === "userchats" && <Chats theme={imageUrl?.usertheme} userId={userId} />}
             {userClickChat === "groupchats" && <Groupchats theme={imageUrl?.usertheme} groupId={groupId} />}
-            {userClickChat === "channelchats" && <ChannelChats theme={imageUrl?.usertheme} groupId={groupId} />}
+            {userClickChat === "channelchats" && <ChannelChats theme={imageUrl?.usertheme} channelId={channelId} />}
           </div>
         </div>
       ) : (

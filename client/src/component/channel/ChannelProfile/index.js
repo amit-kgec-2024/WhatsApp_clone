@@ -23,7 +23,7 @@ import Encryption from "../../contactinfo/Encryption";
 import useClickOutside from "../../../hooks/useClickOutside";
 import ChannelImage from "../ChannelImage";
 
-const ChannelProfile = ({ onClick, groupId}) => {
+const ChannelProfile = ({ onClick, channelId, groupId }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -38,7 +38,7 @@ const ChannelProfile = ({ onClick, groupId}) => {
     setIsclick(false);
   });
   //  Group About...........................
-  const defaultGroupAbout = "Add group description";
+  const [profileImg, setProfileImg] = useState("")
   const [groupAbout, setGroupAbout] = useState("");
   const [groupName, setGroupName] = useState("");
   const [isEditingabout, setIsEditingabout] = useState(true);
@@ -51,31 +51,26 @@ const ChannelProfile = ({ onClick, groupId}) => {
     setIsEditingname(false);
   };
   const [isProfilePicture, setProfilePicture] = useState(false);
-  // User Details........................
-  const defauGroupImage = "/defaultgroupimage.png";
-
-  // Group details........GET..........
-  const [groupDetails, setGroupDetails] = useState("");
+  // User Details.............................
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  const [isAllChannel, setIsAllChannel] = useState();
 
   useEffect(() => {
-    const fetchGroupDetails = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://whats-app-clone-server-psi.vercel.app/api/show/groups/${groupId}`
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/channel/details/${channelId}`
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch group details");
-        }
-        const data = await response.json();
-        setGroupDetails(data.data[0]);
+        const jsonData = await res.json();
+        setIsAllChannel(jsonData);
       } catch (error) {
-        console.error("Error fetching group details:", error);
+        console.log("Error Fetching Data", error);
       }
     };
-
-    fetchGroupDetails();
-  }, [groupId]);
-  const { adminDetails, userDetails } = groupDetails;
+    fetchData();
+  }, [channelId]);
   // GroupAbout Update...........................
   const handleSubmitGroupAbout = async (e) => {
     e.preventDefault();
@@ -233,33 +228,6 @@ const ChannelProfile = ({ onClick, groupId}) => {
       console.error("Error removing group image:", error);
     }
   };
-  // Group Exit.......................
-  const handleSubmitExit = async () => {
-    try {
-      const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/groups/remove-ids/${groupId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            adminId: groupDetails.adminId,
-            userIds: groupDetails.userIds,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-
-      const data = await response.json();
-      console.log("Data:", data);
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-    }
-  };
   return (
     <div className="user-left-border w-full h-screen bg-dark2">
       <div className={`${activeButton ? "hidden" : ""}`}>
@@ -271,18 +239,28 @@ const ChannelProfile = ({ onClick, groupId}) => {
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
           <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
-            <button
-              onClick={handleClick}
-              ref={buttonRef}
-              className="w-48 h-48 rounded-full overflow-hidden"
-              style={{
-                backgroundImage: `url(${
-                  groupDetails?.groupimage || defauGroupImage
-                })`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }}
-            ></button>
+            {isAllChannel?.channelDetails?.channeladminId === users.id ? (
+              <button
+                onClick={handleClick}
+                ref={buttonRef}
+                className="w-48 h-48 rounded-full overflow-hidden"
+                style={{
+                  backgroundImage: `url(${isAllChannel?.channelDetails?.channelimage})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              ></button>
+            ) : (
+              <button
+                onClick={() => setProfileImg((prev) => !prev)}
+                className="w-48 h-48 rounded-full overflow-hidden"
+                style={{
+                  backgroundImage: `url(${isAllChannel?.channelDetails?.channelimage})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              ></button>
+            )}
             {isClick && (
               <div
                 ref={dropDownRef}
@@ -350,47 +328,67 @@ const ChannelProfile = ({ onClick, groupId}) => {
             {isProfilePicture && (
               <div className="absolute w-full h-screen left-0 top-0">
                 <ChannelImage
-                  groupId={groupId}
+                  channelname={isAllChannel?.channelDetails?.channelname}
+                  channelimage={isAllChannel?.channelDetails?.channelimage}
                   onClick={() => setProfilePicture(false)}
                 />
               </div>
             )}
-            <div className="bg-dark1 mt-2 py-6 px-8">
-              {isEditingname ? (
-                <div className="flex flex-row gap-4">
-                  <h1 className="w-full p-1 font-light text-sm text-slate-300">
-                    {groupDetails?.groupname}
-                  </h1>
-                  <button
-                    onClick={handleEditname}
-                    className="text-xl text-slate-200"
-                  >
-                    <MdModeEdit />
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
-                  <input
-                    type="text"
-                    value={groupName}
-                    onChange={(e) => setGroupName(e.target.value)}
-                    className="bg-dark1 w-full outline-none p-1 font-semibold"
-                  />
-                  <button
-                    onClick={(e) => handleSubmitGroupName(e)}
-                    className="text-xl text-slate-300"
-                  >
-                    <FaCheck />
-                  </button>
-                </div>
+            {profileImg && (
+              <div className="absolute w-full h-screen left-0 top-0">
+                <ChannelImage
+                  onClick={() => setProfileImg(false)}
+                  channelname={isAllChannel?.channelDetails?.channelname}
+                  channelimage={isAllChannel?.channelDetails?.channelimage}
+                />
+              </div>
+            )}
+            {isAllChannel?.channelDetails?.channeladminId === users.id ? (
+              <div className="bg-dark1 mt-2 py-6 px-8">
+                {isEditingname ? (
+                  <div className="flex flex-row gap-4">
+                    <h1 className="w-full p-1 font-light text-sm text-slate-300">
+                      {isAllChannel?.channelDetails?.channelname}
+                    </h1>
+                    <button
+                      onClick={handleEditname}
+                      className="text-xl text-slate-200"
+                    >
+                      <MdModeEdit />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
+                    <input
+                      type="text"
+                      value={groupName}
+                      onChange={(e) => setGroupName(e.target.value)}
+                      className="bg-dark1 w-full outline-none p-1 font-semibold"
+                    />
+                    <button
+                      onClick={(e) => handleSubmitGroupName(e)}
+                      className="text-xl text-slate-300"
+                    >
+                      <FaCheck />
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <h1 className="w-full text-center my-4 p-1 font-light text-sm text-slate-300">
+                {isAllChannel?.channelDetails?.channelname}
+              </h1>
+            )}
+            <h3 className="font-light text-slate-400">
+              Channel .{" "}{isAllChannel?.memberDetails?.length}{' '}followers
+            </h3>
+            <div className="flex justify-center gap-16 items-center w-full my-3">
+              {isAllChannel?.channelDetails?.channeladminId === users.id || (
+                <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
+                  <IoMdCheckmark />
+                  <span className="text-sm">Following</span>
+                </button>
               )}
-            </div>
-            <h3 className="font-light text-slate-400">Channel . 0 followers</h3>
-            <div className="flex justify-around items-center w-full my-3">
-              <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
-                <IoMdCheckmark />
-                <span className="text-sm">Following</span>
-              </button>
               <button className="flex flex-col text-whitmix1 text-3xl gap-2 items-center">
                 <TiArrowForward />
                 <span className="text-sm">Forward</span>
@@ -401,49 +399,53 @@ const ChannelProfile = ({ onClick, groupId}) => {
               </button>
             </div>
           </div>
-          <div className="bg-dark1 mt-2 py-6 px-8">
-            {/* Edit group About */}
-            {isEditingabout ? (
-              <div className="flex flex-row gap-4">
-                <h1 className="w-full p-1 font-light text-sm text-slate-300">
-                  {groupDetails?.groupabout || (
-                    <div className="text-sm font-light text-whitmix1">
-                      {defaultGroupAbout}
-                    </div>
-                  )}
-                </h1>
-                <button
-                  onClick={handleEditabout}
-                  className="text-xl text-slate-200"
-                >
-                  <MdModeEdit />
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
-                <input
-                  type="text"
-                  value={groupAbout}
-                  onChange={(e) => setGroupAbout(e.target.value)}
-                  className="bg-dark1 w-full outline-none p-1 font-semibold"
-                />
-                <button
-                  onClick={(e) => handleSubmitGroupAbout(e)}
-                  className="text-xl text-slate-300"
-                >
-                  <FaCheck />
-                </button>
-              </div>
-            )}
-          </div>
+          {isAllChannel?.channelDetails?.channeladminId === users.id ? (
+            <div className="bg-dark1 mt-2 py-6 px-8">
+              {/* Edit group About */}
+              {isEditingabout ? (
+                <div className="flex flex-row gap-4">
+                  <h1 className="w-full p-1 font-light text-sm text-slate-300">
+                    {isAllChannel?.channelDetails?.channelabout}
+                  </h1>
+                  <button
+                    onClick={handleEditabout}
+                    className="text-xl text-slate-200"
+                  >
+                    <MdModeEdit />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
+                  <input
+                    type="text"
+                    value={groupAbout}
+                    onChange={(e) => setGroupAbout(e.target.value)}
+                    className="bg-dark1 w-full outline-none p-1 font-semibold"
+                  />
+                  <button
+                    onClick={(e) => handleSubmitGroupAbout(e)}
+                    className="text-xl text-slate-300"
+                  >
+                    <FaCheck />
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <h1 className="w-full p-1 font-light text-sm bg-dark1 mt-2 py-6 px-8 text-slate-300">
+              {isAllChannel?.channelDetails?.channelabout}
+            </h1>
+          )}
           <div className="w-full py-4 bg-dark1 mt-4 px-8">
-            <button
-              onClick={() => handleButtonClick("encryption")}
-              className="py-4 w-full flex items-center text-2xl gap-4"
-            >
-              <IoIosNotifications />
-              <h1 className="text-lg">Mute</h1>
-            </button>
+            {isAllChannel?.channelDetails?.channeladminId === users.id || (
+              <button
+                onClick={() => handleButtonClick("encryption")}
+                className="py-4 w-full flex items-center text-2xl gap-4"
+              >
+                <IoIosNotifications />
+                <h1 className="text-lg">Mute</h1>
+              </button>
+            )}
             <button className="flex flex-row justify-start items-center py-4 w-full text-4xl gap-4">
               <MdOutlinePublic />
               <div className="flex flex-col justify-start items-start text-lg">
@@ -454,74 +456,98 @@ const ChannelProfile = ({ onClick, groupId}) => {
                 </h2>
               </div>
             </button>
-            <button className="flex flex-row items-center py-4 gap-4 text-3xl w-full">
-              <IoMdSettings />
-              <div className="flex flex-row items-center text-xl justify-between w-full">
-                <h1>Channel setting</h1>
-                <FaAngleRight />
-              </div>
-            </button>
-            <button className="flex flex-row gap-4 text-2xl items-center py-4 w-full">
-              <GoAlertFill />
-              <div className="text-xl">Channel alerts</div>
-            </button>
-            <button className="py-4 w-full">
-              <div className="flex flex-row items-center gap-5 text-2xl">
-                <IoKeypad />
-                <div className="flex flex-col text-start">
-                  <h1 className="text-xl">Profile privacy</h1>
-                  <h1 className="text-xs text-slate-400">
-                    The channel has added privacy for your profile and phone
-                    number. Click to learn more.
-                  </h1>
-                </div>
-              </div>
-            </button>
-          </div>
-          <div className="w-full py-1 my-2 bg-dark1">
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
-              <h1 className="p-2 bg-whitmix1 rounded-full">
-                <FaPlus />
-              </h1>
-              <h1>Invite admins</h1>
-            </button>
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
-              <h1 className="p-2 bg-whitmix1 rounded-full">
-                <MdInsertLink />
-              </h1>
-              <h1>Channel link</h1>
-            </button>
-            <div className="flex flex-row justify-start items-center gap-4 py-4 px-10">
-              <div className="w-10 h-10 bg-red-400 rounded-full"></div>
-              <div className="flex flex-row w-full justify-between">
-                <div className="flex flex-col items-start">
-                  <h1 className="">You</h1>
-                  <h2 className="text-xs text-slate-400">
-                    You`re not visiable to followers
-                  </h2>
-                </div>
-                <button className="text-xs p-1 bg-slate-600 flex text-start my-3">
-                  Owner
+            {isAllChannel?.channelDetails?.channeladminId === users.id && (
+              <div className="">
+                <button className="flex flex-row items-center py-4 gap-4 text-3xl w-full">
+                  <IoMdSettings />
+                  <div className="flex flex-row items-center text-xl justify-between w-full">
+                    <h1>Channel setting</h1>
+                    <FaAngleRight />
+                  </div>
+                </button>
+                <button className="flex flex-row gap-4 text-2xl items-center py-4 w-full">
+                  <GoAlertFill />
+                  <div className="text-xl">Channel alerts</div>
                 </button>
               </div>
-            </div>
-            <div className="user-top-border p-2 text-sm text-slate-400">
-              You can only view individual followers who are contacts or admins.
-            </div>
+            )}
+            {isAllChannel?.channelDetails?.channeladminId === users.id || (
+              <button className="py-4 w-full">
+                <div className="flex flex-row items-center gap-5 text-2xl">
+                  <IoKeypad />
+                  <div className="flex flex-col text-start">
+                    <h1 className="text-xl">Profile privacy</h1>
+                    <h1 className="text-xs text-slate-400">
+                      The channel has added privacy for your profile and phone
+                      number. Click to learn more.
+                    </h1>
+                  </div>
+                </div>
+              </button>
+            )}
           </div>
+          {isAllChannel?.channelDetails?.channeladminId === users.id && (
+            <div className="w-full py-1 my-2 bg-dark1">
+              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+                <h1 className="p-2 bg-whitmix1 rounded-full">
+                  <FaPlus />
+                </h1>
+                <h1>Invite admins</h1>
+              </button>
+              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+                <h1 className="p-2 bg-whitmix1 rounded-full">
+                  <MdInsertLink />
+                </h1>
+                <h1>Channel link</h1>
+              </button>
+              <div className="flex flex-row justify-start items-center gap-4 py-4 px-10">
+                <div className="">
+                  <div
+                    className="w-10 h-10 rounded-full"
+                    style={{
+                      backgroundImage: `url(${isAllChannel?.adminChannels?.userimage})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  ></div>
+                </div>
+                <div className="flex flex-row w-full justify-between">
+                  <div className="flex flex-col items-start">
+                    <h1 className="">You</h1>
+                    <h2 className="text-xs text-slate-400">
+                      You`re not visiable to followers
+                    </h2>
+                  </div>
+                  <button className="text-xs p-1 bg-slate-600 flex text-start my-3">
+                    Owner
+                  </button>
+                </div>
+              </div>
+              <div className="user-top-border p-2 text-sm text-slate-400">
+                You can only view individual followers who are contacts or
+                admins.
+              </div>
+            </div>
+          )}
           <div className="w-full py-4 bg-dark1 mb-16">
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-whitmix1 w-full hover:bg-dark3">
-              <RiUserShared2Fill />
-              <h1>Transfer ownership</h1>
-            </button>
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
-              <RiDeleteBin6Line />
-              <h1>Delete channel</h1>
-            </button>
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
-              <IoExitOutline />
-              <h1>Unfollow</h1>
-            </button>
+            {isAllChannel?.channelDetails?.channeladminId === users.id && (
+              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-whitmix1 w-full hover:bg-dark3">
+                <RiUserShared2Fill />
+                <h1>Transfer ownership</h1>
+              </button>
+            )}
+            {isAllChannel?.channelDetails?.channeladminId === users.id && (
+              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+                <RiDeleteBin6Line />
+                <h1>Delete channel</h1>
+              </button>
+            )}
+            {isAllChannel?.channelDetails?.channeladminId === users.id || (
+              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+                <IoExitOutline />
+                <h1>Unfollow</h1>
+              </button>
+            )}
             <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
               <BiSolidDislike />
               <h1>Report Group</h1>

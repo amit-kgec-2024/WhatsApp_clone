@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import userChannelData from "../../../utils/userChannelData";
 import { GoPlus } from "react-icons/go";
 import useClickOutside from "../../../hooks/useClickOutside";
@@ -29,6 +29,31 @@ const Channels = ({ handelUserChatsClick }) => {
   const handelToggelChannel = (toggleChannel) => {
     setIsChannel(toggleChannel);
   };
+
+  // Admin channel Gets...................................
+  const [users] = useState(
+    () => JSON.parse(localStorage.getItem("users:detail")) || {}
+  );
+  const [isAdmin, setIsAdmin] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/channel/admin/${users.id}`
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok " + res.statusText);
+        }
+        const jsonData = await res.json();
+        setIsAdmin(jsonData);
+      } catch (error) {
+        console.error("Error Fetching Data", error);
+      }
+    };
+
+    fetchData();
+  }, [users.id]);
 
   // Channel short card...........................
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15];
@@ -81,16 +106,21 @@ const Channels = ({ handelUserChatsClick }) => {
           </div>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-[650px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          {userChannelData.map((ele) => (
-            <Channelcard
-              key={ele.id}
-              userimg={ele.userimg}
-              username={ele.username}
-              usertexts={ele.usertexts}
-              handelUserChatsClick={handelUserChatsClick}
-              usertime={ele.usertime}
-            />
-          ))}
+          {isAdmin && isAdmin.channels && isAdmin.channels.length > 0 ? (
+            <ul>
+              {isAdmin.channels.map((channel) => (
+                <Channelcard
+                  key={channel._id}
+                  channelId={channel._id}
+                  channelimage={channel.channelimage}
+                  channelname={channel.channelname}
+                  handelUserChatsClick={handelUserChatsClick}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p>No channels found</p>
+          )}
           <div className="w-full px-3">
             <div className="flex flex-row justify-between items-center my-3">
               <h1>Find channel</h1>
@@ -140,7 +170,10 @@ const Channels = ({ handelUserChatsClick }) => {
         <CreateChannel setIsChannel={setIsChannel} />
       )}
       {isChannel === "findchannel" && (
-        <Findchannel onClick={() => setIsChannel(false)} />
+        <Findchannel
+          setIsChannel={setIsChannel}
+          handelUserChatsClick={handelUserChatsClick}
+        />
       )}
       {onClickShow && (
         <div className="w-full h-screen z-50 top-0 left-0 absolute flex justify-center items-center bg-dark1 bg-opacity-85">
