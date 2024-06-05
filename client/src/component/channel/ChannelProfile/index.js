@@ -39,8 +39,8 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
   });
   //  Group About...........................
   const [profileImg, setProfileImg] = useState("")
-  const [groupAbout, setGroupAbout] = useState("");
-  const [groupName, setGroupName] = useState("");
+  const [channelAbout, setchannelAbout] = useState("");
+  const [channelName, setchannelName] = useState("");
   const [isEditingabout, setIsEditingabout] = useState(true);
   const [isEditingname, setIsEditingname] = useState(true);
 
@@ -71,18 +71,38 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
     };
     fetchData();
   }, [channelId]);
-  // GroupAbout Update...........................
-  const handleSubmitGroupAbout = async (e) => {
+  // Channel delete..............................
+  const handleChannelDelet = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/groups/updat/about/${groupId}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/delete/${channelId}`,
         {
-          method: "PUT",
+          method: "DELETE",
+        }
+      );
+      if (response.status === 400){
+        console.log("Invalide Creadintial!")
+      }else{
+        await response.json();
+        alert("Succesfully Delete Channel!");
+      }
+    } catch (error) {
+      console.error("Error updating group name:", error);
+    }
+  };
+  // channelAbout Update...........................
+  const handleSubmitchannelAbout = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/update/about/${channelId}`,
+        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ groupabout: groupAbout }),
+          body: JSON.stringify({ channelabout: channelAbout }),
         }
       );
       if (response.status === 400) {
@@ -95,18 +115,20 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
       console.error("Error updating group name:", error);
     }
   };
-  // GroupName Update...........................
-  const handleSubmitGroupName = async (e) => {
+  // channelName Update...........................
+  const handleSubmitchannelName = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/groups/name/update/${groupId}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/update/name/${channelId}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ groupname: groupName }),
+          body: JSON.stringify({
+            channelname: channelName,
+          }),
         }
       );
       if (response.status === 400) {
@@ -117,6 +139,32 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
       }
     } catch (error) {
       console.error("Error updating group name:", error);
+    }
+  };
+  // channel Remove Update...........................
+  const handleChannelRemove = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/deletemember/${channelId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            memberId: users.id,
+          }),
+        }
+      );
+      if (response.status === 400) {
+        alert("Invalid Credential!");
+      } else {
+        await response.json();
+        alert("Unfollow Succesfully!");
+      }
+    } catch (error) {
+      console.error("Error updating unfollow:", error);
     }
   };
   // Group profile update..................
@@ -361,12 +409,12 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                   <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
                     <input
                       type="text"
-                      value={groupName}
-                      onChange={(e) => setGroupName(e.target.value)}
+                      value={channelName}
+                      onChange={(e) => setchannelName(e.target.value)}
                       className="bg-dark1 w-full outline-none p-1 font-semibold"
                     />
                     <button
-                      onClick={(e) => handleSubmitGroupName(e)}
+                      onClick={(e) => handleSubmitchannelName(e)}
                       className="text-xl text-slate-300"
                     >
                       <FaCheck />
@@ -380,7 +428,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
               </h1>
             )}
             <h3 className="font-light text-slate-400">
-              Channel .{" "}{isAllChannel?.memberDetails?.length}{' '}followers
+              Channel . {isAllChannel?.memberDetails?.length} followers
             </h3>
             <div className="flex justify-center gap-16 items-center w-full my-3">
               {isAllChannel?.channelDetails?.channeladminId === users.id || (
@@ -418,12 +466,12 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                 <div className="flex flex-row gap-4 border-b-2 border-b-whitmix2">
                   <input
                     type="text"
-                    value={groupAbout}
-                    onChange={(e) => setGroupAbout(e.target.value)}
+                    value={channelAbout}
+                    onChange={(e) => setchannelAbout(e.target.value)}
                     className="bg-dark1 w-full outline-none p-1 font-semibold"
                   />
                   <button
-                    onClick={(e) => handleSubmitGroupAbout(e)}
+                    onClick={(e) => handleSubmitchannelAbout(e)}
                     className="text-xl text-slate-300"
                   >
                     <FaCheck />
@@ -537,13 +585,19 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
               </button>
             )}
             {isAllChannel?.channelDetails?.channeladminId === users.id && (
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+              <button
+                onClick={handleChannelDelet}
+                className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+              >
                 <RiDeleteBin6Line />
                 <h1>Delete channel</h1>
               </button>
             )}
             {isAllChannel?.channelDetails?.channeladminId === users.id || (
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+              <button
+                onClick={(e) => handleChannelRemove(e)}
+                className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+              >
                 <IoExitOutline />
                 <h1>Unfollow</h1>
               </button>

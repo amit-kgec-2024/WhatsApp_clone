@@ -96,7 +96,7 @@ const Newgroup = ({ onClick }) => {
     };
 
     fetchDetails();
-  }, [groups]);
+  }, [groups, userDetails]);
   // ...........................
   const handleRemoveUser = (userId) => {
     setGroups((prevGroups) =>

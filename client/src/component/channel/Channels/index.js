@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import userChannelData from "../../../utils/userChannelData";
 import { GoPlus } from "react-icons/go";
 import useClickOutside from "../../../hooks/useClickOutside";
 import Channelcard from "../../card/Channelcard";
 import CreateChannel from "../CreateChannel";
 import { RiChatVoiceFill } from "react-icons/ri";
-import { MdArrowRightAlt, MdOutlinePublic, MdPrivacyTip } from "react-icons/md";
+import { MdOutlinePublic, MdPrivacyTip } from "react-icons/md";
 import {
   FaChevronLeft,
   FaChevronRight,
-  FaRegEye,
   FaRegEyeSlash,
 } from "react-icons/fa";
 import Findchannel from "../Findchannel";

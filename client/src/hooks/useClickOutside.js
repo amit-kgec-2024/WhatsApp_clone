@@ -1,21 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 
 function useClickOutside(refs, callback) {
-  // console.log("search-ref: ", refs[1]);
-  // console.log("input-ref: ", refs[0]);
-  const handleClickOutside = (event) => {
-    for (let currRef of refs) {
-      // if (!currRef || !currRef.current) return;
-      if (currRef.current && currRef.current.contains(event.target)) {
-        return;
+  const handleClickOutside = useCallback(
+    (event) => {
+      for (let currRef of refs) {
+        if (currRef.current && currRef.current.contains(event.target)) {
+          return;
+        }
       }
-    }
-    callback();
-  };
+      callback();
+    },
+    [refs, callback]
+  );
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-  }, []);
+    const handleClick = (event) => {
+      handleClickOutside(event);
+    };
+
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+    };
+  }, [handleClickOutside]);
 }
 
 export default useClickOutside;

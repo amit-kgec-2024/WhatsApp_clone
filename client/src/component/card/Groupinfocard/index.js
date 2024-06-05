@@ -36,17 +36,16 @@ const Groupinfocard = ({
       );
       const data = await response.json();
       if (data.success) {
-        setMessage("Users removed successfully");
+        console.log("Users removed successfully");
         setIsclick(false);
       } else {
-        setMessage(`Error: ${data.message}`);
+        console.log(`Error: ${data.message}`);
       }
     } catch (error) {
       console.error("Error fetching group details:", error);
     }
   };
  
-  const [message, setMessage] = useState("");
   
   return (
     <div className="">

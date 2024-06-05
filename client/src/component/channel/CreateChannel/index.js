@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import useClickOutside from "../../../hooks/useClickOutside";
 import getCroppedImg from "../../../utils/cropImage";
-import { FaAngleRight, FaArrowLeft, FaCheck } from "react-icons/fa6";
-import { IoCameraOutline, IoCheckboxSharp } from "react-icons/io5";
+import { FaArrowLeft, FaCheck } from "react-icons/fa6";
+import { IoCameraOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import Cropper from "react-easy-crop";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
@@ -25,86 +25,11 @@ const CreateChannel = ({ setIsChannel }) => {
     setIsEmoji(false);
   });
 
-  const [showToggle, setShowToggle] = useState(null);
-  const handelToggle = (toggleBox) => {
-    setShowToggle(toggleBox);
-  };
   const defaultImage = "/profiledefaultimage.jpg";
-  const defaultAbout = "Hey there! I am using WhatsApp";
   // User Details
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
-  // Users all...................................
-  const [userAll, setUserAll] = useState();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `https://whats-app-clone-server-psi.vercel.app/api/users/all/${users.id}`
-        );
-        const jsonData = await res.json();
-        setUserAll(jsonData);
-      } catch (error) {
-        console.log("Error Fetching Data", error);
-      }
-    };
-    fetchData();
-  }, [users.id]);
-  // .......Group create.........................
-  const [groups, setGroups] = useState([]);
-  const [userIds, setUserIds] = useState([]);
-  const [userDetails, setUserDetails] = useState({});
-  const handelGroup = (_id) => {
-    setGroups((prevGroups) => {
-      if (!prevGroups.some((group) => group.userId === _id)) {
-        return [...prevGroups, { userId: _id }];
-      }
-      return prevGroups;
-    });
-    setUserIds((prevUserIds) => {
-      if (!prevUserIds.includes(_id)) {
-        return [...prevUserIds, _id];
-      }
-      return prevUserIds;
-    });
-  };
-  const fetchUserDetails = async (_id) => {
-    try {
-      const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/userDetails/${_id}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch user details");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      const newUserDetails = {};
-      for (const group of groups) {
-        if (!userDetails[group.userId]) {
-          const details = await fetchUserDetails(group.userId);
-          if (details) {
-            newUserDetails[group.userId] = details;
-          }
-        }
-      }
-      setUserDetails((prevDetails) => ({
-        ...prevDetails,
-        ...newUserDetails,
-      }));
-    };
-
-    fetchDetails();
-  }, [groups]);
-
   // Channel name, about..........................
   const [isChannelData, setIsChannelData] = useState({
     channelabout: "",

@@ -17,8 +17,6 @@ import Searchmessage from "../../Searchmessage";
 import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
-import SenderGroupChatPanel from "../../groups/SenderGroupChatPanel";
-import ReciverGroupChatPanel from "../../groups/ReciverGroupChatPanel";
 import ChannelProfile from "../ChannelProfile";
 
 const ChannelChats = ({ channelId }) => {
@@ -63,7 +61,6 @@ const ChannelChats = ({ channelId }) => {
     setIsclickEmoji(false);
   });
 
-  const defauGroupImage = "/defaultgroupimage.png";
   // User Details
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
@@ -78,7 +75,7 @@ const ChannelChats = ({ channelId }) => {
         );
         const jsonData = await res.json();
         setIsAllChannel(jsonData);
-        console.log("bbb--->", jsonData)
+        console.log("bbb--->", jsonData);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -109,7 +106,7 @@ const ChannelChats = ({ channelId }) => {
               <h2 className="flex flex-col items-start">
                 {isAllChannel?.channelDetails?.channelname}
                 <span className="text-xs font-light">
-                  {isAllChannel?.memberDetails?.length}{" "}Followers
+                  {isAllChannel?.memberDetails?.length} Followers
                 </span>
               </h2>
             </button>
