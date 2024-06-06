@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Channels = require("../modules/Channels");
 const Users = require("../modules/Users");
+const ChannelChats = require("../modules/ChannelChats");
 
 // Create Channels...............................................
 router.post("/create", async (req, res) => {
@@ -41,7 +42,19 @@ router.get("/admin/:id", async (req, res) => {
       return res.status(404).json({ error: "Channels not found" });
     }
 
-    res.status(200).json({ channels });
+    const lastChatsPromises = channels.map(async (channel) => {
+      const lastChat = await ChannelChats.findOne(
+        { channelId: channel._id }, 
+        {},
+        { sort: { timestamp: -1 } } 
+      );
+
+      return { channelId: channel._id, channelDetails: channel, lastChat };
+    });
+
+    const lastChats = await Promise.all(lastChatsPromises);
+
+    res.status(200).json({ lastChats });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }

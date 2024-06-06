@@ -56,8 +56,7 @@ const Channels = ({ handelUserChatsClick }) => {
   // Channel short card...........................
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15];
   const [startIndex, setStartIndex] = useState(0);
-  const itemsPerPage = 3; // Number of items to display per page
-
+  const itemsPerPage = 3; 
   const handleLeftClick = () => {
     setStartIndex((prevIndex) => Math.max(prevIndex - itemsPerPage, 0));
   };
@@ -104,14 +103,16 @@ const Channels = ({ handelUserChatsClick }) => {
           </div>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-[650px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          {isAdmin && isAdmin.channels && isAdmin.channels.length > 0 ? (
+          {isAdmin && isAdmin.lastChats && isAdmin.lastChats.length > 0 ? (
             <ul>
-              {isAdmin.channels.map((channel) => (
+              {isAdmin.lastChats.map((channel) => (
                 <Channelcard
                   key={channel._id}
-                  channelId={channel._id}
-                  channelimage={channel.channelimage}
-                  channelname={channel.channelname}
+                  channelId={channel?.channelDetails?._id}
+                  channelimage={channel?.channelDetails?.channelimage}
+                  channelname={channel?.channelDetails?.channelname}
+                  message={channel?.lastChat?.message}
+                  time={channel?.lastChat?.timestamp}
                   handelUserChatsClick={handelUserChatsClick}
                 />
               ))}

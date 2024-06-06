@@ -1,6 +1,6 @@
 import React from "react";
 
-const Channelcard = ({ channelimage, channelname, channelId, handelUserChatsClick }) => {
+const Channelcard = ({ channelimage, channelname, channelId, handelUserChatsClick, message, time }) => {
   
   return (
     <div className="">
@@ -20,11 +20,11 @@ const Channelcard = ({ channelimage, channelname, channelId, handelUserChatsClic
           </div>
           <h1 className="font-semibold">{channelname}</h1>
         </div>
-        <p className="text-sm font-extralight px-3 text-start text-stone-400">
-          uuu
+        <p className="text-sm font-extralight w-full px-3 text-start text-stone-100">
+          {message}
         </p>
         <h1 className="text-start px-4 text-sm font-extralight text-stone-400 py-2">
-          12:56
+          {time}
         </h1>
       </button>
     </div>

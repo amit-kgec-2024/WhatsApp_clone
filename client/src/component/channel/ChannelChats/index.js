@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useClickOutside from "../../../hooks/useClickOutside";
-import {FaPlus, FaUserLarge } from "react-icons/fa6";
-import {IoMdCamera } from "react-icons/io";
+import { FaPlus, FaUserLarge } from "react-icons/fa6";
+import { IoMdCamera } from "react-icons/io";
 import {
   MdOutlineNotificationsActive,
   MdOutlineNotificationsOff,
@@ -18,6 +18,7 @@ import { HiDocumentText, HiBars3BottomLeft } from "react-icons/hi2";
 import { BiHappy } from "react-icons/bi";
 import { PiStickerFill } from "react-icons/pi";
 import ChannelProfile from "../ChannelProfile";
+import SenderChannelChats from "../SenderChannelChats";
 
 const ChannelChats = ({ channelId }) => {
   const [activeNavbar, setActiveNavbar] = useState(null);
@@ -75,7 +76,59 @@ const ChannelChats = ({ channelId }) => {
         );
         const jsonData = await res.json();
         setIsAllChannel(jsonData);
-        console.log("bbb--->", jsonData);
+      } catch (error) {
+        console.log("Error Fetching Data", error);
+      }
+    };
+    fetchData();
+  }, [channelId]);
+  // Messages Posts.................
+  const [message, setMessage] = useState("");
+
+  const handleInputMessage = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const handleKeyPress = async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      await sendMessage();
+    }
+  };
+
+  const sendMessage = async () => {
+    console.log(channelId, message);
+    try {
+      const response = await fetch(
+        "https://whats-app-clone-server-psi.vercel.app/api/channelchats/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            channelId,
+            message,
+          }),
+        }
+      );
+      await response.json();
+      setMessage("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+  // Chats GET......................
+  const [chatsChannel, setChatsChannel] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://whats-app-clone-server-psi.vercel.app/api/channelchats/chatShow/${channelId}`
+        );
+        const jsonData = await res.json();
+        setChatsChannel(jsonData);
       } catch (error) {
         console.log("Error Fetching Data", error);
       }
@@ -190,34 +243,14 @@ const ChannelChats = ({ channelId }) => {
               backgroundSize: "cover",
             }}
           >
-            <div className="chat-container">
-              {/* {Array.isArray(groupChats) && groupChats.length > 0 ? (
-                groupChats.map((chat) => {
-                  if (chat.receiver === groupId) {
-                    return (
-                      <div key={chat._id}>
-                        {chat.sender === users.id ? (
-                          <ReciverGroupChatPanel
-                            chatId={chat._id}
-                            message={chat.message}
-                            time={chat.timestamp?.time}
-                          />
-                        ) : (
-                          <SenderGroupChatPanel
-                            chatId={chat._id}
-                            message={chat.message}
-                            time={chat.timestamp?.time}
-                            senderDetails={chat.senderDetails}
-                          />
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                })
-              ) : (
-                <p>No chats available</p>
-              )} */}
+            <div className="chat-container w-full flex flex-col items-center justify-center">
+              {chatsChannel?.map((ele, indx) => (
+                <SenderChannelChats
+                  key={indx}
+                  message={ele.message}
+                  timestamp={ele.timestamp}
+                />
+              ))}
             </div>
           </div>
           {/* oooooo Buttom emoj input file oooooooo */}
@@ -335,9 +368,9 @@ const ChannelChats = ({ channelId }) => {
                 </button>
                 <input
                   type="text"
-                  // value={message}
-                  // onChange={handelInputMessage}
-                  // onKeyPress={handleKeyPress}
+                  value={message}
+                  onChange={handleInputMessage}
+                  onKeyPress={handleKeyPress}
                   placeholder="Type a message"
                   className="text-sm py-2 px-4 w-full outline-none bg-dark5 text-slate-400"
                 />

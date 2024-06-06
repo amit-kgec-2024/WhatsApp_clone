@@ -5,27 +5,27 @@ const ChannelChats = require("../modules/ChannelChats");
 // Chat create............................
 router.post("/create", async (req, res) => {
   try {
-    const { sender, message } = req.body;
+    const { channelId, message } = req.body;
 
     const newChannelChat = new ChannelChats({
-      sender,
+      channelId,
       message,
     });
 
     await newChannelChat.save();
-    res.status(201).json(newChannelChat);
     res.status(201).json({ message: "Channel chat message sent successfully" });
   } catch (err) {
     console.error("Error sending channel chat message:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
-// Ghat GET..............................
-router.get("/chatShow/:sender", async (req, res) => {
-  try {
-    const sender = req.params.sender;
 
-    const channelChats = await ChannelChats.find({ sender });
+// Ghat GET..............................
+router.get("/chatShow/:channelId", async (req, res) => {
+  try {
+    const channelId = req.params.channelId;
+
+    const channelChats = await ChannelChats.find({ channelId });
 
     const formattedChannelChats = channelChats.map((chat) => ({
       ...chat.toObject(),

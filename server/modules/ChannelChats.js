@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const channelChatSchema = new mongoose.Schema({
-  sender: String,
+  channelId: String,
   message: String,
   timestamp: { type: Date, default: Date.now },
 });
