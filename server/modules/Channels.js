@@ -7,7 +7,7 @@ const ChannelSchema = new mongoose.Schema({
   },
   channelimage: {
     type: String,
-    required: true,
+    required: false,
   },
   channelname: {
     type: String,

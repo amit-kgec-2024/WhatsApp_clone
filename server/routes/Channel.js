@@ -211,4 +211,45 @@ router.post("/update/about/:_id", async (req, res)=> {
     return res.status(500).send("Internal Server Error!");
   }
 })
+// Channel Images edit..........................
+router.post("/update/profileImage/:_id", async (req, res)=> {
+  try {
+    const _id = req.params._id;
+     const { channelimage } = req.body;
+    if (!channelimage) {
+      return res.status(400).json({ error: "New channel images is required" });
+    }
+
+    const existingChannel = await Channels.findById(_id);
+    if (!existingChannel) {
+      return res.status(404).json({ error: "Channel not found" });
+    }
+
+    existingChannel.channelimage = channelimage;
+    await existingChannel.save(); 
+
+    return res.status(200).json({ message: "Channel images updated successfully!" });
+  } catch (error) {
+    return res.status(500).send("Internal Server Error!");
+  }
+})
+// Channel Remove edit..........................
+router.delete("/remove/profileImage/:_id", async (req, res) => {
+  try {
+    const _id = req.params._id;
+
+    const existingChannel = await Channels.findById(_id);
+
+    if (!existingChannel) {
+      return res.status(404).json({ error: "Channel not found" });
+    }
+
+    existingChannel.channelimage = undefined; 
+    await existingChannel.save(); 
+
+    return res.status(200).send("Profile image removed successfully!");
+  } catch (error) {
+    return res.status(500).send("Internal Server Error!");
+  }
+});
 module.exports = router;

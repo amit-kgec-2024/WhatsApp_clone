@@ -225,7 +225,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
     }
   };
 
-  const handleSubmitGroupImage = async (e) => {
+  const handelChannelImagesUpdate = async (e) => {
     e.preventDefault();
     try {
       const croppedImage = await getCroppedImage();
@@ -233,13 +233,13 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
       console.log("Image URL:", secure_url);
       console.log("Image URL:", userImage);
       const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/groups/update/profile/images/${groupId}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/update/profileImage/${channelId}`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ groupimage: secure_url }),
+          body: JSON.stringify({ channelimage: secure_url }),
         }
       );
       if (response.status === 400) {
@@ -249,20 +249,16 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
         setIsImageSelected(false);
       }
     } catch (error) {
-      console.error("Error updating group name:", error);
+      console.error("Error updating channel name:", error);
     }
   };
-  // Groupe Image Remove ...........................
-  const handleRemoveGroupImage = async () => {
+  // Channel Image Remove ...........................
+  const handleRemoveChannelImage = async () => {
     try {
       const response = await fetch(
-        `https://whats-app-clone-server-psi.vercel.app/api/groups/update/profile/images/remove/${groupId}`,
+        `https://whats-app-clone-server-psi.vercel.app/api/channel/remove/profileImage/${channelId}`,
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ groupimage: null }),
+          method: "DELETE"
         }
       );
       if (response.status === 400) {
@@ -335,7 +331,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                   <label htmlFor="fileInput">Upload photo</label>
                 </button>
                 <button
-                  onClick={handleRemoveGroupImage}
+                  onClick={handleRemoveChannelImage}
                   className="hover:bg-dark6 py-2 text-sm px-4 w-full"
                 >
                   Remove photo
@@ -364,7 +360,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                   </div>
                   <div className="w-full flex justify-end">
                     <button
-                      onClick={(e) => handleSubmitGroupImage(e)}
+                      onClick={(e) => handelChannelImagesUpdate(e)}
                       className="p-3 mr-[20%] text-xl bg-whitmix1 rounded-full"
                     >
                       <FaCheck />
