@@ -1,16 +1,16 @@
-import Chats from "../Chats";
+import Chats from "../users/Chats";
 import React, { useEffect, useState } from "react";
 import { MdOutlineGroups } from "react-icons/md";
 import { IoSyncCircleOutline } from "react-icons/io5";
 import { RiChatVoiceFill } from "react-icons/ri";
 import { TbSettings } from "react-icons/tb";
 import { MdChat } from "react-icons/md";
-import Profile from "../Profile";
-import Communities from "../Communities";
-import Status from "../Status";
+import Profile from "../users/Profile";
+import Communities from "../communite/Communities";
+import Status from "../menu/Status";
 import Channels from "../channel/Channels";
-import Sattings from "../Sattings";
-import Users from "../Users";
+import Sattings from "../satting/Sattings";
+import Users from "../users/Users";
 import Help from "../satting/Help";
 // import Loaderhome from "../Loaderhome";
 import Groupchats from "../groups/Groupchats";
@@ -32,18 +32,18 @@ function Home() {
     setUserClickChat(toggleUserChat);
     if (toggleUserChat === "userchats") {
       setUserId(id);
-    } else if(toggleUserChat === "groupchats") {
+    } else if (toggleUserChat === "groupchats") {
       setGroupId(id);
-    }else {
+    } else {
       setCgannelId(id);
     }
 
     console.log(id);
   };
-  
+
   const defaultImage = "/profiledefaultimage.jpg";
   const [imageUrl, setImageUrl] = useState("");
-  
+
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
@@ -75,140 +75,146 @@ function Home() {
 
     fetchData();
 
-  //   const interval = setInterval(() => {
-  //     setProgress((val) => {
-  //       if (val < 100) {
-  //         return val + 5;
-  //       }
-  //       clearInterval(interval);
-  //       return val;
-  //     });
-  //   }, 100);
+    //   const interval = setInterval(() => {
+    //     setProgress((val) => {
+    //       if (val < 100) {
+    //         return val + 5;
+    //       }
+    //       clearInterval(interval);
+    //       return val;
+    //     });
+    //   }, 100);
 
-  //   return () => clearInterval(interval);
-  // }, [users.id]);
+    //   return () => clearInterval(interval);
+    // }, [users.id]);
 
-  // useEffect(() => {
-  //   if (progress <= 100) {
-  //     setPercent(progress);
-  //   }
+    // useEffect(() => {
+    //   if (progress <= 100) {
+    //     setPercent(progress);
+    //   }
   }, [users.id]);
 
   return (
     <div className="">
-        <div className="flex flex-row justify-center">
-          <div
-            className="user-right-border bg-dark6 w-[33%] h-screen text-white"
-            style={{ backgroundColor: `${imageUrl.usertheme}111` }}
-          >
-            <div className="flex flex-row w-full h-screen">
-              <div
-                style={{ backgroundColor: `${imageUrl.usertheme}7f8` }}
-                className={`w-[11%] bg-dark3 flex flex-col items-center justify-between py-5`}
-              >
-                <div className="flex flex-col gap-5 text-slate-400 text-2xl">
-                  <button
-                    onClick={() => handleButtonClick("chats")}
-                    className={`p-2 ${
-                      activeButton === "chats"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <MdChat />
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("communities")}
-                    className={`p-2 ${
-                      activeButton === "communities"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <MdOutlineGroups />
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("status")}
-                    className={`user-top-bottom-border p-2 ${
-                      activeButton === "status"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <IoSyncCircleOutline />
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("channels")}
-                    className={`p-2 ${
-                      activeButton === "channels"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <RiChatVoiceFill />
-                  </button>
-                </div>
-                <div className="flex flex-col gap-5 text-slate-400 text-2xl">
-                  <button
-                    onClick={() => handleButtonClick("help")}
-                    className={` px-1 py-3 text-xs ${
-                      activeButton === "help"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none shadow"
-                    }`}
-                  >
-                    BEAT
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("sattings")}
-                    className={`p-2 ${
-                      activeButton === "sattings"
-                        ? "rounded-full bg-dark5"
-                        : "bg-none"
-                    }`}
-                  >
-                    <TbSettings />
-                  </button>
-                  <button
-                    onClick={() => handleButtonClick("profile")}
-                    className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
-                    style={{
-                      backgroundImage: `url(${
-                        imageUrl.userimage || defaultImage
-                      })`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  ></button>
-                </div>
+      <div className="flex flex-row justify-center">
+        <div
+          className="user-right-border bg-dark6 w-[33%] h-screen text-white"
+          style={{ backgroundColor: `${imageUrl.usertheme}111` }}
+        >
+          <div className="flex flex-row w-full h-screen">
+            <div
+              style={{ backgroundColor: `${imageUrl.usertheme}7f8` }}
+              className={`w-[11%] bg-dark3 flex flex-col items-center justify-between py-5`}
+            >
+              <div className="flex flex-col gap-5 text-slate-400 text-2xl">
+                <button
+                  onClick={() => handleButtonClick("chats")}
+                  className={`p-2 ${
+                    activeButton === "chats"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none"
+                  }`}
+                >
+                  <MdChat />
+                </button>
+                <button
+                  onClick={() => handleButtonClick("communities")}
+                  className={`p-2 ${
+                    activeButton === "communities"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none"
+                  }`}
+                >
+                  <MdOutlineGroups />
+                </button>
+                <button
+                  onClick={() => handleButtonClick("status")}
+                  className={`user-top-bottom-border p-2 ${
+                    activeButton === "status"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none"
+                  }`}
+                >
+                  <IoSyncCircleOutline />
+                </button>
+                <button
+                  onClick={() => handleButtonClick("channels")}
+                  className={`p-2 ${
+                    activeButton === "channels"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none"
+                  }`}
+                >
+                  <RiChatVoiceFill />
+                </button>
               </div>
-              <div className="w-[89%]">
-                {activeButton === "chats" && (
-                  <Users handelUserChatsClick={handelUserChatsClick} />
-                )}
-                {activeButton === "help" && <Help />}
-                {activeButton === "profile" && <Profile />}
-                {activeButton === "communities" && (
-                  <Communities handelUserChatsClick={handelUserChatsClick} />
-                )}
-                {activeButton === "status" && <Status />}
-                {activeButton === "channels" && (
-                  <Channels handelUserChatsClick={handelUserChatsClick} />
-                )}
-                {activeButton === "sattings" && <Sattings />}
+              <div className="flex flex-col gap-5 text-slate-400 text-2xl">
+                <button
+                  onClick={() => handleButtonClick("help")}
+                  className={` px-1 py-3 text-xs ${
+                    activeButton === "help"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none shadow"
+                  }`}
+                >
+                  BEAT
+                </button>
+                <button
+                  onClick={() => handleButtonClick("sattings")}
+                  className={`p-2 ${
+                    activeButton === "sattings"
+                      ? "rounded-full bg-dark5"
+                      : "bg-none"
+                  }`}
+                >
+                  <TbSettings />
+                </button>
+                <button
+                  onClick={() => handleButtonClick("profile")}
+                  className="rounded-full border-2 overflow-hidden bg-slate-500 border-white w-10 h-10"
+                  style={{
+                    backgroundImage: `url(${
+                      imageUrl.userimage || defaultImage
+                    })`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                ></button>
               </div>
             </div>
-          </div>
-          <div
-            className="bg-dark2 w-[67%] h-screen text-white"
-            style={{ backgroundColor: `${imageUrl.usertheme}101` }}
-          >
-            {userClickChat === "mainses" && <DefaultChats/>}
-            {userClickChat === "userchats" && <Chats theme={imageUrl?.usertheme} userId={userId} />}
-            {userClickChat === "groupchats" && <Groupchats theme={imageUrl?.usertheme} groupId={groupId} />}
-            {userClickChat === "channelchats" && <ChannelChats theme={imageUrl?.usertheme} channelId={channelId} />}
+            <div className="w-[89%]">
+              {activeButton === "chats" && (
+                <Users handelUserChatsClick={handelUserChatsClick} />
+              )}
+              {activeButton === "help" && <Help />}
+              {activeButton === "profile" && <Profile />}
+              {activeButton === "communities" && (
+                <Communities handelUserChatsClick={handelUserChatsClick} />
+              )}
+              {activeButton === "status" && <Status />}
+              {activeButton === "channels" && (
+                <Channels handelUserChatsClick={handelUserChatsClick} />
+              )}
+              {activeButton === "sattings" && <Sattings />}
+            </div>
           </div>
         </div>
+        <div
+          className="bg-dark2 w-[67%] h-screen text-white"
+          style={{ backgroundColor: `${imageUrl.usertheme}101` }}
+        >
+          {userClickChat === "mainses" && <DefaultChats />}
+          {userClickChat === "userchats" && (
+            <Chats theme={imageUrl?.usertheme} userId={userId} />
+          )}
+          {userClickChat === "groupchats" && (
+            <Groupchats theme={imageUrl?.usertheme} groupId={groupId} />
+          )}
+          {userClickChat === "channelchats" && (
+            <ChannelChats theme={imageUrl?.usertheme} channelId={channelId} />
+          )}
+        </div>
+      </div>
     </div>
   );
 }
