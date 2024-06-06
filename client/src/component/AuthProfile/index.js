@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Home from "../Home";
 
 const AuthProfile = () => {
-  const navigate = useNavigate();
   // userdetails....................
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
-
+  const [isHome, setIsHome] = useState(false);
   // image..................................
-
   const [name, setName] = useState("");
   const [imageUrl, setImageUrl] = useState("profiledefaultimage.jpg");
   const [userImage, setUserImage] = useState("");
@@ -70,14 +68,16 @@ const AuthProfile = () => {
         alert("Invalid Credential!");
       } else {
         await res.json();
-        navigate("/");
+        setIsHome(true);
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Error occurred while uploading image.");
     }
   };
-
+  if(isHome){
+    return <Home/>
+  }
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-dark4">
       <form
@@ -110,12 +110,12 @@ const AuthProfile = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <div className="flex justify-between w-full mt-4">
-          <Link
-            to={"/"}
+          <button
+            onClick={()=> setIsHome(true)}
             className="uppercase text-white hover:text-whitmix1 bg-whitmix2 hover:bg-white font-semibold px-3 py-1 rounded-xl"
           >
             Skip
-          </Link>
+          </button>
           <button
             type="submit"
             className="uppercase text-white hover:text-whitmix1 bg-whitmix2 hover:bg-white font-semibold px-3 py-1 rounded-xl"

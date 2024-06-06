@@ -16,7 +16,7 @@ import Keyshort from "../satting/Keyshort";
 import Help from "../satting/Help";
 import Account from "../satting/Account";
 import Chatsatting from "../satting/Chatsatting";
-import { useNavigate } from "react-router-dom";
+import Authorization from "../Authorization";
 
 
 const Sattings = () => {
@@ -54,13 +54,19 @@ const Sattings = () => {
     fetchData();
   }, [users.id]);
   // LOG Out................
-  const navigate = useNavigate();
+  const [isLogout, setIsLogout] = useState(false);
   const logOut = () => {
     window.localStorage.removeItem("users:token");
     window.localStorage.removeItem("users:detail");
-    navigate("/authorization");
+    setIsLogout(true);
   };
-  
+  if(isLogout){
+    return (
+      <div className="absolute w-full left-0 text-black">
+        <Authorization />
+      </div>
+    );
+  }
   return (
     <div className="w-full bg-dark6 h-screen flex flex-row">
       <div className={`${activeButton ? "hidden" : "w-full"}`}>

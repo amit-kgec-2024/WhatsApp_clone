@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import AuthProfile from "../AuthProfile";
 
 const Authorization = () => {
-  const navigate = useNavigate();
-
   const [mobileNumber, setMobileNumber] = useState({
     mobile: "+91",
   });
   const [errorsMsg, setErrorMsg] = useState(null);
   const [successSave, setSuccessSave] = useState(null);
+   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const handleChange = (e) => {
     const value = e.target.value;
     if (value.startsWith("+") && value.length <= 13) {
@@ -41,7 +40,7 @@ const Authorization = () => {
         setSuccessSave("Register & Login Successfully");
         localStorage.setItem("users:token", resData.token);
         localStorage.setItem("users:detail", JSON.stringify(resData.user));
-        navigate("/authprofile");
+        setIsLoggedIn(true);
       }
     } catch (error) {
       console.log("Error", error);
@@ -64,8 +63,12 @@ const Authorization = () => {
       return () => clearTimeout(timer);
     }
   }, [successSave]);
+  
+  if (isLoggedIn) {
+    return <AuthProfile />;
+  }
   return (
-    <>
+    <main>
       <div className="w-full h-screen flex flex-col bg-dark4">
         <div className="w-full flex justify-end p-4 h-[10vh]">
           {errorsMsg && (
@@ -83,16 +86,16 @@ const Authorization = () => {
           <div className="animate-rotate-left-to-right border-8 border-t-whitmix1 border-b-whitmix2 border-r-teal-500 border-l-green-500 w-28 sm:w-44 h-28 sm:h-44 overflow-hidden rounded-full">
             <div className="animate-rotate-right-to-left flex flex-row justify-center items-center gap-2 w-full h-full bg-dark6">
               <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
-                r
+                c
               </h1>
               <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
-                e
+                h
               </h1>
               <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
                 a
               </h1>
               <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
-                l
+                t
               </h1>
             </div>
           </div>
@@ -180,7 +183,7 @@ const Authorization = () => {
 }
       `}
       </style>
-    </>
+    </main>
   );
 };
 

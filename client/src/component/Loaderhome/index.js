@@ -7,16 +7,16 @@ const Loaderhome = ({ percent }) => {
         <div className="animate-rotate-left-to-right border-8 border-t-whitmix1 border-b-whitmix2 border-r-teal-500 border-l-green-500 w-28 sm:w-44 h-28 sm:h-44 overflow-hidden rounded-full">
           <div className="animate-rotate-right-to-left flex flex-row justify-center items-center gap-2 w-full h-full bg-dark6">
             <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
-              r
+              c
             </h1>
             <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
-              e
+              h
             </h1>
             <h1 className="uppercase animate-text-red shadow-sm shadow-cyan-300 text-2xl sm:text-4xl md:text-3xl font-extrabold lg:text-4xl">
               a
             </h1>
             <h1 className="uppercase animate-text-white shadow-sm shadow-cyan-300 font-extrabold text-2xl sm:text-2xl md:text-5xl lg:text-4xl">
-              l
+              t
             </h1>
           </div>
         </div>

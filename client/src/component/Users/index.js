@@ -12,11 +12,11 @@ import userGroupData from "../../utils/userGroupData";
 import Newchats from "../Newchats";
 import Modal from "../Modal";
 import Newgroup from "../groups/Newgroup";
-import { useNavigate } from "react-router-dom";
 import Archived from "../Archived";
 import Starredmessage from "../Starredmessage";
 import Groups from "../groups/Groups";
 import LoaderCard from "../card/LoaderCard";
+import Authorization from "../Authorization";
 
 const Users = ({ handelUserChatsClick }) => {
   const [showSearch, setShowSearch] = useState(true);
@@ -56,11 +56,11 @@ const Users = ({ handelUserChatsClick }) => {
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
   // LOG Out................
-  const navigate = useNavigate();
+  const [isLogout, setIsLogout] = useState(false);
   const logOut = () => {
     window.localStorage.removeItem("users:token");
     window.localStorage.removeItem("users:detail");
-    navigate("/authorization");
+    setIsLogout(true)
   };
   // chats users api call get...........................
   const defaultImage = "/profiledefaultimage.jpg";
@@ -79,6 +79,14 @@ const Users = ({ handelUserChatsClick }) => {
     };
     fetchData();
   }, [users.id]);
+
+  if(isLogout){
+    return (
+      <div className="absolute w-full left-0 text-black">
+        <Authorization />
+      </div>
+    );
+  }
   return (
     <div>
       <div className={`w-full ${isChats ? "hidden" : ""}`}>

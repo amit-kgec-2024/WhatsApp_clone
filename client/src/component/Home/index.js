@@ -12,7 +12,7 @@ import Channels from "../channel/Channels";
 import Sattings from "../Sattings";
 import Users from "../Users";
 import Help from "../satting/Help";
-import Loaderhome from "../Loaderhome";
+// import Loaderhome from "../Loaderhome";
 import Groupchats from "../groups/Groupchats";
 import ChannelChats from "../channel/ChannelChats";
 import DefaultChats from "../DefaultChats";
@@ -47,8 +47,8 @@ function Home() {
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
-  const [progress, setProgress] = useState(0);
-  const [percent, setPercent] = useState(0);
+  // const [progress, setProgress] = useState(0);
+  // const [percent, setPercent] = useState(0);
 
   useEffect(() => {
     if (!users.id) {
@@ -75,28 +75,27 @@ function Home() {
 
     fetchData();
 
-    const interval = setInterval(() => {
-      setProgress((val) => {
-        if (val < 100) {
-          return val + 5;
-        }
-        clearInterval(interval);
-        return val;
-      });
-    }, 100);
+  //   const interval = setInterval(() => {
+  //     setProgress((val) => {
+  //       if (val < 100) {
+  //         return val + 5;
+  //       }
+  //       clearInterval(interval);
+  //       return val;
+  //     });
+  //   }, 100);
 
-    return () => clearInterval(interval);
+  //   return () => clearInterval(interval);
+  // }, [users.id]);
+
+  // useEffect(() => {
+  //   if (progress <= 100) {
+  //     setPercent(progress);
+  //   }
   }, [users.id]);
-
-  useEffect(() => {
-    if (progress <= 100) {
-      setPercent(progress);
-    }
-  }, [progress]);
 
   return (
     <div className="">
-      {progress === 100 ? (
         <div className="flex flex-row justify-center">
           <div
             className="user-right-border bg-dark6 w-[33%] h-screen text-white"
@@ -210,9 +209,6 @@ function Home() {
             {userClickChat === "channelchats" && <ChannelChats theme={imageUrl?.usertheme} channelId={channelId} />}
           </div>
         </div>
-      ) : (
-        <Loaderhome percent={percent} />
-      )}
     </div>
   );
 }
