@@ -68,7 +68,7 @@ const Findchannel = ({ setIsChannel, handelUserChatsClick, theme }) => {
                 See all <FaChevronRight />
               </button>
             </div>
-            <CardDefault />
+            <CardDefault theme={theme}/>
           </div>
           {/* Cards................................. */}
           {isAllChannel &&
