@@ -1,6 +1,7 @@
 import React from "react";
 
 const Newchatcard = ({
+  theme,
   username,
   userId,
   userabout,
@@ -15,11 +16,13 @@ const Newchatcard = ({
     <div className="">
       <button
         onClick={() => handelUserChatsClick("userchats", userId)}
-        className="parent overflow-hidden w-full flex flex-row justify-center items-start hover:bg-dark3"
+        className={`parent overflow-hidden w-full flex flex-row justify-center items-start ${
+          theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+        }`}
       >
         <div className="p-3">
           <div
-            className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
+            className="w-12 h-12 border rounded-full overflow-hidden text-center"
             style={{
               backgroundImage: `url(${userimage || defaultImage})`,
               backgroundPosition: "center",

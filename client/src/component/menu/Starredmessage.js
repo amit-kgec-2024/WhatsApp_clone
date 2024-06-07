@@ -13,7 +13,7 @@ const Starredmessage = ({ onClick }) => {
     setIsclick(false);
   });
   return (
-    <div className="profile-animation w-full bg-dark6 h-screen">
+    <div className="profile-animation w-full h-screen">
       <div className="p-4 pl-6 flex flex-row justify-between items-center gap-8">
         <div className="flex flex-row gap-4">
           <button onClick={onClick} className="text-xl px-3">

@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 
 const Security = ({onClick}) => {
   return (
-    <div className="profile-animation w-full bg-dark6 h-screen">
+    <div className="profile-animation w-full h-screen">
       <div className="p-4 pl-6 flex flex-row items-center gap-8">
         <button onClick={onClick} className="text-lg">
           <FaArrowLeft />

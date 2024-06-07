@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Groupscard from "../card/Groupscard";
 import LoaderCard from "../card/LoaderCard";
 
-const Groups = ({ handelUserChatsClick }) => {
+const Groups = ({ handelUserChatsClick, theme }) => {
   const defauGroupImage = "/defaultgroupimage.png";
   // User Details
   const [users] = useState(
@@ -39,9 +39,10 @@ const Groups = ({ handelUserChatsClick }) => {
                 groupname={ele.groupname}
                 groupimage={ele.groupimage || defauGroupImage}
                 handelUserChatsClick={handelUserChatsClick}
+                theme={theme}
               />
             ))
-          : [1, 2, 3, 4, 5, 6, 7, 8].map((ele) => <LoaderCard />)}
+          : <LoaderCard theme={theme}/>}
       </div>
     </div>
   );

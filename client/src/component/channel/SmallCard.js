@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const SmallCard = ({ channelId, channelimage, channelname, setIsChannel, handelUserChatsClick }) => {
+const SmallCard = ({ channelId, channelimage, channelname, setIsChannel, handelUserChatsClick, theme }) => {
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
@@ -27,7 +27,7 @@ const SmallCard = ({ channelId, channelimage, channelname, setIsChannel, handelU
     }
   };
   return (
-    <div className="p-2 hover:bg-dark3 flex flex-row items-center user-top-bottom-border">
+    <div className={`p-2 ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"} flex flex-row items-center user-top-bottom-border`}>
       <div className="flex items-center">
         <div
           className="w-16 h-16 rounded-full"

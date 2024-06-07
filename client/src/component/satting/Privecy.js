@@ -3,7 +3,7 @@ import { FaArrowLeft, FaAngleRight } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa";
 import Input from "../Input";
 
-const Privecy = ({ onClick }) => {
+const Privecy = ({ onClick, theme }) => {
   const [activePrivecy, setActivePrivecy] = useState(null);
   const handelPrivecyClick = (togglePrivecy) => {
     setActivePrivecy(togglePrivecy);
@@ -18,16 +18,16 @@ const Privecy = ({ onClick }) => {
     );
   };
   return (
-    <div className="profile-animation w-full bg-dark1 h-screen">
+    <div className="profile-animation w-full h-screen">
       <div className={`${activePrivecy ? "hidden" : ""}`}>
-        <div className="bg-dark6 p-4 pl-6 flex flex-row items-center gap-8">
+        <div className="p-4 pl-6 flex flex-row items-center gap-8">
           <button onClick={onClick} className="text-lg">
             <FaArrowLeft />
           </button>
           <h1 className="text-lg font-semibold">Privecy</h1>
         </div>
         <div className="scrollbaruser w-full overflow-y-scroll h-[700px]">
-          <div className="bg-dark6 px-6 w-full">
+          <div className="px-6 w-full">
             <h1 className="text-sm text-teal-400 py-4">
               Who can see my personal info
             </h1>
@@ -76,7 +76,7 @@ const Privecy = ({ onClick }) => {
               <Input type="checkbox" className="w-5 h-5" />
             </button>
           </div>
-          <div className="bg-dark6 px-6 w-full my-2">
+          <div className="px-6 w-full my-2">
             <h1 className="text-sm text-teal-400 py-4">
               Who can see my personal info
             </h1>
@@ -91,7 +91,7 @@ const Privecy = ({ onClick }) => {
               <FaAngleRight />
             </button>
           </div>
-          <div className="bg-dark6 px-6 mb-3 w-full">
+          <div className="px-6 mb-3 w-full">
             <button
               onClick={() => handelPrivecyClick("groups")}
               className="user-top-bottom-border flex flex-row w-full py-4 justify-between items-center"
@@ -127,7 +127,7 @@ const Privecy = ({ onClick }) => {
           </div>
         </div>
       </div>
-      <div className="bg-dark6 w-full h-screen">
+      <div className="w-full h-screen">
         {activePrivecy === "lastseen" && (
           <div className="">
             <div className="p-4 pl-6 flex flex-row items-center gap-8">
@@ -395,7 +395,7 @@ const Privecy = ({ onClick }) => {
               <h1 className="text-lg font-semibold">Blocked contacts</h1>
             </div>
             <div className="">
-              <button className="user-top-bottom-border hover:bg-dark3 w-full flex flex-row gap-4 items-center text-lg py-6 px-6 disabled:">
+              <button className={`user-top-bottom-border ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"} w-full flex flex-row gap-4 items-center text-lg py-6 px-6 disabled:`}>
                 <FaUserPlus />
                 <h1>Add block contacts</h1>
               </button>

@@ -40,7 +40,7 @@ const SenderChatPanel = ({ message, time, chatId }) => {
     }
   };
   return (
-    <div className="chat-panel sender my-4 flex justify-start">
+    <div className="chat-panel sender my-4 flex justify-start text-white">
       <div className="message bg-dark3 rounded-bl-lg rounded-r-lg px-2 py-1 flex items-center gap-2">
         {message}
         <div

@@ -9,6 +9,7 @@ const Groupinfocard = ({
   adminDetails,
   userId,
   adminid,
+  theme
 }) => {
   const defaultAbout = "Hey there! I am using WhatsApp";
   const defaultImage = "/profiledefaultimage.jpg";
@@ -48,10 +49,10 @@ const Groupinfocard = ({
 
   return (
     <div className="">
-      <button className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3">
+      <button className={`parent w-full flex flex-row justify-center items-start gap-2 ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
         <div className="p-3">
           <div
-            className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
+            className="w-12 h-12 border rounded-full overflow-hidden text-center"
             style={{
               backgroundImage: `url(${userimage || defaultImage})`,
               backgroundPosition: "center",
@@ -69,7 +70,7 @@ const Groupinfocard = ({
             </div>
           </div>
           {adminDetails ? (
-            <h1 className="text-[10px] px-1 rounded-sm text-slate-400 mr-[5%] bg-dark5">
+            <h1 className={`text-[10px] px-1 rounded-sm text-slate-400 mr-[5%] ${theme === "#000000" ? "bg-dark5" : "bg-slate-400"}`}>
               Group Admin
             </h1>
           ) : (
@@ -84,18 +85,18 @@ const Groupinfocard = ({
               {isClick && (
                 <div
                   ref={dropDownRef}
-                  className="absolute z-50 mr-6 right-0 bg-dark4 w-44 shadow-2xl text-xs py-2 flex flex-col justify-start items-start rounded-sm"
+                  className={`absolute z-50 mr-6 right-0 ${theme === "#000000" ? "bg-dark4" : "bg-slate-300"} w-44 shadow-2xl text-xs py-2 flex flex-col justify-start items-start rounded-sm`}
                 >
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Make group admin
                   </button>
                   <button
                     onClick={(e) => handleSubmit(e)}
-                    className="hover:bg-dark6 w-full text-start px-5 py-3"
+                    className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}
                   >
                     Remove
                   </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Verify security code
                   </button>
                 </div>

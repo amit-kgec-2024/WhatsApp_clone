@@ -20,8 +20,8 @@ const Encryption = ({onClick, userId}) => {
     fetchData();
   }, [userId]);
   return (
-    <div className="profile-animation w-full bg-dark6 h-screen">
-      <div className="bg-dark3 p-2 pl-6 flex flex-row gap-6">
+    <div className="profile-animation w-full h-screen">
+      <div className="p-2 pl-6 flex flex-row gap-6">
         <button onClick={onClick} className="text-lg">
           <FaArrowLeft />
         </button>

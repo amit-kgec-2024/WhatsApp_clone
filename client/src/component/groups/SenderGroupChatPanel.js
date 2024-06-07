@@ -65,7 +65,7 @@ const SenderGroupChatPanel = ({ message, time, chatId, senderDetails }) => {
 
   const textColorClass = usernameColors[userIndex];
   return (
-    <div className="chat-panel sender my-4 flex justify-start gap-1">
+    <div className="chat-panel sender my-4 flex justify-start gap-1 text-white">
       <div
         className="w-7 h-7 rounded-full"
         style={{

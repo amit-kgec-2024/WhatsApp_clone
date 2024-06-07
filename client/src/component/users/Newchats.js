@@ -8,7 +8,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import Newgroup from "../groups/Newgroup";
 import Newcommunity from "../communite/Newcommunity";
 
-const Newchats = ({ onClick, handelUserChatsClick }) => {
+const Newchats = ({ onClick, handelUserChatsClick, theme }) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -46,7 +46,7 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
     fetchData();
   }, [user.id]);
   return (
-    <div className="w-full bg-dark6 h-screen">
+    <div className="w-full h-screen">
       <div className={`${activeButton ? "hidden" : ""}`}>
         <div className="p-4 pl-6 flex flex-row justify-start items-center gap-8">
           <button onClick={onClick} className="text-lg">
@@ -54,7 +54,12 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
           </button>
           <div className="text-lg font-semibold">New Chats</div>
         </div>
-        <div className="flex flex-row bg-dark3 my-2 mx-2 py-1 px-3 gap-4 rounded-md justify-start items-center">
+        <div
+          style={{
+            backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1",
+          }}
+          className="flex flex-row my-2 mx-2 py-1 px-3 gap-4 rounded-md justify-start items-center"
+        >
           {showSearch ? (
             <button ref={searchRef} onClick={toggleSearch}>
               <IoMdSearch className="text-xl cursor-pointer" />
@@ -69,13 +74,18 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
             ref={inputRef}
             placeholder="Search"
             onClick={() => setShowSearch(false)}
-            className="bg-dark3 outline-none px-2 w-full"
+            className="outline-none px-2 w-full"
+            style={{
+              backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1",
+            }}
           />
         </div>
         <div className="scrollbaruser overflow-y-scroll h-[630px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
           <button
             onClick={() => handleButtonClick("newgroup")}
-            className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3"
+            className={`flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3 ${
+              theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+            }`}
           >
             <div className="rounded-full text-2xl bg-whitmix1 p-3">
               <FaUserGroup />
@@ -87,7 +97,9 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
 
           <button
             onClick={() => handleButtonClick("newcommunity")}
-            className="flex flex-row justify-start items-center gap-4 px-4 w-full hover:bg-dark3"
+            className={`flex flex-row justify-start items-center gap-4 px-4 w-full ${
+              theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+            }`}
           >
             <div className="rounded-full text-2xl bg-whitmix1 p-3">
               <MdGroups />
@@ -111,13 +123,14 @@ const Newchats = ({ onClick, handelUserChatsClick }) => {
                   userabout={ele.userabout}
                   userimage={ele.userimage}
                   handelUserChatsClick={handelUserChatsClick}
+                  theme={theme}
                 />
               ))}
           </div>
         </div>
       </div>
       {activeButton === "newgroup" && (
-        <Newgroup onClick={() => setActiveButton(false)} />
+        <Newgroup theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "newcommunity" && (
         <Newcommunity onClick={() => setActiveButton(false)} />

@@ -11,7 +11,7 @@ import Disappearing from "../contactinfo/Disappearing";
 import Userpimage from "../contactinfo/Userpimage";
 import Encryption from "../contactinfo/Encryption";
 
-const Userprofile = ({ onClick, userId }) => {
+const Userprofile = ({ onClick, userId, theme }) => {
   const [activeButton, setActiveButton] = useState(null);
   const [isProfilePicture, setProfilePicture] = useState(false);
 
@@ -41,16 +41,28 @@ const Userprofile = ({ onClick, userId }) => {
   }, [userId]);
 
   return (
-    <div className="user-left-border w-full h-screen bg-dark2">
+    <div
+      className={`user-left-border w-full h-screen ${
+        theme === "#000000" ? "bg-dark2" : "bg-slate-200"
+      }`}
+    >
       <div className={`${activeButton ? "hidden" : ""}`}>
-        <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
+        <div
+          className={`flex flex-row gap-10 h-14 justify-start items-center ${
+            theme === "#000000" ? "bg-dark3" : "bg-slate-200"
+          }`}
+        >
           <button onClick={onClick} className="ml-8">
             <RxCross2 />
           </button>
           <h1>Contact info</h1>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
-          <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
+          <div
+            className={`w-full flex p-6 flex-col justify-center items-center ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            }`}
+          >
             <button
               onClick={() => setProfilePicture((prev) => !prev)}
               className="w-48 h-48 rounded-full overflow-hidden"
@@ -67,6 +79,7 @@ const Userprofile = ({ onClick, userId }) => {
                 <Userpimage
                   userId={userId}
                   onClick={() => setProfilePicture(false)}
+                  theme={theme}
                 />
               </div>
             )}
@@ -75,14 +88,22 @@ const Userprofile = ({ onClick, userId }) => {
             </h1>
             <h2 className="font-light">{userDetailShow.mobile}</h2>
           </div>
-          <div className="bg-dark1 mt-2 py-6 px-8">
+          <div
+            className={`${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            } mt-2 py-6 px-8`}
+          >
             <h1 className="font-light mb-2">About</h1>
             <p>{userDetailShow.userabout || defaultAbout}</p>
           </div>
-          <div className="bg-dark1">
+          <div
+            className={`w-full py-4 ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            } mt-4 px-8`}
+          >
             <button
               onClick={() => handleButtonClick("medialinks")}
-              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center bg-dark1 mt-2 py-4 px-8"
+              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center mt-2 py-4 px-8"
             >
               <h1 className="font-light">Media, links and docs</h1>
               <h1 className="flex flex-row items-center gap-1 font-light">
@@ -92,7 +113,11 @@ const Userprofile = ({ onClick, userId }) => {
             </button>
             <div className="w-full h-[130px]"></div>
           </div>
-          <div className="w-full py-4 bg-dark1 mt-4 px-8">
+          <div
+            className={`w-full py-4 ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            } mt-4 px-8`}
+          >
             <button
               onClick={() => handleButtonClick("starredmessages")}
               className="flex flex-row justify-between items-center py-4 w-full"
@@ -138,19 +163,35 @@ const Userprofile = ({ onClick, userId }) => {
               </div>
             </button>
           </div>
-          <div className="w-full py-4 bg-dark1 mt-4 mb-20">
-            <button className="flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full hover:bg-dark3">
+          <div
+            className={`w-full py-4 bg-dark1 mb-16 ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            }`}
+          >
+            <button
+              className={`flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full  ${
+                theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+              }`}
+            >
               <MdOutlineBlock />
               <h1>Block {userDetailShow.username || userDetailShow.mobile}</h1>
             </button>
-            <button className="flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full hover:bg-dark3">
+            <button
+              className={`flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full  ${
+                theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+              }`}
+            >
               <BiSolidDislike />
               <h1>Report {userDetailShow.username || userDetailShow.mobile}</h1>
             </button>
             <h1 className="text-sm font-light py-2 text-slate-400">
               Delete chat
             </h1>
-            <button className="flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full hover:bg-dark3">
+            <button
+              className={`flex flex-row items-center py-4 gap-6 text-xl font-light px-10 text-red-700 w-full  ${
+                theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+              }`}
+            >
               <MdDelete />
               <h1>Delete chat</h1>
             </button>

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Groupuser = ({
+  theme,
   username,
   userimage,
   userabout,
@@ -11,11 +12,13 @@ const Groupuser = ({
     <div className="">
       <button
         onClick={() => handelGroup(_id)}
-        className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3"
+        className={`parent w-full flex flex-row justify-center items-start gap-2 ${
+          theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"
+        }`}
       >
         <div className="p-3">
           <div
-            className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
+            className="w-12 h-12 border rounded-full overflow-hidden text-center"
             style={{
               backgroundImage: `url(${userimage})`,
               backgroundPosition: "center",

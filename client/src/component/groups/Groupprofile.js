@@ -20,7 +20,7 @@ import useClickOutside from "../../hooks/useClickOutside";
 import Groupinfocard from "../card/Groupinfocard";
 import Groupimage from "./Groupimage";
 
-const Groupprofile = ({ onClick, groupId }) => {
+const Groupprofile = ({ onClick, groupId, theme }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -258,16 +258,28 @@ const Groupprofile = ({ onClick, groupId }) => {
     }
   };
   return (
-    <div className="user-left-border w-full h-screen bg-dark2">
+    <div
+      className={`user-left-border w-full h-screen ${
+        theme === "#000000" ? "bg-dark2" : "bg-slate-200"
+      }`}
+    >
       <div className={`${activeButton ? "hidden" : ""}`}>
-        <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
+        <div
+          className={`flex flex-row gap-10 h-14 justify-start items-center ${
+            theme === "#000000" ? "bg-dark3" : "bg-slate-200"
+          }`}
+        >
           <button onClick={onClick} className="ml-8">
             <RxCross2 />
           </button>
           <h1>Group info</h1>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
-          <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
+          <div
+            className={`w-full flex p-6 flex-col justify-center items-center ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            }`}
+          >
             <button
               onClick={handleClick}
               ref={buttonRef}
@@ -283,18 +295,18 @@ const Groupprofile = ({ onClick, groupId }) => {
             {isClick && (
               <div
                 ref={dropDownRef}
-                className="absolute mt-40 ml-48 py-2 w-44 lex-col justify-start items-start bg-dark3"
+                className={`absolute mt-40 ml-48 py-2 w-44 lex-col justify-start items-start ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}
               >
                 <button
                   onClick={() => setProfilePicture((prev) => !prev)}
-                  className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+                  className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}
                 >
                   View photo
                 </button>
-                <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
+                <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}>
                   Take photo
                 </button>
-                <button className="hover:bg-dark6 cursor-pointer py-2 text-sm px-4 w-full">
+                <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} cursor-pointer py-2 text-sm px-4 w-full`}>
                   <input
                     type="file"
                     id="fileInput"
@@ -307,7 +319,7 @@ const Groupprofile = ({ onClick, groupId }) => {
                 </button>
                 <button
                   onClick={handleRemoveGroupImage}
-                  className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+                  className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}
                 >
                   Remove photo
                 </button>
@@ -315,7 +327,7 @@ const Groupprofile = ({ onClick, groupId }) => {
             )}
             {isImageSelected && (
               <div className="bg-dark6 p-5 absolute w-full h-screen flex items-center justify-center top-0 left-0 bg-opacity-85">
-                <div className="w-[30%] bg-dark3">
+                <div className={`w-[30%] ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}>
                   <div className="p-2 w-full flex flex-row items-center text-lg gap-4">
                     <button onClick={handleClose}>
                       <RxCross2 />
@@ -347,12 +359,13 @@ const Groupprofile = ({ onClick, groupId }) => {
             {isProfilePicture && (
               <div className="absolute w-full h-screen left-0 top-0">
                 <Groupimage
+                  theme={theme}
                   groupId={groupId}
                   onClick={() => setProfilePicture(false)}
                 />
               </div>
             )}
-            <div className="bg-dark1 mt-2 py-6 px-8">
+            <div className="mt-2 py-6 px-8">
               {isEditingname ? (
                 <div className="flex flex-row gap-4">
                   <h1 className="w-full p-1 font-light text-sm text-slate-300">
@@ -371,7 +384,7 @@ const Groupprofile = ({ onClick, groupId }) => {
                     type="text"
                     value={groupName}
                     onChange={(e) => setGroupName(e.target.value)}
-                    className="bg-dark1 w-full outline-none p-1 font-semibold"
+                    className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                   />
                   <button
                     onClick={(e) => handleSubmitGroupName(e)}
@@ -386,7 +399,11 @@ const Groupprofile = ({ onClick, groupId }) => {
               Group . {groupDetails?.userIds?.length + 1} members
             </h3>
           </div>
-          <div className="bg-dark1 mt-2 py-6 px-8">
+          <div
+            className={`${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            } mt-2 py-6 px-8`}
+          >
             {/* Edit group About */}
             {isEditingabout ? (
               <div className="flex flex-row gap-4">
@@ -410,7 +427,7 @@ const Groupprofile = ({ onClick, groupId }) => {
                   type="text"
                   value={groupAbout}
                   onChange={(e) => setGroupAbout(e.target.value)}
-                  className="bg-dark1 w-full outline-none p-1 font-semibold"
+                  className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                 />
                 <button
                   onClick={(e) => handleSubmitGroupAbout(e)}
@@ -421,10 +438,12 @@ const Groupprofile = ({ onClick, groupId }) => {
               </div>
             )}
           </div>
-          <div className="bg-dark1">
+          <div
+            className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"}`}
+          >
             <button
               onClick={() => handleButtonClick("medialinks")}
-              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center bg-dark1 mt-2 py-4 px-8"
+              className="flex flex-row w-full text-sm text-slate-300 justify-between items-center mt-2 py-4 px-8"
             >
               <h1 className="font-light">Media, links and docs</h1>
               <h1 className="flex flex-row items-center gap-1 font-light">
@@ -434,7 +453,7 @@ const Groupprofile = ({ onClick, groupId }) => {
             </button>
             <div className="w-full h-[130px]"></div>
           </div>
-          <div className="w-full py-4 bg-dark1 mt-4 px-8">
+          <div className={`w-full py-4 ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} mt-4 px-8`}>
             <button
               onClick={() => handleButtonClick("starredmessages")}
               className="flex flex-row justify-between items-center py-4 w-full"
@@ -480,7 +499,7 @@ const Groupprofile = ({ onClick, groupId }) => {
               </div>
             </button>
           </div>
-          <div className="w-full bg-dark1 max-h-[50vh] overflow-y-scroll scrollbaruser">
+          <div className={`w-full ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} max-h-[50vh] overflow-y-scroll scrollbaruser`}>
             <Groupinfocard
               key={adminDetails?._id}
               adminid={adminDetails?._id}
@@ -489,6 +508,7 @@ const Groupprofile = ({ onClick, groupId }) => {
               username={adminDetails?.username || adminDetails?.mobile}
               userimage={adminDetails?.userimage}
               groupId={groupId}
+              theme={theme}
             />
             {userDetails?.map((user, index) => (
               <Groupinfocard
@@ -498,18 +518,19 @@ const Groupprofile = ({ onClick, groupId }) => {
                 username={user.username || user.mobile}
                 userimage={user.userimage}
                 groupId={groupId}
+                theme={theme}
               />
             ))}
           </div>
-          <div className="w-full py-4 bg-dark1 mb-16">
+          <div className={`w-full py-4 bg-dark1 mb-16 ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"}`}>
             <button
               onClick={handleSubmitExit}
-              className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+              className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <IoExitOutline />
               <h1>Exit group</h1>
             </button>
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+            <button className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
               <BiSolidDislike />
               <h1>Report Group</h1>
             </button>
@@ -520,7 +541,7 @@ const Groupprofile = ({ onClick, groupId }) => {
         <Starredmessage onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "medialinks" && (
-        <Medialink onClick={() => setActiveButton(false)} />
+        <Medialink theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "disappearingmessages" && (
         <Disappearing onClick={() => setActiveButton(false)} />

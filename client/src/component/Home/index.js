@@ -99,11 +99,17 @@ function Home() {
       <div className="flex flex-row justify-center">
         <div
           className="user-right-border bg-dark6 w-[33%] h-screen text-white"
-          style={{ backgroundColor: `${imageUrl.usertheme}111` }}
+          style={{
+            backgroundColor:
+              imageUrl.usertheme === "#000000" ? "#111b21" : "#f4f4f5",
+          }}
         >
           <div className="flex flex-row w-full h-screen">
             <div
-              style={{ backgroundColor: `${imageUrl.usertheme}7f8` }}
+              style={{
+                backgroundColor:
+                  imageUrl.usertheme === "#000000" ? "#233138" : "#e2e8f0",
+              }}
               className={`w-[11%] bg-dark3 flex flex-col items-center justify-between py-5`}
             >
               <div className="flex flex-col gap-5 text-slate-400 text-2xl">
@@ -111,7 +117,7 @@ function Home() {
                   onClick={() => handleButtonClick("chats")}
                   className={`p-2 ${
                     activeButton === "chats"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none"
                   }`}
                 >
@@ -121,7 +127,7 @@ function Home() {
                   onClick={() => handleButtonClick("communities")}
                   className={`p-2 ${
                     activeButton === "communities"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none"
                   }`}
                 >
@@ -131,7 +137,7 @@ function Home() {
                   onClick={() => handleButtonClick("status")}
                   className={`user-top-bottom-border p-2 ${
                     activeButton === "status"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none"
                   }`}
                 >
@@ -141,7 +147,7 @@ function Home() {
                   onClick={() => handleButtonClick("channels")}
                   className={`p-2 ${
                     activeButton === "channels"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none"
                   }`}
                 >
@@ -153,7 +159,7 @@ function Home() {
                   onClick={() => handleButtonClick("help")}
                   className={` px-1 py-3 text-xs ${
                     activeButton === "help"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none shadow"
                   }`}
                 >
@@ -163,7 +169,7 @@ function Home() {
                   onClick={() => handleButtonClick("sattings")}
                   className={`p-2 ${
                     activeButton === "sattings"
-                      ? "rounded-full bg-dark5"
+                      ? (imageUrl?.usertheme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-400 text-black")
                       : "bg-none"
                   }`}
                 >
@@ -184,18 +190,33 @@ function Home() {
             </div>
             <div className="w-[89%]">
               {activeButton === "chats" && (
-                <Users handelUserChatsClick={handelUserChatsClick} />
+                <Users
+                  theme={imageUrl?.usertheme}
+                  handelUserChatsClick={handelUserChatsClick}
+                />
               )}
-              {activeButton === "help" && <Help />}
-              {activeButton === "profile" && <Profile />}
+              {activeButton === "help" && <Help theme={imageUrl?.usertheme} />}
+              {activeButton === "profile" && (
+                <Profile theme={imageUrl?.usertheme} />
+              )}
               {activeButton === "communities" && (
-                <Communities handelUserChatsClick={handelUserChatsClick} />
+                <Communities
+                  theme={imageUrl?.usertheme}
+                  handelUserChatsClick={handelUserChatsClick}
+                />
               )}
-              {activeButton === "status" && <Status />}
+              {activeButton === "status" && (
+                <Status theme={imageUrl?.usertheme} />
+              )}
               {activeButton === "channels" && (
-                <Channels handelUserChatsClick={handelUserChatsClick} />
+                <Channels
+                  theme={imageUrl?.usertheme}
+                  handelUserChatsClick={handelUserChatsClick}
+                />
               )}
-              {activeButton === "sattings" && <Sattings />}
+              {activeButton === "sattings" && (
+                <Sattings theme={imageUrl?.usertheme} />
+              )}
             </div>
           </div>
         </div>

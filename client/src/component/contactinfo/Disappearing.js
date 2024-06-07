@@ -12,9 +12,9 @@ const Disappearing = ({ onClick }) => {
     setActiveDisappearing(disappearingButton);
   };
   return (
-    <div className="profile-animation w-full bg-dark6 h-screen">
+    <div className="profile-animation w-full h-screen">
       <div className={`${activeDisappearing ? "hidden" : ""}`}>
-        <div className="bg-dark3 p-4 pl-6 flex flex-row items-center gap-5">
+        <div className="p-4 pl-6 flex flex-row items-center gap-5">
           <button onClick={onClick} className="text-lg">
             <FaArrowLeft />
           </button>

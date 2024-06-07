@@ -3,7 +3,7 @@ import { RxCross1 } from "react-icons/rx";
 import { FaRegCalendar } from "react-icons/fa6";
 import { IoMdSearch } from "react-icons/io";
 
-const Searchmessage = ({ onClick, userId }) => {
+const Searchmessage = ({ onClick, userId, theme }) => {
   const [userDetails, setUserDetails] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -20,8 +20,8 @@ const Searchmessage = ({ onClick, userId }) => {
     fetchData();
   }, [userId]);
   return (
-    <div className="user-left-border w-full h-screen bg-dark2">
-      <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
+    <div className="user-left-border w-full h-screen">
+      <div className={`flex flex-row gap-10 h-14 justify-start items-center ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}>
         <button onClick={onClick} className="ml-8">
           <RxCross1 />
         </button>
@@ -31,14 +31,14 @@ const Searchmessage = ({ onClick, userId }) => {
         <button>
           <FaRegCalendar />
         </button>
-        <div className="w-full flex flex-row gap-3 bg-dark3 px-3 py-1 rounded-lg">
+        <div className={`w-full flex flex-row gap-3 ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"} px-3 py-1 rounded-lg`}>
           <button>
             <IoMdSearch />
           </button>
           <input
             type="text"
             placeholder="Search"
-            className="outline-none px-2 text-sm bg-dark3 w-full"
+            className={`outline-none px-2 text-sm ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"} w-full`}
           />
         </div>
       </div>

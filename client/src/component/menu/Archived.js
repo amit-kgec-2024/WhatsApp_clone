@@ -4,7 +4,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 
 const Archived = ({ onClick, handelUserChatsClick }) => {
   return (
-    <div className="w-full bg-dark6 h-screen">
+    <div className="w-full h-screen">
       <div className="flex flex-row gap-4">
         <button onClick={onClick} className="text-xl px-3">
           <FaArrowLeft />

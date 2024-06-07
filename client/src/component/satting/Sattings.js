@@ -18,7 +18,7 @@ import Account from "./Account";
 import Chatsatting from "./Chatsatting";
 import Authorization from "../Authorization";
 
-const Sattings = () => {
+const Sattings = ({theme}) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -67,23 +67,28 @@ const Sattings = () => {
     );
   }
   return (
-    <div className="w-full bg-dark6 h-screen flex flex-row">
+    <div
+      className="w-full h-screen flex flex-row"
+      style={{ color: theme === "#000000" ? "#ffffff" : "#000000" }}
+    >
       <div className={`${activeButton ? "hidden" : "w-full"}`}>
-        <h1 className="text-xl font-bold p-5 bg-dark6">Sattings</h1>
-        <div className="bg-dark3 my-2 mx-3 p-2 gap-3 flex flex-row rounded-md">
+        <h1 className="text-xl font-bold p-5">Sattings</h1>
+        <div className="my-2 mx-3 p-2 gap-3 flex flex-row rounded-md"
+        style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}>
           <button className="text-xl">
             <MdOutlineSearch />
           </button>
           <input
             type="text"
             placeholder="Search name or number"
-            className="user-top-bottom-border text-xs px-2 outline-none bg-dark3 w-full"
+            className="text-xs px-2 outline-none w-full"
+            style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
           />
         </div>
         <div className="scrollbaruser overflow-y-scroll h-[550px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
           <button
             onClick={() => handleButtonClick("profile")}
-            className="flex flex-row justify-start items-center w-full py-2 px-3 gap-3 hover:bg-dark3"
+            className={`flex flex-row justify-start items-center w-full py-2 px-3 gap-3 ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
           >
             <div
               className="w-20 h-20 overflow-hidden rounded-full border"
@@ -105,7 +110,7 @@ const Sattings = () => {
           <div className="">
             <button
               onClick={() => handleButtonClick("account")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <FaUserCircle className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -114,7 +119,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => handleButtonClick("privecy")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <PiLockFill className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -123,7 +128,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => handleButtonClick("chats")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <BsFillChatSquareTextFill className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -132,7 +137,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => handleButtonClick("notification")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <IoIosNotifications className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -141,7 +146,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => handleButtonClick("keyshort")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <BsFillPatchPlusFill className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -150,7 +155,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => handleButtonClick("help")}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <IoIosHelpCircle className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -159,7 +164,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={handleDeletAccountClick}
-              className="flex flex-row w-full gap-6 pl-6 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <IoIosInformationCircle className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -168,7 +173,7 @@ const Sattings = () => {
             </button>
             <button
               onClick={() => logOut()}
-              className="flex flex-row w-full gap-6 pl-6 text-red-600 justify-start items-center hover:bg-dark3"
+              className={`flex flex-row w-full gap-6 pl-6 text-red-600 justify-start items-center ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
             >
               <IoIosLogOut className="text-2xl" />
               <span className="user-top-bottom-border text-start py-4 text-base w-full">
@@ -182,22 +187,22 @@ const Sattings = () => {
         <Profile onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "account" && (
-        <Account onClick={() => setActiveButton(false)} />
+        <Account theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "notification" && (
-        <Notifications onClick={() => setActiveButton(false)} />
+        <Notifications theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "privecy" && (
-        <Privecy onClick={() => setActiveButton(false)} />
+        <Privecy theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "chats" && (
-        <Chatsatting onClick={() => setActiveButton(false)} />
+        <Chatsatting theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "keyshort" && (
-        <Keyshort onClick={() => setActiveButton(false)} />
+        <Keyshort theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "help" && (
-        <Help onClick={() => setActiveButton(false)} />
+        <Help theme={theme} onClick={() => setActiveButton(false)} />
       )}
     </div>
   );

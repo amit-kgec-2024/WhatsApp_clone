@@ -16,7 +16,7 @@ import Groups from "../groups/Groups";
 import LoaderCard from "../card/LoaderCard";
 import Authorization from "../Authorization";
 
-const Users = ({ handelUserChatsClick }) => {
+const Users = ({ handelUserChatsClick, theme}) => {
   const [showSearch, setShowSearch] = useState(true);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
@@ -86,7 +86,7 @@ const Users = ({ handelUserChatsClick }) => {
     );
   }
   return (
-    <div>
+    <div style={{ color: theme === "#000000" ? "#ffffff" : "#000000" }}>
       <div className={`w-full ${isChats ? "hidden" : ""}`}>
         <div className="flex flex-row justify-between items-center p-5">
           <h1 className="font-bold text-xl">Chats</h1>
@@ -102,7 +102,7 @@ const Users = ({ handelUserChatsClick }) => {
                 onClick={() => setIsclick((prev) => !prev)}
                 ref={buttonRef}
                 className={`p-1 ${
-                  isClick ? "rounded-full bg-dark5" : "bg-none"
+                  isClick ? (theme === "#000000" ? "rounded-full bg-dark5" : "rounded-full bg-slate-200") : "bg-none"
                 }`}
               >
                 <BsThreeDotsVertical />
@@ -110,33 +110,35 @@ const Users = ({ handelUserChatsClick }) => {
               {isClick && (
                 <div
                   ref={dropDownRef}
+                  style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
                   className="absolute z-50 text-xs flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-52 right-0 mt-1 rounded-sm"
                 >
                   <button
                     onClick={() => handelChatsClick("newgroup")}
-                    className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                    className={`py-3 px-6 w-full text-start ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
                   >
                     New Group
                   </button>
                   <button
                     onClick={() => handelChatsClick("starrdemessage")}
-                    className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                    className={`py-3 px-6 w-full text-start ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
                   >
                     Starred messages
                   </button>
-                  <button className="py-3 px-6 hover:bg-dark6 w-full text-start">
+                  <button 
+                  className={`py-3 px-6 w-full text-start ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
                     Select chats
                   </button>
                   <button
                     onClick={() => logOut()}
-                    className="py-3 px-6 hover:bg-dark6 w-full text-start"
+                    className={`py-3 px-6 w-full text-start ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
                   >
                     Log out
                   </button>
                   <li className="user-top-border list-none w-full my-1" />
                   <button
                     onClick={() => setIsModal((prev) => !prev)}
-                    className="py-2 px-5 w-full hover:bg-dark6"
+                    className={`py-3 px-6 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
                   >
                     Get WhatsApp for Windows
                   </button>
@@ -146,7 +148,9 @@ const Users = ({ handelUserChatsClick }) => {
           </div>
         </div>
         <div className="px-4 py-1">
-          <div className="flex flex-row bg-dark3 py-2 px-3 gap-4 rounded-md w-full justify-start items-center">
+          <div 
+           style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
+           className="flex flex-row py-2 px-3 gap-4 rounded-md w-full justify-start items-center">
             {showSearch ? (
               <button ref={searchRef} onClick={toggleSearch}>
                 <IoMdSearch className="text-lg cursor-pointer" />
@@ -161,7 +165,8 @@ const Users = ({ handelUserChatsClick }) => {
               ref={inputRef}
               placeholder={`Search`}
               onClick={() => setShowSearch(false)}
-              className="bg-dark3 text-sm outline-none px-2 w-full"
+              className="text-sm outline-none px-2 w-full"
+              style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
             />
           </div>
         </div>
@@ -171,7 +176,7 @@ const Users = ({ handelUserChatsClick }) => {
             className={`px-3 py-1 rounded-full text-xs lg:text-base font-ligh ${
               activeUser === "all"
                 ? "bg-teal-400 bg-opacity-10 text-teal-400"
-                : "bg-dark3 text-slate-400"
+                : (theme === "#000000" ? "bg-dark3 text-slate-400" : "bg-slate-200 text-black")
             }`}
           >
             All
@@ -181,7 +186,7 @@ const Users = ({ handelUserChatsClick }) => {
             className={`px-3 py-1 rounded-full text-xs lg:text-base font-ligh ${
               activeUser === "unread"
                 ? "bg-teal-400 bg-opacity-10 text-teal-400"
-                : "bg-dark3 text-slate-400"
+                : (theme === "#000000" ? "bg-dark3 text-slate-400" : "bg-slate-200 text-black")
             }`}
           >
             Unread
@@ -191,7 +196,7 @@ const Users = ({ handelUserChatsClick }) => {
             className={`px-3 py-1 rounded-full text-xs lg:text-base font-ligh ${
               activeUser === "groups"
                 ? "bg-teal-400 bg-opacity-10 text-teal-400"
-                : "bg-dark3 text-slate-400"
+                : (theme === "#000000" ? "bg-dark3 text-slate-400" : "bg-slate-200 text-black")
             }`}
           >
             Groups
@@ -228,10 +233,11 @@ const Users = ({ handelUserChatsClick }) => {
                     lastmessage={element.lastMessage?.message}
                     timestamp={element.lastMessage?.time}
                     handelUserChatsClick={handelUserChatsClick}
+                    theme={theme}
                   />
                 ))
               ) : (
-                <LoaderCard />
+                <LoaderCard theme={theme}/>
               )}
             </div>
           )}
@@ -264,12 +270,13 @@ const Users = ({ handelUserChatsClick }) => {
             </div>
           )}
           {activeUser === "groups" && (
-            <Groups handelUserChatsClick={handelUserChatsClick} />
+            <Groups theme={theme} handelUserChatsClick={handelUserChatsClick} />
           )}
         </div>
       </div>
       {isChats === "newchats" && (
         <Newchats
+        theme={theme}
           handelUserChatsClick={handelUserChatsClick}
           onClick={() => setIsChats(false)}
         />

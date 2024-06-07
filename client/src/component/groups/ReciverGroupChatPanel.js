@@ -40,7 +40,7 @@ const ReciverGroupChatPanel = ({ message, time, chatId }) => {
       }
     };
   return (
-    <div className="chat-panel receiver my-4 flex justify-end">
+    <div className="chat-panel receiver my-4 flex justify-end text-white">
       <div className="message bg-whitmix1 rounded-br-lg rounded-l-lg px-2 text-base flex items-center gap-2">
         {message}
         <div

@@ -12,7 +12,7 @@ import getCroppedImg from "../../utils/cropImage";
 import Cropper from "react-easy-crop";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const Newgroup = ({ onClick }) => {
+const Newgroup = ({ onClick, theme }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -201,7 +201,7 @@ const Newgroup = ({ onClick }) => {
   return (
     <div className="">
       <div
-        className={`w-full bg-dark6 h-screen flex flex-col ${
+        className={`w-full h-screen flex flex-col ${
           showToggle ? "hidden" : ""
         }`}
       >
@@ -215,7 +215,7 @@ const Newgroup = ({ onClick }) => {
           {groups.map((group, index) => (
             <biv key={index}>
               {userDetails[group.userId] ? (
-                <div className="flex  items-center gap-2 bg-dark4 py-1 px-3 rounded-full">
+                <div className={`flex  items-center gap-2 ${theme === "#000000" ? "bg-dark4" : "bg-slate-200"} py-1 px-3 rounded-full`}>
                   <div
                     className="w-[25px] h-[25px] rounded-full overflow-hidden"
                     style={{
@@ -234,7 +234,7 @@ const Newgroup = ({ onClick }) => {
                     onClick={() =>
                       handleRemoveUser(userDetails[group.userId]._id)
                     }
-                    className="rounded-full bg-dark4 hover:bg-dark5 p-1"
+                    className={`rounded-full ${theme === "#000000" ? "bg-dark4 hover:bg-dark5" : "bg-slate-100 hover:bg-slate-50"} p-1`}
                   >
                     <RxCross2 />
                   </button>
@@ -249,12 +249,13 @@ const Newgroup = ({ onClick }) => {
           <input
             type="text"
             placeholder="Search name or number"
-            className="user-top-bottom-border text-sm outline-none bg-dark6 w-full"
+            className="user-top-bottom-border text-sm outline-none w-full"
+            style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
           />
         </div>
 
         <div className="scrollbaruser overflow-y-scroll h-[100vh] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-          <div className="mt-3 bg-dark6">
+          <div className="mt-3">
             {userAll &&
               Array.isArray(userAll) &&
               userAll
@@ -269,12 +270,13 @@ const Newgroup = ({ onClick }) => {
                     userabout={ele.userabout || defaultAbout}
                     userimage={ele.userimage || defaultImage}
                     handelGroup={handelGroup}
+                    theme={theme}
                   />
                 ))}
           </div>
         </div>
         {groups.length > 0 && (
-          <div className="w-full flex justify-center items-center h-[30vh] bg-dark6 ">
+          <div className={`w-full flex justify-center items-center h-[30vh] ${theme === "#000000" ? "bg-dark6" : "bg-slate-300"}`}>
             <button
               onClick={() => handelToggle("groupprofileset")}
               className="p-3 rounded-full bg-whitmix1 text-xl md:text-2xl text-white"

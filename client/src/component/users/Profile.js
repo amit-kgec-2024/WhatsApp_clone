@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { FaCamera } from "react-icons/fa";
+import { FaArrowLeft, FaCamera } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { MdOutlineModeEdit } from "react-icons/md";
 import getCroppedImg from "../../utils/cropImage";
@@ -7,7 +7,7 @@ import Cropper from "react-easy-crop";
 import useClickOutside from "../../hooks/useClickOutside";
 import { FaCheck } from "react-icons/fa6";
 
-const Profile = () => {
+const Profile = ({theme, onClick}) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -247,8 +247,14 @@ const Profile = () => {
     }
   };
   return (
-    <div className="profile-animation w-full bg-dark6 h-screen">
-      <h1 className="text-xl font-bold p-5 bg-dark6">Profile</h1>
+    <div
+      className="profile-animation w-full h-screen"
+      style={{ color: theme === "#000000" ? "#ffffff" : "#000000" }}
+    >
+      <div className="flex flex-row gap-2 p-4 w-full">
+        {onClick ? <button onClick={onClick}><FaArrowLeft/></button> : ""}
+        <h1 className="text-xl font-bold p-5">Profile</h1>
+      </div>
       <div className="flex flex-col p-4 w-full">
         <div className="w-full justify-center items-center flex py-8">
           <div
@@ -275,18 +281,19 @@ const Profile = () => {
           {isClick && (
             <div
               ref={dropDownRef}
-              className="absolute mt-40 ml-40 py-2 w-[20vh] text-start bg-dark3"
+               style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
+              className="absolute mt-40 ml-40 py-2 w-[20vh] text-start"
             >
               <button
                 onClick={() => handelProfile("profileImage")}
-                className="hover:bg-dark6 py-2 text-sm w-full"
+                className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} py-2 text-sm w-full`}
               >
                 View photo
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm w-full">
+              <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} py-2 text-sm w-full`}>
                 Take photo
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm w-full">
+              <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} py-2 text-sm w-full`}>
                 <input
                   type="file"
                   id="fileInput"
@@ -299,7 +306,7 @@ const Profile = () => {
               </button>
               <button
                 onClick={(e) => handleDelete(e)}
-                className="hover:bg-dark6 py-2 text-sm w-full"
+                className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} py-2 text-sm w-full`}
               >
                 Remove photo
               </button>
@@ -325,7 +332,7 @@ const Profile = () => {
                   placeholder={userData.username || defaultName}
                   value={inputValue}
                   onChange={handleInputChange}
-                  className="bg-dark6 w-full outline-none border-b-4 border-b-whitmix2 p-1 font-semibold"
+                  className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                 />
                 <button
                   onClick={(e) => handleSubmit(e)}
@@ -361,7 +368,7 @@ const Profile = () => {
                   placeholder={userData.userabout || defaultAbout}
                   value={inputValueabout}
                   onChange={handleInputChangeabout}
-                  className="bg-dark6 w-full outline-none border-b-4 border-b-whitmix2 p-1 font-semibold"
+                  className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                 />
                 <button
                   onClick={(e) => handleSubmitabout(e)}
@@ -376,7 +383,7 @@ const Profile = () => {
       </div>
       {showProfile === "profileImage" && (
         <div className="absolute w-full h-screen flex flex-col items-start bg-dark2 top-0 left-0 z-50 bg-opacity-95 justify-start">
-          <div className="flex flex-row justify-between items-center w-full p-3 top-0">
+          <div className={`flex flex-row justify-between items-center w-full p-3 top-0 ${theme === "#000000" ? "bg-dark2" : "bg-slate-200"}`}>
             <div className="flex flex-row items-center gap-3">
               <div
                 className="w-[35px] md:w-[50px] h-[35px] md:h-[50px] rounded-full"
@@ -409,7 +416,7 @@ const Profile = () => {
       )}
       {isImageSelected && (
         <div className="bg-dark6 p-5 absolute w-full h-screen flex items-center justify-center top-0 left-0 bg-opacity-85">
-          <div className="w-[30%] bg-dark3">
+          <div className={`w-[30%] ${theme === "#000000" ? "bg-dark3" : "bg-slate-300"}`}>
             <div className="p-2 w-full flex flex-row items-center text-lg gap-4">
               <button onClick={handleClose}>
                 <RxCross2 />

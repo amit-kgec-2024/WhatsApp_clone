@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import LoaderCard from "../card/LoaderCard";
 
-const CardDefault = ({ setIsChannel, handelUserChatsClick }) => {
+const CardDefault = ({ setIsChannel, handelUserChatsClick, theme }) => {
   const [users] = useState(
     () => JSON.parse(localStorage.getItem("users:detail")) || {}
   );
@@ -57,7 +57,9 @@ const CardDefault = ({ setIsChannel, handelUserChatsClick }) => {
           {isAllChannel.channels.map((ele, index) => (
             <div
               key={index}
-              className="only_border w-[120px] h-[180px] px-5 rounded-md shadow-xl bg-dark6 flex flex-col justify-around items-center"
+              style={{ backgroundColor: theme === "#000000" ? "#233138" : "#e4e4e7" }}
+
+              className={`only_border w-[120px] h-[180px] px-5 rounded-md shadow-xl flex flex-col justify-around items-center`}
             >
               <div
                 className="w-20 h-20 bg-slate-400 rounded-full"
@@ -70,7 +72,7 @@ const CardDefault = ({ setIsChannel, handelUserChatsClick }) => {
               <h1 className="font-light text-xs">{ele.channelname}</h1>
               <button
                 onClick={submitAddMember}
-                className="font-light text-green-300"
+                className="font-light text-green-500"
               >
                 Follow
               </button>
@@ -78,7 +80,7 @@ const CardDefault = ({ setIsChannel, handelUserChatsClick }) => {
           ))}
         </ul>
       ) : (
-        <LoaderCard />
+        <LoaderCard theme={theme}/>
       )}
     </div>
   );

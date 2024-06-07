@@ -7,7 +7,7 @@ import { PiSticker } from "react-icons/pi";
 import { IoSendSharp } from "react-icons/io5";
 import Input from "../Input";
 
-const Status = () => {
+const Status = ({theme}) => {
   const [activeStatus, setActiveStatus] = useState(null);
   const handelStatus = (toggleStatus) => {
     setActiveStatus(toggleStatus);
@@ -18,9 +18,12 @@ const Status = () => {
     setActiveReplay(toggleReplay);
   };
   return (
-    <div className="">
-      <div className="w-full bg-dark6 ">
-        <h1 className="text-xl font-bold p-5 bg-dark6">Status</h1>
+    <div
+      className=""
+      style={{ color: theme === "#000000" ? "#ffffff" : "#000000" }}
+    >
+      <div className="w-full">
+        <h1 className="text-xl font-bold p-5">Status</h1>
         <button
           onClick={() => handelStatus("status")}
           className="flex flex-row justify-start items-center gap-4 px-4 py-6"
@@ -35,7 +38,7 @@ const Status = () => {
         </button>
         <div className="scrollbaruser overflow-y-scroll h-[580px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
           <h1 className="text-whitmix1 w-full px-10 py-3 uppercase">Recent</h1>
-          <div className="mt-3 bg-dark6">
+          <div className="mt-3">
             {/* {userStatusData.map(
               (ele) =>
                 ele.viewstatus === "true" && (

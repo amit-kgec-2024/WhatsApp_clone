@@ -10,7 +10,7 @@ import Findchannel from "./Findchannel";
 import CardDefault from "./CardDefault";
 import LoaderCard from "../card/LoaderCard";
 
-const Channels = ({ handelUserChatsClick }) => {
+const Channels = ({ handelUserChatsClick, theme }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -51,7 +51,10 @@ const Channels = ({ handelUserChatsClick }) => {
     fetchData();
   }, [users.id]);
   return (
-    <div className="w-full bg-dark6 h-screen">
+    <div
+      className="w-full h-screen"
+      style={{ color: theme === "#000000" ? "#ffffff" : "#000000" }}
+    >
       <div className={`${isChannel ? "hidden" : ""}`}>
         <div className="p-4 pl-6 flex flex-row justify-items-center">
           <h1 className="text-lg font-bold">Channels</h1>
@@ -63,22 +66,23 @@ const Channels = ({ handelUserChatsClick }) => {
             >
               <GoPlus
                 className={`p-1 ${
-                  isClick ? "rounded-full text-3xl bg-dark5 p-1" : "bg-none"
+                  isClick ? (theme === "#000000" ? "rounded-full text-3xl bg-dark5 p-1" : "rounded-full text-3xl p-1 bg-slate-200") : "bg-none"
                 }`}
               />
             </button>
             {isClick && (
               <div
                 ref={dropDownRef}
-                className="absolute flex flex-col justify-start items-start py-2 bg-dark4 shadow-md w-44 mt-9 z-50 rounded-sm"
+                style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
+                className="absolute flex flex-col justify-start items-start py-2 shadow-md w-44 mt-9 z-50 rounded-sm"
               >
                 <button
                   onClick={() => setOnClickShow((prev) => !prev)}
-                  className="py-2 px-5 hover:bg-dark6 w-full text-start"
+                  className={`py-2 px-5 ${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start`}
                 >
                   Create channel
                 </button>
-                <button className="py-2 px-5 hover:bg-dark6 w-full text-start">
+                <button className={`py-2 px-5 ${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start`}>
                   Find channels
                 </button>
               </div>
@@ -97,11 +101,13 @@ const Channels = ({ handelUserChatsClick }) => {
                   message={channel?.lastChat?.message}
                   time={channel?.lastChat?.timestamp}
                   handelUserChatsClick={handelUserChatsClick}
+                  theme={theme}
                 />
               ))}
             </ul>
           ) : (
             <LoaderCard
+            theme={theme}
               setIsChannel={setIsChannel}
               handelUserChatsClick={handelUserChatsClick}
             />
@@ -116,22 +122,24 @@ const Channels = ({ handelUserChatsClick }) => {
                 See all <FaChevronRight />
               </button>
             </div>
-            <CardDefault />
+            <CardDefault theme={theme}/>
           </div>
         </div>
       </div>
       {isChannel === "channelcreate" && (
-        <CreateChannel setIsChannel={setIsChannel} />
+        <CreateChannel theme={theme} setIsChannel={setIsChannel} />
       )}
       {isChannel === "findchannel" && (
         <Findchannel
           setIsChannel={setIsChannel}
           handelUserChatsClick={handelUserChatsClick}
+          theme={theme}
         />
       )}
       {onClickShow && (
         <div className="w-full h-screen z-50 top-0 left-0 absolute flex justify-center items-center bg-dark1 bg-opacity-85">
-          <div className="w-[35%] px-10 bg-dark5 flex flex-col items-center rounded-md py-2">
+          <div className="w-[35%] px-10 flex flex-col items-center rounded-md py-2" 
+          style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}>
             <RiChatVoiceFill className="w-32 h-32 text-whitmix1" />
             <h1 className="font-bold text-xl p-3">
               Create a channel to reach unlimited followers

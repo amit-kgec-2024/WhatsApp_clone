@@ -35,16 +35,16 @@ const Chatsatting = ({ onClick }) => {
   }, [users.id]);
 
   return (
-    <div className="profile-animation w-full bg-dark1 h-screen">
+    <div className="profile-animation w-full h-screen">
       <div className={`${activeChats ? "hidden" : ""}`}>
-        <div className="bg-dark6 p-4 pl-6 flex flex-row items-center gap-8">
+        <div className="p-4 pl-6 flex flex-row items-center gap-8">
           <button onClick={onClick} className="text-lg">
             <FaArrowLeft />
           </button>
           <h1 className="text-lg font-semibold">Chats</h1>
         </div>
         <div className="h-[85%]">
-          <div className="bg-dark6 px-6 w-full">
+          <div className="px-6 w-full">
             <h1 className="text-sm text-teal-400 py-4">Display</h1>
             <button
               onClick={() => handeThemeClick("theme")}
@@ -66,7 +66,7 @@ const Chatsatting = ({ onClick }) => {
               <FaAngleRight />
             </button>
           </div>
-          <div className="bg-dark6 px-6 w-full my-2">
+          <div className="px-6 w-full my-2">
             <h1 className="text-sm text-teal-400 py-4">Chat settings</h1>
             <button
               onClick={() => handelChatsButtonClick("media")}
@@ -105,7 +105,7 @@ const Chatsatting = ({ onClick }) => {
           </div>
         </div>
       </div>
-      <div className="bg-dark6 h-screen">
+      <div className="h-screen">
         {activeTheme === "theme" && <Theme setActiveTheme={setActiveTheme} />}
         {activeChats === "wallpaper" && (
           <div className="">

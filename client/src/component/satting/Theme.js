@@ -68,35 +68,35 @@ const Theme = ({ setActiveTheme }) => {
           <Input
             type="radio"
             name="theme"
-            value="#fff"
+            value={"#ffffff"}
             onChange={(e) =>
               setInputValue({ value: e.target.value, label: "Light" })
             }
             label="Light"
             className="w-5 h-5"
-            checked={userData.usertheme === "#fff"}
+            checked={userData.usertheme === "#ffffff"}
           />
           <Input
             type="radio"
             name="theme"
-            value="#000"
+            value="#000000"
             onChange={(e) =>
               setInputValue({ value: e.target.value, label: "Dark" })
             }
             label="Dark"
             className="w-5 h-5"
-            checked={userData.usertheme === "#000"}
+            checked={userData.usertheme === "#000000"}
           />
           <Input
             type="radio"
             name="theme"
-            value="null"
+            value="#000000"
             onChange={(e) =>
               setInputValue({ value: e.target.value, label: "System default" })
             }
             label="System default"
             className="w-5 h-5"
-            checked={userData.usertheme === "null"}
+            checked={userData.usertheme === "#000000"}
           />
           <div className="flex flex-row w-full justify-end items-center pt-4 gap-4">
             <button

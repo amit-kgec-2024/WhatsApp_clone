@@ -7,6 +7,7 @@ const Groupscard = ({
   groupId,
   groupimage,
   handelUserChatsClick,
+  theme
 }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
@@ -44,11 +45,11 @@ const Groupscard = ({
     <div className="">
       <button
         onClick={() => handelUserChatsClick("groupchats", groupId)}
-        className="parent w-full flex flex-row justify-center items-start gap-2 hover:bg-dark3"
+        className={`parent w-full flex flex-row justify-center items-start gap-2 ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
       >
         <div className="p-3">
           <div
-            className="w-12 h-12 border rounded-full overflow-hidden text-center bg-dark5"
+            className="w-12 h-12 border rounded-full overflow-hidden text-center"
             style={{
               backgroundImage: `url(${groupimage})`,
               backgroundPosition: "center",
@@ -89,21 +90,22 @@ const Groupscard = ({
               {isClick && (
                 <div
                   ref={dropDownRef}
-                  className="absolute z-50 -ml-32 bg-dark4 w-44 shadow-2xl text-xs py-2 flex flex-col justify-start items-start rounded-sm"
+                  style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
+                  className="absolute z-50 -ml-32 w-44 shadow-2xl text-xs py-2 flex flex-col justify-start items-start rounded-sm"
                 >
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Archive chat
                   </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Mute notifications
                   </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Exit Group
                   </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Pin chat
                   </button>
-                  <button className="hover:bg-dark6 w-full text-start px-5 py-3">
+                  <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-200"} w-full text-start px-5 py-3`}>
                     Mark as Read
                   </button>
                 </div>

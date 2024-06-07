@@ -6,7 +6,7 @@ import ExploreChannel from "./ExploreChannel";
 import CardDefault from "./CardDefault";
 import LoaderCard from "../card/LoaderCard";
 
-const Findchannel = ({ setIsChannel, handelUserChatsClick }) => {
+const Findchannel = ({ setIsChannel, handelUserChatsClick, theme }) => {
   const [isExplore, setIsExplore] = useState(false);
   // All Channel show............................
   const [users] = useState(
@@ -44,18 +44,20 @@ const Findchannel = ({ setIsChannel, handelUserChatsClick }) => {
           </button>
           <h1 className="">Find channel</h1>
         </div>
-        <div className="bg-dark3 flex flex-row px-4 py-1 rounded-md mx-3">
+        <div style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
+         className="flex flex-row px-4 py-1 rounded-md mx-3">
           <button className="text-2xl">
             <MdSearch />
           </button>
           <input
             type="text"
             placeholder="Search"
-            className="w-full bg-dark3 outline-none px-2"
+            className="w-full outline-none px-2"
+            style={{ backgroundColor: theme === "#000000" ? "#233138" : "#cbd5e1" }}
           />
         </div>
         {/* find channels........ */}
-        <div className="scrollbaruser overflow-x-scroll">
+        <div className="scrollbaruser overflow-y-scroll">
           <div className="w-full px-3 my-5">
             <div className="flex flex-row justify-between items-center my-3">
               <h1>Explore channel</h1>
@@ -81,6 +83,7 @@ const Findchannel = ({ setIsChannel, handelUserChatsClick }) => {
                   channelname={channel.channelname}
                   handelUserChatsClick={handelUserChatsClick}
                   setIsChannel={setIsChannel}
+                  theme={theme}
                 />
               ))}
             </ul>
@@ -88,11 +91,12 @@ const Findchannel = ({ setIsChannel, handelUserChatsClick }) => {
             <LoaderCard
               setIsChannel={setIsChannel}
               handelUserChatsClick={handelUserChatsClick}
+              theme={theme}
             />
           )}
         </div>
       </div>
-      {isExplore && <ExploreChannel onClick={() => setIsExplore(false)} />}
+      {isExplore && <ExploreChannel theme={theme} onClick={() => setIsExplore(false)} />}
     </div>
   );
 };

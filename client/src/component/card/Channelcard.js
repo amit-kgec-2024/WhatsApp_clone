@@ -1,12 +1,12 @@
 import React from "react";
 
-const Channelcard = ({ channelimage, channelname, channelId, handelUserChatsClick, message, time }) => {
+const Channelcard = ({ channelimage, channelname, channelId, handelUserChatsClick, message, time, theme }) => {
   
   return (
     <div className="">
       <button
         onClick={() => handelUserChatsClick("channelchats", channelId)}
-        className=".user-top-bottom-border w-full hover:bg-dark3"
+        className={`.user-top-bottom-border w-full hover:bg-dark3 ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
       >
         <div className="p-3 flex flex-row w-full justify-start gap-4 items-center">
           <div

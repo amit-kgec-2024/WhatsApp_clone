@@ -7,7 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import Cropper from "react-easy-crop";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 
-const CreateChannel = ({ setIsChannel }) => {
+const CreateChannel = ({ setIsChannel, theme }) => {
   const [isClick, setIsclick] = useState(false);
   const dropDownRef = useRef(null);
   const buttonRef = useRef(null);
@@ -157,12 +157,12 @@ const CreateChannel = ({ setIsChannel }) => {
           {isClick && (
             <div
               ref={dropDownRef}
-              className="absolute mt-40 ml-40 py-2 w-[20vh] text-start bg-dark3"
+              className={`absolute mt-40 ml-40 py-2 w-[20vh] text-start ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}
             >
-              <button className="hover:bg-dark6 py-2 text-sm w-full">
+              <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm w-full`}>
                 Take photo
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm w-full">
+              <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm w-full`}>
                 <input
                   type="file"
                   id="fileInput"
@@ -173,7 +173,7 @@ const CreateChannel = ({ setIsChannel }) => {
                 />
                 <label htmlFor="fileInput">Upload photo</label>
               </button>
-              <button className="hover:bg-dark6 py-2 text-sm w-full">
+              <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm w-full`}>
                 Emoji & sticker
               </button>
             </div>
@@ -190,9 +190,9 @@ const CreateChannel = ({ setIsChannel }) => {
               })
             }
             placeholder="Channel name"
-            className="w-full outline-none bg-dark6 border-b-2 p-2 border-b-whitmix1"
+            className={`w-full outline-none ${theme === "#000000" ? "bg-dark6" : "bg-slate-200"} border-b-2 p-2 border-b-whitmix1`}
           />
-          <div className="w-full flex flex-col justify-center px-2 my-3 bg-dark3">
+          <div className={`w-full flex flex-col justify-center px-2 my-3 ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}>
             <h1 className="text-xs text-slate-400 py-1">Channel description</h1>
             <div className="flex flex-row justify-between">
               <textarea
@@ -206,7 +206,7 @@ const CreateChannel = ({ setIsChannel }) => {
                     channelabout: e.target.value,
                   })
                 }
-                className="bg-dark3 outline-none w-full"
+                className={`${theme === "#000000" ? "bg-dark3" : "bg-slate-200"} outline-none w-full`}
               />
               <div className="relative">
                 {isEmoji && (
@@ -235,7 +235,7 @@ const CreateChannel = ({ setIsChannel }) => {
         </button>
         {isImageSelected && (
           <div className="bg-dark6 p-5 absolute w-full h-screen flex items-center justify-center top-0 left-0 bg-opacity-85">
-            <div className="w-[30%] bg-dark3">
+            <div className={`w-[30%] ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}>
               <div className="p-2 w-full flex flex-row items-center text-lg gap-4">
                 <button onClick={handleClose}>
                   <RxCross2 />

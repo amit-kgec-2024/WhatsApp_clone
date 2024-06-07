@@ -23,7 +23,7 @@ import Encryption from "../contactinfo/Encryption";
 import useClickOutside from "../../hooks/useClickOutside";
 import ChannelImage from "./ChannelImage";
 
-const ChannelProfile = ({ onClick, channelId, groupId }) => {
+const ChannelProfile = ({ onClick, channelId, theme }) => {
   const [activeButton, setActiveButton] = useState(null);
   const handleButtonClick = (buttonIndex) => {
     setActiveButton(buttonIndex);
@@ -273,16 +273,28 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
     }
   };
   return (
-    <div className="user-left-border w-full h-screen bg-dark2">
+    <div
+      className={`user-left-border w-full h-screen ${
+        theme === "#000000" ? "bg-dark2" : "bg-slate-200"
+      }`}
+    >
       <div className={`${activeButton ? "hidden" : ""}`}>
-        <div className="flex flex-row gap-10 h-14 justify-start items-center bg-dark3">
+        <div
+          className={`flex flex-row gap-10 h-14 justify-start items-center ${
+            theme === "#000000" ? "bg-dark3" : "bg-slate-200"
+          }`}
+        >
           <button onClick={onClick} className="ml-8">
             <RxCross2 />
           </button>
           <h1>Channel info</h1>
         </div>
         <div className="scrollbaruser overflow-y-scroll h-screen">
-          <div className="w-full flex p-6 flex-col justify-center items-center bg-dark1">
+          <div
+            className={`w-full flex p-6 flex-col justify-center items-center ${
+              theme === "#000000" ? "bg-dark1" : "bg-slate-100"
+            }`}
+          >
             {isAllChannel?.channelDetails?.channeladminId === users.id ? (
               <button
                 onClick={handleClick}
@@ -308,18 +320,18 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             {isClick && (
               <div
                 ref={dropDownRef}
-                className="absolute mt-40 ml-48 py-2 w-44 lex-col justify-start items-start bg-dark3"
+                className={`absolute mt-40 ml-48 py-2 w-44 lex-col justify-start items-start ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}
               >
                 <button
                   onClick={() => setProfilePicture((prev) => !prev)}
-                  className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+                  className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}
                 >
                   View photo
                 </button>
-                <button className="hover:bg-dark6 py-2 text-sm px-4 w-full">
+                <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}>
                   Take photo
                 </button>
-                <button className="hover:bg-dark6 cursor-pointer py-2 text-sm px-4 w-full">
+                <button className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}>
                   <input
                     type="file"
                     id="fileInput"
@@ -332,7 +344,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                 </button>
                 <button
                   onClick={handleRemoveChannelImage}
-                  className="hover:bg-dark6 py-2 text-sm px-4 w-full"
+                  className={`${theme === "#000000" ? "hover:bg-dark6" : "hover:bg-slate-100"} py-2 text-sm px-4 w-full`}
                 >
                   Remove photo
                 </button>
@@ -340,7 +352,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             )}
             {isImageSelected && (
               <div className="bg-dark6 p-5 absolute w-full h-screen flex items-center justify-center top-0 left-0 bg-opacity-85">
-                <div className="w-[30%] bg-dark3">
+                <div className={`w-[30%] ${theme === "#000000" ? "bg-dark3" : "bg-slate-200"}`}>
                   <div className="p-2 w-full flex flex-row items-center text-lg gap-4">
                     <button onClick={handleClose}>
                       <RxCross2 />
@@ -375,6 +387,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                   channelname={isAllChannel?.channelDetails?.channelname}
                   channelimage={isAllChannel?.channelDetails?.channelimage}
                   onClick={() => setProfilePicture(false)}
+                  theme={theme}
                 />
               </div>
             )}
@@ -388,7 +401,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
               </div>
             )}
             {isAllChannel?.channelDetails?.channeladminId === users.id ? (
-              <div className="bg-dark1 mt-2 py-6 px-8">
+              <div className="mt-2 py-6 px-8">
                 {isEditingname ? (
                   <div className="flex flex-row gap-4">
                     <h1 className="w-full p-1 font-light text-sm text-slate-300">
@@ -407,7 +420,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                       type="text"
                       value={channelName}
                       onChange={(e) => setchannelName(e.target.value)}
-                      className="bg-dark1 w-full outline-none p-1 font-semibold"
+                      className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                     />
                     <button
                       onClick={(e) => handleSubmitchannelName(e)}
@@ -444,7 +457,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             </div>
           </div>
           {isAllChannel?.channelDetails?.channeladminId === users.id ? (
-            <div className="bg-dark1 mt-2 py-6 px-8">
+            <div className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} mt-2 py-6 px-8`}>
               {/* Edit group About */}
               {isEditingabout ? (
                 <div className="flex flex-row gap-4">
@@ -464,7 +477,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                     type="text"
                     value={channelAbout}
                     onChange={(e) => setchannelAbout(e.target.value)}
-                    className="bg-dark1 w-full outline-none p-1 font-semibold"
+                    className={`${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} w-full outline-none p-1 font-semibold`}
                   />
                   <button
                     onClick={(e) => handleSubmitchannelAbout(e)}
@@ -476,11 +489,11 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
               )}
             </div>
           ) : (
-            <h1 className="w-full p-1 font-light text-sm bg-dark1 mt-2 py-6 px-8 text-slate-300">
+            <h1 className={`w-full p-1 font-light text-sm ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} mt-2 py-6 px-8 text-slate-300`}>
               {isAllChannel?.channelDetails?.channelabout}
             </h1>
           )}
-          <div className="w-full py-4 bg-dark1 mt-4 px-8">
+          <div className={`w-full py-4 ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} mt-4 px-8`}>
             {isAllChannel?.channelDetails?.channeladminId === users.id || (
               <button
                 onClick={() => handleButtonClick("encryption")}
@@ -531,14 +544,14 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             )}
           </div>
           {isAllChannel?.channelDetails?.channeladminId === users.id && (
-            <div className="w-full py-1 my-2 bg-dark1">
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+            <div className={`w-full py-1 my-2 ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"}`}>
+              <button className={`flex flex-row items-center py-2 gap-6 text-xl px-10 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
                 <h1 className="p-2 bg-whitmix1 rounded-full">
                   <FaPlus />
                 </h1>
                 <h1>Invite admins</h1>
               </button>
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 w-full hover:bg-dark3">
+              <button className={`flex flex-row items-center py-2 gap-6 text-xl px-10 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
                 <h1 className="p-2 bg-whitmix1 rounded-full">
                   <MdInsertLink />
                 </h1>
@@ -562,7 +575,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
                       You`re not visiable to followers
                     </h2>
                   </div>
-                  <button className="text-xs p-1 bg-slate-600 flex text-start my-3">
+                  <button className={`text-xs p-1 ${theme === "#000000" ? "bg-slate-600" : "bg-slate-300"} flex text-start my-3`}>
                     Owner
                   </button>
                 </div>
@@ -573,9 +586,9 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
               </div>
             </div>
           )}
-          <div className="w-full py-4 bg-dark1 mb-16">
+          <div className={`w-full py-4 ${theme === "#000000" ? "bg-dark1" : "bg-slate-100"} mb-16`}>
             {isAllChannel?.channelDetails?.channeladminId === users.id && (
-              <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-whitmix1 w-full hover:bg-dark3">
+              <button className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-whitmix1 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
                 <RiUserShared2Fill />
                 <h1>Transfer ownership</h1>
               </button>
@@ -583,7 +596,7 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             {isAllChannel?.channelDetails?.channeladminId === users.id && (
               <button
                 onClick={handleChannelDelet}
-                className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+                className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
               >
                 <RiDeleteBin6Line />
                 <h1>Delete channel</h1>
@@ -592,13 +605,13 @@ const ChannelProfile = ({ onClick, channelId, groupId }) => {
             {isAllChannel?.channelDetails?.channeladminId === users.id || (
               <button
                 onClick={(e) => handleChannelRemove(e)}
-                className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3"
+                className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}
               >
                 <IoExitOutline />
                 <h1>Unfollow</h1>
               </button>
             )}
-            <button className="flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full hover:bg-dark3">
+            <button className={`flex flex-row items-center py-2 gap-6 text-xl px-10 text-red-700 w-full ${theme === "#000000" ? "hover:bg-dark3" : "hover:bg-slate-200"}`}>
               <BiSolidDislike />
               <h1>Report Group</h1>
             </button>
