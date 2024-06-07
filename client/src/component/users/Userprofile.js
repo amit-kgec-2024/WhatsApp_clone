@@ -202,7 +202,7 @@ const Userprofile = ({ onClick, userId, theme }) => {
         <Starredmessage onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "medialinks" && (
-        <Medialink onClick={() => setActiveButton(false)} />
+        <Medialink theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "disappearingmessages" && (
         <Disappearing onClick={() => setActiveButton(false)} />

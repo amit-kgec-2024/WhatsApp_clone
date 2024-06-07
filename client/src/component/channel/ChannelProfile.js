@@ -397,6 +397,7 @@ const ChannelProfile = ({ onClick, channelId, theme }) => {
                   onClick={() => setProfileImg(false)}
                   channelname={isAllChannel?.channelDetails?.channelname}
                   channelimage={isAllChannel?.channelDetails?.channelimage}
+                  theme={theme}
                 />
               </div>
             )}

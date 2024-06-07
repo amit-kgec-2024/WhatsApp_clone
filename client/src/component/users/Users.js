@@ -267,6 +267,7 @@ const Users = ({ handelUserChatsClick, theme}) => {
                 </React.Fragment>
               ))} */}
               Comming Soon....
+              <LoaderCard theme={theme}/>
             </div>
           )}
           {activeUser === "groups" && (

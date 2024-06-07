@@ -184,7 +184,7 @@ const Sattings = ({theme}) => {
         </div>
       </div>
       {activeButton === "profile" && (
-        <Profile onClick={() => setActiveButton(false)} />
+        <Profile theme={theme} onClick={() => setActiveButton(false)} />
       )}
       {activeButton === "account" && (
         <Account theme={theme} onClick={() => setActiveButton(false)} />
