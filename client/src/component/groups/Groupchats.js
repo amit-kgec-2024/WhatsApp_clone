@@ -108,6 +108,7 @@ const Groupchats = ({ groupId, theme }) => {
         return response.json();
       })
       .then((data) => {
+        fetchChats(groupId);
         setMessage("");
       })
       .catch((error) => {
@@ -119,25 +120,25 @@ const Groupchats = ({ groupId, theme }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const response = await fetch(
-          `https://whats-app-clone-server-psi.vercel.app/api/group/chats/get/${groupId}`
-        );
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-        const data = await response.json();
-        setGroupChats(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchChats();
+    
+    fetchChats(groupId);
   }, [groupId]);
+  const fetchChats = async (groupId) => {
+    try {
+      const response = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/group/chats/get/${groupId}`
+      );
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      const data = await response.json();
+      setGroupChats(data);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;

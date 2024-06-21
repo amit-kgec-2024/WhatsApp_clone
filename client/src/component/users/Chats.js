@@ -66,6 +66,24 @@ const Chats = ({ userId, theme }) => {
     };
     fetchData();
   }, [userId]);
+
+  // Chats.............GET...................
+  const [getChats, stGetChats] = useState("");
+  useEffect(() => {
+    fetchDataChat();
+  }, []);
+  const fetchDataChat = async () => {
+    try {
+      const res = await fetch(
+        "https://whats-app-clone-server-psi.vercel.app/api/get/chats"
+      );
+      const jsonData = await res.json();
+      stGetChats(jsonData);
+    } catch (error) {
+      console.log("Error Fetching Data", error);
+    }
+  };
+
   // Chats...........POST.......................
   const [message, setMessage] = useState("");
   const handelInputMessage = (e) => {
@@ -101,6 +119,7 @@ const Chats = ({ userId, theme }) => {
         return response.json();
       })
       .then((data) => {
+        fetchDataChat();
         setMessage("");
       })
       .catch((error) => {
@@ -108,22 +127,6 @@ const Chats = ({ userId, theme }) => {
       });
   };
 
-  // Chats.............GET...................
-  const [getChats, stGetChats] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          "https://whats-app-clone-server-psi.vercel.app/api/get/chats"
-        );
-        const jsonData = await res.json();
-        stGetChats(jsonData);
-      } catch (error) {
-        console.log("Error Fetching Data", error);
-      }
-    };
-    fetchData();
-  }, []);
   return (
     <div
       className=" w-full h-full pd-2"
@@ -359,11 +362,11 @@ const Chats = ({ userId, theme }) => {
             </div>
           </div>
           {/* oooooo Buttom emoj input file oooooooo */}
-            {isClickEmoji && (
-              <div ref={dropDownRefEmoji}>
-                <EmojiSection theme={theme} />
-              </div>
-            )}
+          {isClickEmoji && (
+            <div ref={dropDownRefEmoji}>
+              <EmojiSection theme={theme} />
+            </div>
+          )}
           <div className="w-full py-3 px-4 flex flex-row gap-4">
             <div className="relative">
               {isClickDocument && (

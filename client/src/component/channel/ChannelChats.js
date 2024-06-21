@@ -70,6 +70,25 @@ const ChannelChats = ({ channelId, theme }) => {
     };
     fetchData();
   }, [channelId]);
+
+  // Chats GET......................
+  const [chatsChannel, setChatsChannel] = useState();
+
+  useEffect(() => {
+    fetchDataChat(channelId);
+  }, [channelId]);
+  const fetchDataChat = async (channelId) => {
+    try {
+      const res = await fetch(
+        `https://whats-app-clone-server-psi.vercel.app/api/channelchats/chatShow/${channelId}`
+      );
+      const jsonData = await res.json();
+      setChatsChannel(jsonData);
+    } catch (error) {
+      console.log("Error Fetching Data", error);
+    }
+  };
+
   // Messages Posts.................
   const [message, setMessage] = useState("");
 
@@ -85,7 +104,6 @@ const ChannelChats = ({ channelId, theme }) => {
   };
 
   const sendMessage = async () => {
-    console.log(channelId, message);
     try {
       const response = await fetch(
         "https://whats-app-clone-server-psi.vercel.app/api/channelchats/create",
@@ -101,28 +119,12 @@ const ChannelChats = ({ channelId, theme }) => {
         }
       );
       await response.json();
+      fetchDataChat(channelId);
       setMessage("");
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
-  // Chats GET......................
-  const [chatsChannel, setChatsChannel] = useState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `https://whats-app-clone-server-psi.vercel.app/api/channelchats/chatShow/${channelId}`
-        );
-        const jsonData = await res.json();
-        setChatsChannel(jsonData);
-      } catch (error) {
-        console.log("Error Fetching Data", error);
-      }
-    };
-    fetchData();
-  }, [channelId]);
   return (
     <div
       className=" w-full h-full pd-2"
