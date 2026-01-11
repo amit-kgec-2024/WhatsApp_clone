@@ -23,7 +23,7 @@ function App() {
 
   return (
     <Router>
-      <Route path="/" element={users ? <Home /> : <Authorization/>} />
+      <Route path="/" element={!users ? <Home /> : <Authorization/>} />
     </Router>
   );
 }
