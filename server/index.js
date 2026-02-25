@@ -22,6 +22,7 @@ const groupRoutes = require("./routes/Groups");
 const groupChatRoutes = require("./routes/GroupChats");
 const channelRouts = require("./routes/Channel");
 const channelchatRoute = require("./routes/ChannelChats");
+const geocodeRoute = require("./routes/geocodeRoute");
 
 // Use Routes
 app.use("/api", userRoutes);
@@ -30,6 +31,7 @@ app.use("/api", groupRoutes);
 app.use("/api", groupChatRoutes);
 app.use("/api/channel", channelRouts);
 app.use("/api/channelchats", channelchatRoute);
+app.use("/api/location", geocodeRoute);
 
 const port = process.env.PORT || 4000;
 
