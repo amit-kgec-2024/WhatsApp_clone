@@ -1,6 +1,4 @@
-import express from "express";
-import fetch from "node-fetch";
-
+const express = require("express");
 const router = express.Router();
 
 router.get("/geocode", async (req, res) => {
@@ -13,10 +11,16 @@ router.get("/geocode", async (req, res) => {
       )}`,
       {
         headers: {
-          "User-Agent": "school-transport-app",
+          "User-Agent": "school-transport-app (budsgarden.rajganj@gmail.com)", // optional: add email
         },
       }
     );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Nominatim error:", errorText);
+      return res.status(500).json({ message: "Geocoding failed" });
+    }
 
     const data = await response.json();
 
@@ -29,8 +33,9 @@ router.get("/geocode", async (req, res) => {
 
     res.status(404).json({ message: "Location not found" });
   } catch (error) {
+    console.error("Geocoding error:", error);
     res.status(500).json({ message: "Geocoding failed" });
   }
 });
 
-export default router;
+module.exports = router;
